@@ -51,7 +51,6 @@ fun PengaturanMakanPage(modifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
         )
-        NutrientCard()
         Box(
             modifier = modifier.fillMaxSize(),
         ) {

@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.AppText
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.Typography
 
 
@@ -45,24 +46,35 @@ fun NutrientCard(
         ) {
             Text(
                 text = "Kebutuhan makan saya sehari",
-                style = Typography.bodyLarge,
+                style = Typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            Image(
-                painter = painterResource(id = R.drawable.woman_eating_healthy_food_img), // Replace with your image resource
-                contentDescription = null,
-                modifier = Modifier
-                    .size(150.dp)
-                    .padding(bottom = 16.dp),
-                contentScale = ContentScale.Crop
-            )
+//            Image(
+//                painter = painterResource(id = R.drawable.woman_eating_healthy_food_img), // Replace with your image resource
+//                contentDescription = null,
+//                modifier = Modifier
+//                    .size(150.dp)
+//                    .padding(bottom = 16.dp),
+//                contentScale = ContentScale.Crop
+//            )
 
             // Nutrient Information
             NutrientInfoRow("Kalori (kalori)", calories.toString())
             NutrientInfoRow("Protein (gram)", protein.toString())
-            NutrientInfoRow("Lemak (gram)", fat.toString())
+            NutrientInfoRow("Lemak (mg)", fat.toString())
+            NutrientInfoRow("Natrium (mg)", fat.toString())
+            NutrientInfoRow("Kalium (mg)", fat.toString())
+            Button(modifier = Modifier
+                .width(160.dp)
+                .padding(vertical = 16.dp),
+                text = AppText.okButtonText,
+                textColor = Color.White,
+                fontSize = 18f,
+                fontWeight = FontWeight.Normal,
+                padding = 20.dp,
+                onClick = { })
         }
     }
 }
@@ -80,6 +92,7 @@ fun NutrientInfoRow(label: String, value: String) {
         Text(
             text = label,
             style = Typography.bodyLarge,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .padding(8.dp),
             fontSize = 16.sp
@@ -90,7 +103,7 @@ fun NutrientInfoRow(label: String, value: String) {
                 .padding(8.dp),
             style = Typography.bodyLarge,
             fontWeight = FontWeight.Bold,
-            fontSize = 24.sp
+            fontSize = 20.sp
         )
     }
 }

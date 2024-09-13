@@ -1,5 +1,8 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.page
 
+import BottomBarMakan
+import KaloriList
+import ProteinList
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -8,9 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.neotelemetrixgdscunand.monitoringginjalapp.components.BottomBarMakan
-import com.neotelemetrixgdscunand.monitoringginjalapp.components.KaloriList
-import com.neotelemetrixgdscunand.monitoringginjalapp.components.ProteinList
 import com.neotelemetrixgdscunand.monitoringginjalapp.components.TopBarMandeh
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.AppText
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.Typography

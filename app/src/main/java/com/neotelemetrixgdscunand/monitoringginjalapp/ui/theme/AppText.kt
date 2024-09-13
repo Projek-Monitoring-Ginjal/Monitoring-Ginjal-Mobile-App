@@ -9,4 +9,5 @@ object AppText {
     const val beratBadanKering = "Berat badan kering saya"
     const val tulisAngkaPlaceholder = "Tulis angka"
     const val simpanButtonText = "Simpan"
+    const val okButtonText = "OK"
 }

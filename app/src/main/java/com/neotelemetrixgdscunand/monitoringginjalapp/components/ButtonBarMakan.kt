@@ -1,13 +1,12 @@
-package com.neotelemetrixgdscunand.monitoringginjalapp.components
-
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,6 +16,8 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun BottomBarMakan() {
+    var selectedPortion by remember { mutableStateOf<String?>(null) }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -28,11 +29,17 @@ fun BottomBarMakan() {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            PortionButton(text = "1/4 porsi")
-            PortionButton(text = "1/2 porsi")
-            PortionButton(text = "1 porsi")
+            PortionButton(text = "1/4 porsi", isSelected = selectedPortion == "1/4 porsi") {
+                selectedPortion = "1/4 porsi"
+            }
+            PortionButton(text = "1/2 porsi", isSelected = selectedPortion == "1/2 porsi") {
+                selectedPortion = "1/2 porsi"
+            }
+            PortionButton(text = "1 porsi", isSelected = selectedPortion == "1 porsi") {
+                selectedPortion = "1 porsi"
+            }
         }
-        
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -41,13 +48,13 @@ fun BottomBarMakan() {
             ActionButton(
                 text = "Batal",
                 backgroundColor = Color.White,
-                textColor = Color(0xFF2E7D32),
-                borderColor = Color(0xFF2E7D32),
-                modifier = Modifier.weight(1f) 
+                textColor = Color(0xFF0A6847),
+                borderColor = Color(0xFF0A6847),
+                modifier = Modifier.weight(1f)
             )
             ActionButton(
                 text = "Simpan",
-                backgroundColor = Color(0xFF2E7D32),
+                backgroundColor = Color(0xFF0A6847),
                 textColor = Color.White,
                 modifier = Modifier.weight(1f)
             )
@@ -56,12 +63,12 @@ fun BottomBarMakan() {
 }
 
 @Composable
-fun PortionButton(text: String) {
+fun PortionButton(text: String, isSelected: Boolean, onClick: () -> Unit) {
     Button(
-        onClick = { /* TODO: Handle click */ },
+        onClick = onClick,
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Transparent,
-            contentColor = Color(0xFFF9A825)
+            containerColor = if (isSelected) Color(0xFFF9A825) else Color.Transparent,
+            contentColor = if (isSelected) Color.White else Color(0xFFF9A825)
         ),
         shape = RoundedCornerShape(50),
         border = BorderStroke(1.dp, Color(0xFFF9A825)),

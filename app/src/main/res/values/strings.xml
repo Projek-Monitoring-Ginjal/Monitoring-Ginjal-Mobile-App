@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Monitoring Ginjal App</string>
+    <string name="app_name">MANDEH</string>
+    <string name="masukkan_nama_dan_kata_sandi">Masukan nama dan kata sandi</string>
+    <string name="nama">Nama</string>
+    <string name="kata_sandi">Kata Sandi</string>
+    <string name="masuk">Masuk</string>
+    <string name="apa_yang_bapak_ibu_ingin_ketahui">Apa yang Bapak/Ibu ingin ketahui?</string>
+    <string name="pilih_bahasa">Pilih Bahasa</string>
 </resources>

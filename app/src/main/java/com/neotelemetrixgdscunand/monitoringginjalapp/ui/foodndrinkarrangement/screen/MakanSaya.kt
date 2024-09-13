@@ -1,18 +1,19 @@
-package com.neotelemetrixgdscunand.monitoringginjalapp.page
+package com.neotelemetrixgdscunand.monitoringginjalapp.ui.foodndrinkarrangement.screen
 
-import BottomBarMakan
-import KaloriList
-import ProteinList
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.foodndrinkarrangement.component.BottomBarMakan
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.foodndrinkarrangement.component.KaloriList
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.foodndrinkarrangement.component.ProteinList
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.neotelemetrixgdscunand.monitoringginjalapp.components.TopBarMandeh
-import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.AppText
+import com.neotelemetrixgdscunand.monitoringginjalapp.R
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.bodyweightinput.component.TopBarMandeh
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.Typography
 
 @Composable
@@ -36,12 +37,12 @@ fun MakanSayaPage(modifier: Modifier = Modifier) {
                     Spacer(modifier = Modifier.height(24.dp))
 
                     Text(
-                        text = AppText.makanSayaTitle,
+                        text = stringResource(R.string.makan_saya_hari_ini),
                         style = Typography.titleLarge,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                     Text(
-                        text = AppText.pilihMakananHarian,
+                        text = stringResource(R.string.pilih_makanan_harian),
                         style = Typography.bodyLarge,
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
@@ -50,7 +51,7 @@ fun MakanSayaPage(modifier: Modifier = Modifier) {
 
             item {
                 Text(
-                    text = AppText.kaloriTitle,
+                    text = stringResource(R.string.kalori),
                     style = Typography.titleLarge,
                     modifier = Modifier.padding(start = 16.dp)
                 )
@@ -59,7 +60,7 @@ fun MakanSayaPage(modifier: Modifier = Modifier) {
 
             item {
                 Text(
-                    text = AppText.proteinTitle,
+                    text = stringResource(R.string.protein),
                     style = Typography.titleLarge,
                     modifier = Modifier.padding(start = 16.dp)
                 )
@@ -71,7 +72,7 @@ fun MakanSayaPage(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun MakanSayaPreview() {
     MakanSayaPage()

@@ -1,4 +1,4 @@
-package com.neotelemetrixgdscunand.monitoringginjalapp.components
+package com.neotelemetrixgdscunand.monitoringginjalapp.ui.bodyweightinput.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.padding

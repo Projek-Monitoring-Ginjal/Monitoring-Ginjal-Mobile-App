@@ -1,4 +1,4 @@
-package com.neotelemetrixgdscunand.monitoringginjalapp.ui.component
+package com.neotelemetrixgdscunand.monitoringginjalapp.ui.login.component
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

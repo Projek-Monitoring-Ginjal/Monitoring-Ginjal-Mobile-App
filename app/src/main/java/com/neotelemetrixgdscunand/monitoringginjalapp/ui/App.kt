@@ -19,12 +19,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
-import com.neotelemetrixgdscunand.monitoringginjalapp.ui.component.MultiColorText
-import com.neotelemetrixgdscunand.monitoringginjalapp.ui.screen.HomeScreen
-import com.neotelemetrixgdscunand.monitoringginjalapp.ui.screen.LoginScreen
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.login.component.MultiColorText
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.homemenu.screen.HomeScreen
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.login.screen.LoginScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.Green20
-import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.Grey20
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.MonitoringGinjalAppTheme
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.Yellow20
 

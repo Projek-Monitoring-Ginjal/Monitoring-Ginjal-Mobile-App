@@ -1,4 +1,4 @@
-package com.neotelemetrixgdscunand.monitoringginjalapp.components
+package com.neotelemetrixgdscunand.monitoringginjalapp.ui.bodyweightinput.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -40,7 +40,7 @@ fun FormField(
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun FormFieldPreview() {
     val textState = remember { mutableStateOf("") }

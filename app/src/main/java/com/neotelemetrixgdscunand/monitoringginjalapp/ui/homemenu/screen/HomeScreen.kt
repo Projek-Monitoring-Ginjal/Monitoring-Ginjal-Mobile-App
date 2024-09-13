@@ -1,15 +1,13 @@
-package com.neotelemetrixgdscunand.monitoringginjalapp.ui.screen
+package com.neotelemetrixgdscunand.monitoringginjalapp.ui.homemenu.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Surface
@@ -24,9 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.model.getMainMenuItems
-import com.neotelemetrixgdscunand.monitoringginjalapp.ui.component.HeadingText
-import com.neotelemetrixgdscunand.monitoringginjalapp.ui.component.HomeMenu
-import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.Green20
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.login.component.HeadingText
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.homemenu.component.HomeMenu
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.Grey40
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.MonitoringGinjalAppTheme
 

@@ -1,5 +1,4 @@
-package com.neotelemetrixgdscunand.monitoringginjalapp.components
-import androidx.compose.foundation.Image
+package com.neotelemetrixgdscunand.monitoringginjalapp.ui.foodndrinkarrangement.component
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,14 +10,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
-import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.AppText
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.bodyweightinput.component.Button
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.Typography
 
 
@@ -69,7 +67,7 @@ fun NutrientCard(
             Button(modifier = Modifier
                 .width(160.dp)
                 .padding(vertical = 16.dp),
-                text = AppText.okButtonText,
+                text = stringResource(R.string.ok),
                 textColor = Color.White,
                 fontSize = 18f,
                 fontWeight = FontWeight.Normal,

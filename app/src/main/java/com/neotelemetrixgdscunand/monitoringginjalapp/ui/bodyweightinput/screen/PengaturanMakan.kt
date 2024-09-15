@@ -59,7 +59,7 @@ fun PengaturanMakanPage(modifier: Modifier = Modifier) {
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
                     .padding(vertical = 16.dp),
-                text = stringResource(R.string.sampan),
+                text = stringResource(R.string.simpan),
                 textColor = Color.White,
                 fontSize = 18f,
                 fontWeight = FontWeight.Normal,

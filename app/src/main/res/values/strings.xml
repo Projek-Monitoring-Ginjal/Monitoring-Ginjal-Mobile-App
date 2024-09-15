@@ -13,6 +13,15 @@
     <string name="pilih_makanan_harian">Pilih makanan harian</string>
     <string name="berat_badan_kering_saya">Berat badan kering saya</string>
     <string name="tulis_angka">Tulis Angka</string>
-    <string name="sampan">Sampan</string>
+    <string name="simpan">Simpan</string>
     <string name="ok">OK</string>
+    <string name="hasil_makan_hari_ini">Hasil makan hari ini</string>
+    <string name="cairan">Cairan</string>
+    <string name="belum_terpenuhi">Belum Terpenuhi</string>
+    <string name="terpenuhi">Terpenuhi</string>
+    <string name="berlebih">Berlebih</string>
+    <string name="indonesia">Indonesia</string>
+    <string name="english">English</string>
+    <string name="minang">Minang</string>
+    <string name="tambah_makanan">Tambah Makanan</string>
 </resources>

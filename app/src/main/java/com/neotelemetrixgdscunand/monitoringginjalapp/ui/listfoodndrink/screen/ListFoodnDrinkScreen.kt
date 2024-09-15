@@ -1,19 +1,32 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.ui.listfoodndrink.screen
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.neotelemetrixgdscunand.monitoringginjalapp.model.NutrientItem
 import com.neotelemetrixgdscunand.monitoringginjalapp.model.NutrientThresholds
 import com.neotelemetrixgdscunand.monitoringginjalapp.model.getNutrientStatus
-import com.neotelemetrixgdscunand.monitoringginjalapp.ui.listfoodndrink.component.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.window.Dialog
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.listfoodndrink.component.BottomBarFoodSearch
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.listfoodndrink.component.FoodItem
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.listfoodndrink.component.FoodItemData
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.listfoodndrink.component.PortionOption
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.listfoodndrink.component.SearchBar
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.listfoodndrink.component.Toolbar
 
 
 @SuppressLint("MutableCollectionMutableState")
@@ -136,7 +149,7 @@ fun ListFoodnDrinkScreen(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun ListFoodnDrinkScreenPreview() {
     val sampleFoodItems = listOf(

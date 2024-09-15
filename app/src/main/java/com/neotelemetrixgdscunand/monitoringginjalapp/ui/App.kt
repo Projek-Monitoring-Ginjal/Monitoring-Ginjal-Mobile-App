@@ -2,6 +2,7 @@ package com.neotelemetrixgdscunand.monitoringginjalapp.ui
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -13,12 +14,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.login.component.MultiColorText
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.homemenu.screen.HomeScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.login.screen.LoginScreen
@@ -74,6 +77,15 @@ fun TopBarApp(modifier: Modifier = Modifier) {
                 elevation = 3.dp,
                 spotColor = Color.DarkGray
             ),
+        navigationIcon = {
+            Icon(
+                modifier = Modifier
+                    .padding(8.dp),
+                painter = painterResource(id = R.drawable.ic_arrow_left),
+                contentDescription = null,
+                tint = Color.Black
+            )
+        },
         title = {
             MultiColorText(
                 textWithColors = arrayOf(

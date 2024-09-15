@@ -11,5 +11,6 @@ val karlaFamily = FontFamily(
     Font(R.font.karla_regular, FontWeight.Normal),
     Font(R.font.karla_semibold, FontWeight.SemiBold),
     Font(R.font.karla_bold, FontWeight.Bold),
-    Font(R.font.karla_extrabold, FontWeight.ExtraBold)
+    Font(R.font.karla_extrabold, FontWeight.ExtraBold),
+    Font(R.font.karla_medium, FontWeight.Medium)
 )

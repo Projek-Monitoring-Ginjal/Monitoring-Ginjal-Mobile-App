@@ -1,9 +1,20 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.ui.bodyweightinput.screen
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,11 +26,13 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.bodyweightinput.component.Button
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.bodyweightinput.component.FormField
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.bodyweightinput.component.NutrientCard
-import com.neotelemetrixgdscunand.monitoringginjalapp.ui.bodyweightinput.component.TopBarMandeh
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.Typography
 
 @Composable
-fun PengaturanMakanPage(modifier: Modifier = Modifier) {
+fun PengaturanMakanPage(
+    modifier: Modifier = Modifier,
+    onNavigate: () -> Unit = {},
+) {
     var textState by remember { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(false) }
     var bbk by remember { mutableDoubleStateOf(0.0) }
@@ -27,7 +40,7 @@ fun PengaturanMakanPage(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.fillMaxSize()
     ) {
-        TopBarMandeh()
+        //TopBarMandeh()
         Column(
             modifier = modifier.padding(start = 16.dp)
         ) {
@@ -97,7 +110,10 @@ fun PengaturanMakanPage(modifier: Modifier = Modifier) {
                 confirmButton = {
                     Button(
                         text = "OK",
-                        onClick = { showDialog = false },
+                        onClick = {
+                            showDialog = false
+                            onNavigate()
+                        },
                         textColor = Color.White,
                         fontSize = 18f,
                         fontWeight = FontWeight.Normal,

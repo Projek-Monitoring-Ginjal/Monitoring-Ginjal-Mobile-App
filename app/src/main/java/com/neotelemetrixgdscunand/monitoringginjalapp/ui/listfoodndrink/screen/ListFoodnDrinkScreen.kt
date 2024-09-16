@@ -18,15 +18,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import com.neotelemetrixgdscunand.monitoringginjalapp.model.NutrientItem
-import com.neotelemetrixgdscunand.monitoringginjalapp.model.NutrientThresholds
-import com.neotelemetrixgdscunand.monitoringginjalapp.model.getNutrientStatus
+import com.neotelemetrixgdscunand.monitoringginjalapp.model.FoodItemData
+import com.neotelemetrixgdscunand.monitoringginjalapp.model.getFoodItems
+import com.neotelemetrixgdscunand.monitoringginjalapp.model.getNutrientItems
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.listfoodndrink.component.BottomBarFoodSearch
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.listfoodndrink.component.FoodItem
-import com.neotelemetrixgdscunand.monitoringginjalapp.ui.listfoodndrink.component.FoodItemData
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.listfoodndrink.component.PortionOption
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.listfoodndrink.component.SearchBar
-import com.neotelemetrixgdscunand.monitoringginjalapp.ui.listfoodndrink.component.Toolbar
 
 
 @SuppressLint("MutableCollectionMutableState")
@@ -35,54 +33,21 @@ fun ListFoodnDrinkScreen(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
     initialFoodItems: List<FoodItemData>,
-    onDeleteClick: (FoodItemData) -> Unit
+    onDeleteClick: (FoodItemData) -> Unit = { },
+    onNavigateToMealResult: () -> Unit = { },
 ) {
     var currentFoodItems by remember { mutableStateOf(initialFoodItems.toMutableList()) }
     var showPortionDialog by remember { mutableStateOf<FoodItemData?>(null) }
 
-    val totalCalories = currentFoodItems.sumOf { it.calories.toDouble() }
-    val totalLiquid = currentFoodItems.sumOf { it.volume.toDouble() }
-    val totalProtein = currentFoodItems.sumOf { it.protein.toDouble() }
-    val totalSodium = currentFoodItems.sumOf { it.sodium.toDouble() }
-    val totalPotassium = currentFoodItems.sumOf { it.potassium.toDouble() }
+    val nutrientItems = remember {
+        getNutrientItems(currentFoodItems)
+    }
 
-    val nutrientItems = listOf(
-        NutrientItem(
-            name = "Kalori",
-            value = totalCalories,
-            unit = "kkal",
-            status = getNutrientStatus(totalCalories, NutrientThresholds.CALORIE_THRESHOLD)
-        ),
-        NutrientItem(
-            name = "Cairan",
-            value = totalLiquid,
-            unit = "ml",
-            status = getNutrientStatus(totalLiquid, NutrientThresholds.LIQUID_THRESHOLD)
-        ),
-        NutrientItem(
-            name = "Protein",
-            value = totalProtein,
-            unit = "gr",
-            status = getNutrientStatus(totalProtein, NutrientThresholds.PROTEIN_THRESHOLD)
-        ),
-        NutrientItem(
-            name = "Natrium",
-            value = totalSodium,
-            unit = "mg",
-            status = getNutrientStatus(totalSodium, NutrientThresholds.SODIUM_THRESHOLD)
-        ),
-        NutrientItem(
-            name = "Kalium",
-            value = totalPotassium,
-            unit = "mg",
-            status = getNutrientStatus(totalPotassium, NutrientThresholds.POTASSIUM_THRESHOLD)
-        )
-    )
 
     Column(
         modifier = modifier.fillMaxSize()
     ) {
-        Toolbar(onBackClick = onBackClick)
+        // Toolbar(onBackClick = onBackClick)
 
         SearchBar(
             modifier = Modifier
@@ -114,7 +79,8 @@ fun ListFoodnDrinkScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp),
-            nutrientItems = nutrientItems
+            nutrientItems = nutrientItems,
+            onSaveClick = onNavigateToMealResult
         )
     }
 
@@ -152,13 +118,10 @@ fun ListFoodnDrinkScreen(
 @Preview(showBackground = true)
 @Composable
 fun ListFoodnDrinkScreenPreview() {
-    val sampleFoodItems = listOf(
-        FoodItemData("Nasi Goreng", "625", "200", "8.8", "22.5", "107"),
-        FoodItemData("Udang Segar", "625", "50", "8.8", "22.5", "107"),
-        FoodItemData("Telur Ceplok", "625", "50", "8.8", "22.5", "107"),
-        FoodItemData("Udang Segar", "625", "50", "8.8", "22.5", "107"),
-        FoodItemData("Telur Ceplok", "625", "50", "8.8", "22.5", "107")
-    )
+
+    val sampleFoodItems = remember {
+        getFoodItems()
+    }
 
     ListFoodnDrinkScreen(
         onBackClick = { /*TODO*/ },

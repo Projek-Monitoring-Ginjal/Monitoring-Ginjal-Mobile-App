@@ -4,6 +4,15 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-object Login
+sealed class Route
 @Serializable
-object Home
+data object Login: Route()
+@Serializable
+data object HomeMenu: Route()
+@Serializable
+data object BodyWeightInput : Route()
+@Serializable
+data object ListFoodnDrink : Route()
+@Serializable
+data object MealResult:Route()
+

@@ -1,5 +1,6 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -7,6 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -15,21 +17,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
+import com.neotelemetrixgdscunand.monitoringginjalapp.model.getFoodItems
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.bodyweightinput.screen.PengaturanMakanPage
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.homemenu.screen.HomeMenuScreen
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.listfoodndrink.screen.ListFoodnDrinkScreen
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.login.component.HeadingText
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.login.component.MultiColorText
-import com.neotelemetrixgdscunand.monitoringginjalapp.ui.homemenu.screen.HomeScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.login.screen.LoginScreen
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.mealresult.screen.MealResultScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.Green20
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.MonitoringGinjalAppTheme
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.Yellow20
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun App(
     modifier: Modifier = Modifier,
@@ -38,17 +48,30 @@ fun App(
 
     var isSignedIn by remember { mutableStateOf(false) }
 
+    val currentBackStackEntryState = navController.currentBackStackEntryAsState()
+    val currentRoute by remember {
+        derivedStateOf {
+            currentBackStackEntryState.value?.destination?.route
+        }
+    }
+
+
     Scaffold(
         modifier = modifier,
         topBar = {
             if(isSignedIn){
-                TopBarApp()
+                TopBarApp(
+                    onNavigateUp = {
+                        navController.navigateUp()
+                    },
+                    route = currentRoute
+                )
             }
         }
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = if(isSignedIn) Home else Login,
+            startDestination = if(isSignedIn) HomeMenu else Login,
             modifier = Modifier.padding(innerPadding)
         ){
             composable<Login> {
@@ -58,8 +81,34 @@ fun App(
                     }
                 )
             }
-            composable<Home> {
-                HomeScreen()
+            composable<HomeMenu> {
+                HomeMenuScreen(
+                    onMenuItemClick = { route ->
+                        navController.navigate(route)
+                    }
+                )
+            }
+            composable<BodyWeightInput> {
+                PengaturanMakanPage(
+                    onNavigate = {
+                        navController.navigate(ListFoodnDrink)
+                    }
+                )
+            }
+            composable<ListFoodnDrink> {
+                val sampleFoodItems = remember {
+                    getFoodItems()
+                }
+                ListFoodnDrinkScreen(
+                    onBackClick = { /*TODO*/ },
+                    initialFoodItems = sampleFoodItems,
+                    onNavigateToMealResult = {
+                        navController.navigate(MealResult)
+                    }
+                )
+            }
+            composable<MealResult> {
+                MealResultScreen()
             }
         }
     }
@@ -67,7 +116,12 @@ fun App(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBarApp(modifier: Modifier = Modifier) {
+fun TopBarApp(
+    modifier: Modifier = Modifier,
+    onNavigateUp: () -> Unit = {},
+    route:String?
+) {
+
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color.White
@@ -78,27 +132,41 @@ fun TopBarApp(modifier: Modifier = Modifier) {
                 spotColor = Color.DarkGray
             ),
         navigationIcon = {
-            Icon(
-                modifier = Modifier
-                    .padding(8.dp),
-                painter = painterResource(id = R.drawable.ic_arrow_left),
-                contentDescription = null,
-                tint = Color.Black
-            )
+            if(route != HomeMenu::class.java.canonicalName){
+                Icon(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .clickable(onClick = onNavigateUp),
+                    painter = painterResource(id = R.drawable.ic_arrow_left),
+                    contentDescription = null,
+                    tint = Color.Black
+                )
+            }
+
         },
         title = {
-            MultiColorText(
-                textWithColors = arrayOf(
-                    Pair(
-                        "MAN",
-                        Yellow20
-                    ),
-                    Pair(
-                        "DEH",
-                        Green20
+            if(route == ListFoodnDrink::class.java.canonicalName){
+                HeadingText(
+                    text = stringResource(R.string.daftar_makanan_dan_minuman),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.Black
+                )
+            }else{
+                MultiColorText(
+                    textWithColors = arrayOf(
+                        Pair(
+                            "MAN",
+                            Yellow20
+                        ),
+                        Pair(
+                            "DEH",
+                            Green20
+                        )
                     )
                 )
-            )
+            }
+
         }
     )
 }
@@ -115,7 +183,14 @@ private fun AppPreview() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun TopAppBarPreview() {
+    val navController = rememberNavController()
+
     MonitoringGinjalAppTheme {
-        TopBarApp()
+        TopBarApp(
+            onNavigateUp = {
+                navController.navigateUp()
+            },
+            route = null
+        )
     }
 }

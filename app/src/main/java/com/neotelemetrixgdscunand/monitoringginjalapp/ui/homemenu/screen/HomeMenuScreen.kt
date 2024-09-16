@@ -22,13 +22,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.model.getMainMenuItems
-import com.neotelemetrixgdscunand.monitoringginjalapp.ui.login.component.HeadingText
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.Route
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.homemenu.component.HomeMenu
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.login.component.HeadingText
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.Grey40
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.MonitoringGinjalAppTheme
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeMenuScreen(
+    modifier: Modifier = Modifier,
+    onMenuItemClick:(Route) -> Unit = { }
+) {
     Surface(color = Grey40) {
         Column(
             modifier = modifier
@@ -58,18 +62,22 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                     HomeMenu(
                         iconResId = menuItem.iconResId,
                         title = menuItem.title,
-                        onClick = { }
+                        onClick = {
+                            onMenuItemClick(menuItem.route)
+                        }
                     )
+                    
                 }
             }
         }
     }
 }
 
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun HomeScreenPreview() {
     MonitoringGinjalAppTheme {
-        HomeScreen()
+        HomeMenuScreen()
     }
 }

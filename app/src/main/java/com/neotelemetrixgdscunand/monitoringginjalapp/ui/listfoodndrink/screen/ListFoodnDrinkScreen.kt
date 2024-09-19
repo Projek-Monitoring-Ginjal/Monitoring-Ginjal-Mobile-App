@@ -1,6 +1,7 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.ui.listfoodndrink.screen
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,9 +16,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.model.FoodItemData
 import com.neotelemetrixgdscunand.monitoringginjalapp.model.getFoodItems
 import com.neotelemetrixgdscunand.monitoringginjalapp.model.getNutrientItems
@@ -43,11 +46,12 @@ fun ListFoodnDrinkScreen(
         getNutrientItems(currentFoodItems)
     }
 
-
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
+            .background(color = colorResource(R.color.white))
+            .padding(horizontal = 8.dp)
     ) {
-        // Toolbar(onBackClick = onBackClick)
 
         SearchBar(
             modifier = Modifier
@@ -62,7 +66,7 @@ fun ListFoodnDrinkScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
+                .padding(vertical = 8.dp)
                 .weight(1f)
         ) {
             items(currentFoodItems) { food ->

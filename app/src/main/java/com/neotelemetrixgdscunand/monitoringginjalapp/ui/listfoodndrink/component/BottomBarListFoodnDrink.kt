@@ -1,6 +1,7 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.ui.listfoodndrink.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -36,10 +37,11 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.model.getNutrientStatus
 fun BottomBarFoodSearch(
     modifier: Modifier = Modifier,
     nutrientItems: List<NutrientItem> = createDummyNutrientItems(),
-    onSaveClick: () -> Unit = {}
+    onSaveClick: () -> Unit = {},
 ) {
     Column(
         modifier = modifier
+            .background(color = colorResource(R.color.white))
             .fillMaxWidth()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -97,7 +99,13 @@ fun LegendItem(text: String, color: Color) {
             modifier = Modifier
                 .size(12.dp)
                 .background(color, shape = RoundedCornerShape(50))
+                .border(
+                    width = 1.dp,
+                    color = Color.Gray,
+                    shape = RoundedCornerShape(50)
+                )
         )
+
         Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = text,

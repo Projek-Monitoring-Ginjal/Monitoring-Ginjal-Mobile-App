@@ -4,27 +4,21 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-09-08T02:08:26.774319800Z">
+        <DropdownSelection timestamp="2024-09-18T03:42:22.467653900Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=D:\AndroidStudio\avd\Pixel_3_API_33.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\ASUS\.android\avd\Pixel_7_Pro_API_30.avd" />
             </handle>
           </Target>
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="NutrientPreviewCardPreview">
+      <SelectionState runConfigName="ListFoodnDrinkScreenPreview">
         <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="TopAppBarPreview">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="MealResultScreenPreview">
-        <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-09-14T23:44:51.594940600Z">
+        <DropdownSelection timestamp="2024-09-18T08:03:18.295991300Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=D:\AndroidStudio\avd\Pixel_3_API_33.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\ASUS\.android\avd\Pixel_7_Pro_API_30.avd" />
             </handle>
           </Target>
         </DropdownSelection>

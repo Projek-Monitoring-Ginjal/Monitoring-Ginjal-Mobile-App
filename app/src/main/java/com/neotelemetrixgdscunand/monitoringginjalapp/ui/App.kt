@@ -49,7 +49,7 @@ fun App(
     var isSignedIn by remember { mutableStateOf(false) }
 
     val currentBackStackEntryState = navController.currentBackStackEntryAsState()
-    val currentRoute by remember {
+    val currentRoute by remember{
         derivedStateOf {
             currentBackStackEntryState.value?.destination?.route
         }

@@ -1,5 +1,6 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.ui.listfoodndrink.component
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +34,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.model.NutrientStatus
 import com.neotelemetrixgdscunand.monitoringginjalapp.model.NutrientThresholds
 import com.neotelemetrixgdscunand.monitoringginjalapp.model.getNutrientStatus
 
+@SuppressLint("DefaultLocale")
 @Composable
 fun BottomBarFoodSearch(
     modifier: Modifier = Modifier,
@@ -64,7 +66,7 @@ fun BottomBarFoodSearch(
                 NutrientStatus.TERPENUHI -> colorResource(R.color.lightGreen)
                 NutrientStatus.BERLEBIH -> colorResource(R.color.lightYellow)
             }
-            NutrientRow(nutrient.name, "${nutrient.value} ${nutrient.unit}", backgroundColor)
+            NutrientRow(nutrient.name,String.format("%.2f", nutrient.value) + " ${nutrient.unit}", backgroundColor)
         }
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -109,6 +111,7 @@ fun LegendItem(text: String, color: Color) {
         Spacer(modifier = Modifier.width(4.dp))
         Text(
             text = text,
+            color = Color.Black,
             fontSize = 10.sp
         )
     }
@@ -128,12 +131,14 @@ fun NutrientRow(label: String, value: String, backgroundColor: Color) {
         Text(
             text = label,
             fontSize = 12.sp,
+            color = Color.Black,
             fontWeight = FontWeight.Normal,
             modifier = Modifier.padding(8.dp)
         )
         Text(
             text = value,
             fontSize = 14.sp,
+            color = Color.Black,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(8.dp)
         )

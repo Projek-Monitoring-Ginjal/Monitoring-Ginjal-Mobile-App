@@ -66,6 +66,9 @@ fun SearchBar(
                     isListVisible = true
                 },
             shape = RoundedCornerShape(25.dp),
+            textStyle = androidx.compose.ui.text.TextStyle(
+                color = Color.Black,
+                fontSize = 16.sp),
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = containerColor,
                 unfocusedContainerColor = containerColor,

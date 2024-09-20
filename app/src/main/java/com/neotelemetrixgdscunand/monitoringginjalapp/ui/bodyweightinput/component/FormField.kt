@@ -40,8 +40,10 @@ fun FormField(
         placeholder = { Text(text = placeholder, color = Color.Gray, modifier=modifier.fillMaxWidth(), textAlign = TextAlign.Center) },
         textStyle = TextStyle(
             fontSize = 16.sp,
-            textAlign = TextAlign.Center
-        ),    
+            textAlign = TextAlign.Center,
+            color = Color.Black,
+        ),
+
         modifier = modifier
             .fillMaxWidth()
             .background(color = colorResource(R.color.white))
@@ -53,7 +55,7 @@ fun FormField(
     )
 }
 
-@Preview()
+@Preview
 @Composable
 private fun FormFieldPreview() {
     val textState = remember { mutableStateOf("") }

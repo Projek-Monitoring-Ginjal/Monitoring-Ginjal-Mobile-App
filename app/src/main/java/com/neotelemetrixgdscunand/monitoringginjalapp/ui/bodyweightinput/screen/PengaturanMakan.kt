@@ -1,21 +1,11 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.ui.bodyweightinput.screen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableDoubleStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,23 +14,27 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.bodyweightinput.component.Button
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.bodyweightinput.component.FormField
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.bodyweightinput.component.NutrientCard
+import com.neotelemetrixgdscunand.monitoringginjalapp.ui.bodyweightinput.viewmodel.PengaturanMakanViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.ui.theme.Typography
 
 @Composable
 fun PengaturanMakanPage(
     modifier: Modifier = Modifier,
     onNavigate: () -> Unit = {},
+    viewModel: PengaturanMakanViewModel = viewModel()
 ) {
-    var textState by remember { mutableStateOf("") }
-    var showDialog by remember { mutableStateOf(false) }
-    var bbk by remember { mutableDoubleStateOf(0.0) }
+    val textState = viewModel.textState.collectAsState().value
+    val showDialog = viewModel.showDialog.collectAsState().value
+    val bbk = viewModel.bbk.collectAsState().value
 
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
             .background(color = colorResource(R.color.white))
     ) {
         Column(
@@ -51,18 +45,20 @@ fun PengaturanMakanPage(
             Text(
                 text = stringResource(R.string.pengaturan_makan_saya_hari_ini),
                 style = Typography.titleLarge,
+                color = Color.Black,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
             Text(
                 text = stringResource(R.string.berat_badan_kering_saya),
                 style = Typography.bodyLarge,
+                color = Color.Black,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
         }
 
         FormField(
             value = textState,
-            onValueChange = { textState = it },
+            onValueChange = { viewModel.onTextChange(it) },
             placeholder = stringResource(R.string.tulis_angka),
             modifier = Modifier
                 .fillMaxWidth()
@@ -83,20 +79,17 @@ fun PengaturanMakanPage(
                 fontWeight = FontWeight.Normal,
                 padding = 20.dp,
                 onClick = {
-                    bbk = textState.toDoubleOrNull() ?: 0.0
-                    if (bbk > 0) {
-                        showDialog = true
-                    }
+                    viewModel.onSaveClicked()
                 }
             )
         }
 
         if (showDialog) {
             AlertDialog(
-                onDismissRequest = { showDialog = false },
+                onDismissRequest = { viewModel.onDismissDialog() },
                 text = {
                     val calories = (bbk * 35).toInt()
-                    val liquid = (bbk * 0.08 * 1000 + 500).toInt()
+                    val liquid = (bbk * 0.8 + 500).toInt()
                     val potassium = 2500
                     val sodium = 200
                     val protein = (bbk * 1.2).toInt()
@@ -113,7 +106,7 @@ fun PengaturanMakanPage(
                     Button(
                         text = "OK",
                         onClick = {
-                            showDialog = false
+                            viewModel.onConfirmDialog()
                             onNavigate()
                         },
                         textColor = Color.White,
@@ -127,9 +120,8 @@ fun PengaturanMakanPage(
     }
 }
 
-@Preview()
+@Preview
 @Composable
 fun PengaturanMakanPagePreview() {
     PengaturanMakanPage()
 }
-

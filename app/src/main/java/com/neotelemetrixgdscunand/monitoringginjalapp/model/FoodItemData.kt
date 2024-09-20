@@ -14,7 +14,7 @@ fun getFoodItems(): List<FoodItemData> {
         FoodItemData("Nasi Goreng", "625", "200", "8.8", "22.5", "107"),
         FoodItemData("Udang Segar", "625", "50", "8.8", "22.5", "107"),
         FoodItemData("Telur Ceplok", "625", "50", "8.8", "22.5", "107"),
-        FoodItemData("Udang Segar", "625", "50", "8.8", "22.5", "107"),
-        FoodItemData("Telur Ceplok", "625", "50", "8.8", "22.5", "107")
+        FoodItemData("Udang Merah", "625", "50", "8.8", "22.5", "107"),
+        FoodItemData("Bakso", "625", "50", "8.8", "22.5", "107")
     )
 }

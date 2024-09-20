@@ -50,7 +50,7 @@ fun SearchBar(
             value = searchText,
             onValueChange = { newValue ->
                 searchText = newValue
-                isListVisible = newValue.text.isNotEmpty()
+                isListVisible = newValue.text.isNotEmpty() || newValue.text.isEmpty()
             },
             placeholder = {
                 Text(text = "Cari", color = Color.LightGray, fontSize = 16.sp)
@@ -61,8 +61,14 @@ fun SearchBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
-                .background(Color(0xFFF5F5F5), RoundedCornerShape(25.dp)),
+                .background(Color(0xFFF5F5F5), RoundedCornerShape(25.dp))
+                .clickable {
+                    isListVisible = true
+                },
             shape = RoundedCornerShape(25.dp),
+            textStyle = androidx.compose.ui.text.TextStyle(
+                color = Color.Black,
+                fontSize = 16.sp),
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = containerColor,
                 unfocusedContainerColor = containerColor,
@@ -79,7 +85,7 @@ fun SearchBar(
                     .fillMaxWidth()
                     .padding(top = 8.dp)
             ) {
-                items(searchFoodItems.filter { it.foodName.contains(searchText.text, ignoreCase = true) }) { foodItem ->
+                items(searchFoodItems.filter { it.foodName.contains(searchText.text, ignoreCase = true) || searchText.text.isEmpty() }) { foodItem ->
                     FoodItemRow(foodItem, onAddClick = {
                         onAddClick(it)
                         searchText = TextFieldValue("")
@@ -99,7 +105,7 @@ fun SearchBar(
 fun FoodItemRow(food: FoodItemData, onAddClick: (FoodItemData) -> Unit) {
     Column(
         modifier = Modifier
-            .background(Color.LightGray)
+            .background(color = colorResource(R.color.lightGrey))
             .fillMaxWidth()
             .padding(vertical = 8.dp)
             .clickable { /* Handle row click */ }
@@ -151,6 +157,9 @@ fun NutrientInfo(text: String, value: String) {
 fun SearchBarPreview() {
     val foodItems = listOf(
         FoodItemData("Ati ayam", "625 kkal", "50 ml", "8.8 mg", "22.5 mg", "107 mg"),
+        FoodItemData("Bubur nasi", "625 kkal", "50 ml", "8.8 mg", "22.5 mg", "107 mg"),
+        FoodItemData("Cumi-cumi", "625 kkal", "50 ml", "8.8 mg", "22.5 mg", "107 mg"),
+        FoodItemData("Daging ayam", "625 kkal", "50 ml", "8.8 mg", "22.5 mg", "107 mg"),
         FoodItemData("Bubur nasi", "625 kkal", "50 ml", "8.8 mg", "22.5 mg", "107 mg"),
         FoodItemData("Cumi-cumi", "625 kkal", "50 ml", "8.8 mg", "22.5 mg", "107 mg"),
         FoodItemData("Daging ayam", "625 kkal", "50 ml", "8.8 mg", "22.5 mg", "107 mg")

@@ -14,11 +14,19 @@ enum class NutrientStatus {
 }
 
 object NutrientThresholds {
-    const val CALORIE_THRESHOLD = 1800.0
-    const val LIQUID_THRESHOLD = 2000.0
-    const val PROTEIN_THRESHOLD = 50.0
-    const val SODIUM_THRESHOLD = 2300.0
-    const val POTASSIUM_THRESHOLD = 3500.0
+    var CALORIE_THRESHOLD = 1800.0
+    var LIQUID_THRESHOLD = 300.0
+    var PROTEIN_THRESHOLD = 50.0
+    var SODIUM_THRESHOLD = 2300.0
+    var POTASSIUM_THRESHOLD = 3500.0
+
+    fun updateThresholds(calories: Double, liquid: Double, protein: Double, sodium: Double, potassium: Double) {
+        CALORIE_THRESHOLD = calories
+        LIQUID_THRESHOLD = liquid
+        PROTEIN_THRESHOLD = protein
+        SODIUM_THRESHOLD = sodium
+        POTASSIUM_THRESHOLD = potassium
+    }
 }
 
 fun getNutrientStatus(value: Double, threshold: Double): NutrientStatus {
@@ -30,8 +38,7 @@ fun getNutrientStatus(value: Double, threshold: Double): NutrientStatus {
     }
 }
 
-fun getNutrientItems(currentFoodItems: MutableList<FoodItemData>): List<NutrientItem> {
-
+fun getNutrientItems(currentFoodItems: List<FoodItemData>): List<NutrientItem> {
     val totalCalories = currentFoodItems.sumOf { it.calories.toDouble() }
     val totalLiquid = currentFoodItems.sumOf { it.volume.toDouble() }
     val totalProtein = currentFoodItems.sumOf { it.protein.toDouble() }
@@ -71,4 +78,5 @@ fun getNutrientItems(currentFoodItems: MutableList<FoodItemData>): List<Nutrient
         )
     )
 }
+
 

@@ -47,17 +47,18 @@ fun NutrientCard(
             Text(
                 text = stringResource(R.string.kebutuhan_makan_saya_sehari),
                 fontWeight = FontWeight.Bold,
+                color = Color.Black,
                 fontSize = 16.sp,
                 modifier = Modifier
                     .padding(bottom = 16.dp)
                     .align(Alignment.CenterHorizontally)
             )
 
-            NutrientInfoRow(stringResource(R.string.kalori), calories.toString() + " kkal")
-            NutrientInfoRow(stringResource(R.string.cairan), liquid.toString() + " ml")
-            NutrientInfoRow(stringResource(R.string.protein), protein.toString() + " gr")
-            NutrientInfoRow(stringResource(R.string.natrium), sodium.toString() + " mg")
-            NutrientInfoRow(stringResource(R.string.kalium), potassium.toString() + " mg")
+            NutrientInfoRow(stringResource(R.string.kalori), "$calories kkal")
+            NutrientInfoRow(stringResource(R.string.cairan), "$liquid ml")
+            NutrientInfoRow(stringResource(R.string.protein), "$protein gr")
+            NutrientInfoRow(stringResource(R.string.natrium), "$sodium mg")
+            NutrientInfoRow(stringResource(R.string.kalium), "$potassium mg")
 
         }
     }
@@ -77,12 +78,14 @@ fun NutrientInfoRow(label: String, value: String) {
             text = label,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(8.dp),
+            color = Color.Black,
             fontSize = 12.sp
         )
         Text(
             text = value,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(8.dp),
+            color = Color.Black,
             fontSize = 16.sp
         )
     }

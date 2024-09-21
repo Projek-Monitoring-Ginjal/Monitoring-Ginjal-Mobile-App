@@ -1,0 +1,2 @@
+package com.neotelemetrixgdscunand.monitoringginjalapp.domain.common
+

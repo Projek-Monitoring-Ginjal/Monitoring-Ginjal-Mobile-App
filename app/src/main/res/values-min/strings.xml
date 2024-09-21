@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">MANDEH</string>
-    <string name="masukkan_nama_dan_kata_sandi">Masukan nama dan kata sandi</string>
-    <string name="nama">Nama</string>
-    <string name="kata_sandi">Kata Sandi</string>
-    <string name="masuk">Masuk</string>
-    <string name="apa_yang_bapak_ibu_ingin_ketahui">Apa yang Bapak/Ibu ingin ketahui?</string>
-    <string name="pilih_bahasa">Pilih Bahasa</string>
+    <string name="masukkan_nama_dan_kata_sandi">Masuakan namo samo kato sandi</string>
+    <string name="nama">Namo</string>
+    <string name="kata_sandi">Kato Sandi</string>
+    <string name="masuk">Masuak</string>
+    <string name="apa_yang_bapak_ibu_ingin_ketahui">Apo yang nio bapak ingin tahu?</string>
+    <string name="pilih_bahasa">Piliah Bahaso</string>
     <string name="pengaturan_makan_saya_hari_ini">Pengaturan makan saya hari ini</string>
     <string name="makan_saya_hari_ini">Makan saya hari ini</string>
     <string name="kalori">Kalori</string>
@@ -39,7 +39,7 @@
     <string name="gagal_ginjal">Gagal Ginjal</string>
     <string name="hemodialisa">Hemodialisa</string>
     <string name="diet_atau_pengaturan_makan">Diet atau pengaturan makan</string>
-    <string name="kebutuhan_cairan">Kebutuhan Cairan</string>
+    <string name="kebutuhan_cairan">Kabutuhan Cairan</string>
     <string name="perawatan_akses_vaskuler_hemodialisa">Perawatan akses vaskuler hemodialisa</string>
-    <string name="pengaturan_makan_dan_minum_saya_hari_ini">Pengaturan makan dan minum saya hari ini</string>
+    <string name="pengaturan_makan_dan_minum_saya_hari_ini">Pengaturan makan jo minum awak hari ko</string>
 </resources>

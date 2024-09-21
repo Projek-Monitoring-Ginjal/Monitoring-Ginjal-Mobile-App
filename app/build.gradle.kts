@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.jetbrains.kotlin.kapt)
 }
 
 android {
@@ -76,5 +78,22 @@ dependencies {
     //Async Image Loader
     implementation(libs.coil.compose)
 
+    //Dependency Injection
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
 
+    //Networking
+    implementation(libs.retrofit)
+
+    //json parser
+    implementation(libs.converter.gson)
+
+    //App compat for language locale
+    implementation(libs.androidx.appcompat)
+}
+
+// Allow references to generated code
+kapt{
+    correctErrorTypes = true
 }

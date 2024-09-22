@@ -51,4 +51,82 @@
     <string name="pengobatan">Pengobatan</string>
     <string name="kondisi_lebih_lanjut_gagal_ginjal_kronis">Kondisi lebih lanjut gagal ginjal kronis</string>
 
+    <!-- Pengertian Gagal Ginjal -->
+    <string name="pengertian_gagal_ginjal_title">Pengertian gagal ginjal</string>
+    <string name="pengertian_gagal_ginjal_description">Gagal ginjal kronis adalah menurunnya fungsi ginjal yang terjadi secara tiba-tiba, umumnya terjadi selama beberapa jam sampai beberapa hari dan mengakibatkan terjadinya gangguan pada cairan, elektrolit dan asam basa pada tubuh.</string>
+
+    <!-- Fungsi Ginjal Normal -->
+    <string name="fungsi_ginjal_normal_title">Fungsi ginjal normal</string>
+    <string name="fungsi_ginjal_normal_description">Fungsi ginjal normal adalah menyaring zat sisa metabolisme tubuh. Jika zat ini tidak dikeluarkan akan menyebabkan penumpukan racun tubuh yang berbahaya bagi kesehatan.</string>
+
+    <!-- Penyebab Gagal Ginjal Kronis -->
+    <string name="penyebab_gagal_ginjal_title">Penyebab gagal ginjal kronis</string>
+    <string name="penyebab_gagal_ginjal_description">Penyebab gagal ginjal kronis bermacam-macam, namun kebanyakan disebabkan penyakit jangka panjang seperti hipertensi dan diabetes. Selain itu gagal ginjal juga disebabkan oleh pola hidup yang tidak sehat seperti:</string>
+    <string-array name="penyebab_gagal_ginjal_bullet_points">
+        <item>Banyak mengkonsumsi makanan tinggi gula, garam dan lemak jenuh.</item>
+        <item>Asupan cairan yang kurang dan menyebabkan dehidrasi.</item>
+        <item>Penyakit Hipertensi (tekanan darah tinggi) dan Diabetes (kencing manis) yang tidak terkontrol.</item>
+    </string-array>
+
+    <!-- Tanda dan Gejala -->
+    <string name="tanda_gejala_title">Tanda dan gejala</string>
+    <string name="tanda_gejala_description">Pada stadium awal gejala gagal ginjal tidak begitu terlihat. Gejala gagal ginjal biasanya muncul ketika sudah mencapai stadium 4-5 diantaranya:</string>
+    <string-array name="tanda_gejala_bullet_points">
+        <item>Mudah lelah</item>
+        <item>Kulit kering dan gatal</item>
+        <item>Mual dan muntah</item>
+        <item>Penurunan atau peningkatan frekuensi buang air kecil</item>
+        <item>Sering buang air kecil di malam hari</item>
+        <item>Sesak nafas</item>
+        <item>Bengkak pada kedua kaki</item>
+        <item>Penurunan berat badan</item>
+    </string-array>
+
+    <!-- Pemeriksaan untuk Diagnosa -->
+    <string name="pemeriksaan_diagnosa_title">Pemeriksaan untuk diagnosa</string>
+    <string name="pemeriksaan_diagnosa_description">Diagnosa gagal ginjal:</string>
+    <string-array name="pemeriksaan_diagnosa_bullet_points">
+        <item>Pemeriksaan darah lengkap: untuk mendeteksi kadar limbah pada darah</item>
+        <item>Tes urine: Dalam tes ini, dokter periksa kadar albumin dan kreatinin dalam urine, kandungan protein dalam urine</item>
+    </string-array>
+
+    <!-- Pencegahan -->
+    <string name="pencegahan_title">Pencegahan</string>
+    <string name="pencegahan_description">Pencegahan dapat dilakukan dengan berbagai cara seperti:</string>
+    <string-array name="pencegahan_bullet_points">
+        <item>Mengonsumsi makanan bergizi lengkap dan seimbang</item>
+        <item>Batasi makan makanan yang mengandung tinggi garam, tinggi lemak jenuh, dan tinggi asam urat</item>
+        <item>Cukup minum air putih, minimal 8 gelas sehari</item>
+        <item>Menjaga berat badan ideal</item>
+        <item>Tidak merokok</item>
+        <item>Menghindari konsumsi obat pereda nyeri tanpa berkonsultasi terlebih dahulu dengan dokter</item>
+        <item>Menghindari minuman berkemasan yang mengandung banyak pemanis buatan</item>
+        <item>Mengurangi makanan instan yang mengandung zat pengawet, perasa, dan pewarna</item>
+        <item>Menjaga tekanan darah tetap normal</item>
+    </string-array>
+
+    <!-- Pengobatan -->
+    <string name="pengobatan_title">Pengobatan</string>
+    <string name="pengobatan_description">Pengobatan bertujuan untuk mengurangi gejala, bukan untuk memperbaiki fungsi ginjal. Beberapa jenis pengobatan yang diberikan untuk terapi gagal ginjal adalah: </string>
+    <string-array name="pengobatan_bullet_points">
+        <item>Obat-obatan untuk mengurangi gejala seperti obat hipertensi, anemia, suplemen kalsium dan vitamin D</item>
+        <item>Pembatasan asupan protein dan cairan</item>
+        <item>Terapi pengganti ginjal terbagi 2 yaitu:
+            Pertama ada Dialisis: proses penyaringan limbah dan cairan dalam tubuh. Ada dua jenis dialisis: Hemodialisis (cuci darah), prosedur dialisis yang menggunakan mesin dan Continuous ambulatory peritoneal dialysis (CAPD), metode cuci darah yang dilakukan lewat perut.
+            Lalu yang kedua Transplantasi ginjal: ginjal pasien akan diganti dengan ginjal sehat dari pendonor (organ cangkok)
+        </item>
+    </string-array>
+
+    <!-- Kondisi Lanjutan Gagal Ginjal Kronis -->
+    <string name="kondisi_lanjut_title">Kondisi lebih lanjut gagal ginjal kronis</string>
+    <string name="kondisi_lanjut_description">Gagal ginjal kronis dapat memicu sejumlah keadaan berikut:</string>
+    <string name="informasi_tidak_tersedia">Informasi tidak tersedia</string>
+    <string-array name="kondisi_lanjut_bullet_points">
+        <item>Gangguan elektrolit seperti penumpukan fosfor dan hiperkalemia (kenaikan kadar kalium yang tinggi dalam darah)</item>
+        <item>Gangguan keseimbangan asam dan basa di dalam tubuh seperti asidosis</item>
+        <item>Penyakit jantung dan pembuluh darah</item>
+        <item>Penumpukan kelebihan cairan di rongga tubuh, misalnya edema paru atau asites</item>
+        <item>Anemia, karena ginjal juga berfungsi untuk membentuk sel darah merah</item>
+        <item>Kerusakan sistem saraf pusat yang bisa menyebabkan kejang</item>
+    </string-array>
 </resources>

@@ -53,7 +53,7 @@ fun ListMenuInfoGinjalScreen() {
     }
 
     selectedMenuItem?.let {
-        val menuInfo = getGinjalMenuInfo( it)
+        val menuInfo = getGinjalMenuInfo( context, it)
         InfoDialogGinjal(
             title = it,
             description = menuInfo.description,

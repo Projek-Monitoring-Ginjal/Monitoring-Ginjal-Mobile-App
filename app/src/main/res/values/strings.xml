@@ -42,4 +42,13 @@
     <string name="kebutuhan_cairan">Kebutuhan Cairan</string>
     <string name="perawatan_akses_vaskuler_hemodialisa">Perawatan akses vaskuler hemodialisa</string>
     <string name="pengaturan_makan_dan_minum_saya_hari_ini">Pengaturan makan dan minum saya hari ini</string>
+    <string name="pengertian_gagal_ginjal">Pengertian gagal ginjal</string>
+    <string name="fungsi_ginjal_normal">Fungsi ginjal normal</string>
+    <string name="penyebab_gagal_ginjal_kronis">Penyebab gagal ginjal kronis</string>
+    <string name="tanda_dan_gejala">Tanda dan gejala</string>
+    <string name="pemeriksaan_untuk_diagnosa">Pemeriksaan untuk diagnosa</string>
+    <string name="pencegahan">Pencegahan</string>
+    <string name="pengobatan">Pengobatan</string>
+    <string name="kondisi_lebih_lanjut_gagal_ginjal_kronis">Kondisi lebih lanjut gagal ginjal kronis</string>
+
 </resources>

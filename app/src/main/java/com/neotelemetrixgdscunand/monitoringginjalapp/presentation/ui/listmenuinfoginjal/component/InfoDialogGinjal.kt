@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,6 +51,7 @@ fun InfoDialogGinjal(
                     .padding(16.dp),
             ) {
                 Text(
+                    color = Color.Black,
                     text = title,
                     fontFamily = karlaFamily,
                     fontSize = 20.sp,
@@ -119,7 +121,7 @@ fun InfoDialogGinjal(
                         .padding(horizontal = 16.dp, vertical = 16.dp)
                 ) {
                     Text(
-                        text = "Kembali",
+                        text = stringResource(R.string.kembali),
                         fontSize = 16.sp,
                         color = Color.White
                     )

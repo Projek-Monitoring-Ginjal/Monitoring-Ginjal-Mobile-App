@@ -15,4 +15,7 @@ data object BodyWeightInput : Route()
 data object ListFoodnDrink : Route()
 @Serializable
 data object MealResult:Route()
+@Serializable
+data class ListMenuInfoGinjal(val routeType: String) : Route()
+
 

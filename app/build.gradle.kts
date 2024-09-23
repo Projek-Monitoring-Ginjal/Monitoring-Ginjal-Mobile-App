@@ -91,6 +91,10 @@ dependencies {
 
     //App compat for language locale
     implementation(libs.androidx.appcompat)
+
+    //rive animation
+    implementation(libs.rive.android)
+    implementation(libs.startup.runtime)
 }
 
 // Allow references to generated code

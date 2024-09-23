@@ -1,36 +1,60 @@
-package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.bodyweightinput.screen
+package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.AlertDialog
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.ui.window.Dialog
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.bodyweightinput.component.Button
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.bodyweightinput.component.FormField
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.bodyweightinput.component.NutrientCard
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.bodyweightinput.viewmodel.PengaturanMakanViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Typography
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.component.Button
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.component.FormField
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.component.NutrientNeedsDialog
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.util.DailyNutrientsCalcUtil
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.viewmodel.DailyNutrientCalcUtilVM
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEvent
 
 @Composable
-fun PengaturanMakanPage(
+fun DailyNutrientsCalcScreen(
     modifier: Modifier = Modifier,
     onNavigate: () -> Unit = {},
-    viewModel: PengaturanMakanViewModel = viewModel()
+    viewModel: DailyNutrientCalcUtilVM = hiltViewModel()
 ) {
-    val textState = viewModel.textState.collectAsState().value
-    val showDialog = viewModel.showDialog.collectAsState().value
-    val bbk = viewModel.bbk.collectAsState().value
+    val textState = viewModel.textState
+    val showDialog = viewModel.showDialog
+    val bodyweight = viewModel.bodyweight
+    val context = LocalContext.current
+
+    LaunchedEffect(key1 = true) {
+        viewModel.uiEvent.collect{
+            when(it){
+                is UIEvent.ShowToast -> Toast.makeText(
+                    context,
+                    it.message.getValue(context),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
 
     Column(
         modifier = modifier
@@ -84,44 +108,30 @@ fun PengaturanMakanPage(
             )
         }
 
-        if (showDialog) {
-            AlertDialog(
-                onDismissRequest = { viewModel.onDismissDialog() },
-                text = {
-                    val calories = (bbk * 35).toInt()
-                    val liquid = (bbk * 0.8 + 500).toInt()
-                    val potassium = 2500
-                    val sodium = 200
-                    val protein = (bbk * 1.2).toInt()
 
-                    NutrientCard(
-                        calories = calories,
-                        liquid = liquid,
-                        protein = protein,
-                        sodium = sodium,
-                        potassium = potassium
-                    )
-                },
-                confirmButton = {
-                    Button(
-                        text = "OK",
-                        onClick = {
-                            viewModel.onConfirmDialog()
-                            onNavigate()
-                        },
-                        textColor = Color.White,
-                        fontSize = 18f,
-                        fontWeight = FontWeight.Normal,
-                        padding = 16.dp
+        if (showDialog) {
+            Dialog(onDismissRequest = viewModel::onDismissDialog) {
+                val dailyFoodNeedsData = remember {
+                    DailyNutrientsCalcUtil.calculateDailyFoodNeeds(
+                        weight = bodyweight
                     )
                 }
-            )
+                NutrientNeedsDialog(
+                    dailyNutrientNeedsThreshold = dailyFoodNeedsData,
+                    onConfirm = {
+                        viewModel.onConfirmDialog(dailyFoodNeedsData)
+                        onNavigate()
+                    }
+                )
+            }
+
         }
     }
 }
 
+
 @Preview
 @Composable
 fun PengaturanMakanPagePreview() {
-    PengaturanMakanPage()
+    DailyNutrientsCalcScreen()
 }

@@ -1,4 +1,4 @@
-package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.bodyweightinput.component
+package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,8 +13,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,6 +37,7 @@ fun FormField(
             }
         },
         shape = RoundedCornerShape(cornerRadius.dp),
+
         placeholder = { Text(text = placeholder, color = Color.Gray, modifier=modifier.fillMaxWidth(), textAlign = TextAlign.Center) },
         textStyle = TextStyle(
             fontSize = 16.sp,

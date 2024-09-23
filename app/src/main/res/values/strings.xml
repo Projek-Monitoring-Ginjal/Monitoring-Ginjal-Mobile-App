@@ -19,10 +19,10 @@
     <string name="natrium">Natrium</string>
     <string name="kalium">Kalium</string>
     <string name="kebutuhan_makan_saya_sehari">Kebutuhan makan saya sehari</string>
-    <string name="kkal">%1$s kkal</string>
-    <string name="ml">%1$s ml</string>
-    <string name="gr">%1$s gr</string>
-    <string name="mg">%1$s mg</string>
+    <string name="kkal">kkal</string>
+    <string name="ml">ml</string>
+    <string name="gr">gr</string>
+    <string name="mg">mg</string>
     <string name="pilih_porsi">Pilih porsi</string>
     <string name="_1_piring">1 piring</string>
     <string name="_1_2_piring">½ piring</string>
@@ -42,4 +42,8 @@
     <string name="kebutuhan_cairan">Kebutuhan Cairan</string>
     <string name="perawatan_akses_vaskuler_hemodialisa">Perawatan akses vaskuler hemodialisa</string>
     <string name="pengaturan_makan_dan_minum_saya_hari_ini">Pengaturan makan dan minum saya hari ini</string>
+    <string name="login_success">Login Success</string>
+    <string name="daily_nutrient_needs_threshold_saved_successfully">Daily nutrient needs threshold saved successfully</string>
+    <string name="expected_behaviour_error_msg">Maaf sepertinya ada masalah, silahkan coba lagi nanti..</string>
+    <string name="daily_nutrient_needs_information_saved_successfully">Daily nutrient needs information saved successfully</string>
 </resources>

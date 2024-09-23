@@ -1,5 +1,6 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.presentation
 
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import kotlinx.serialization.Serializable
 
 
@@ -10,9 +11,9 @@ data object Login: Route()
 @Serializable
 data object HomeMenu: Route()
 @Serializable
-data object BodyWeightInput : Route()
+data object DailyNutrientCalc : Route()
 @Serializable
-data object ListFoodnDrink : Route()
+data class ListFoodnDrink(val dayOptions: DayOptions) : Route()
 @Serializable
-data object MealResult:Route()
+data class MealResult(val dayOptions: DayOptions):Route()
 

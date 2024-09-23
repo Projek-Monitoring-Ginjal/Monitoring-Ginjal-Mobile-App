@@ -1,73 +1,131 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.viewmodel
 
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItemData
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.getNutrientItems
+import androidx.lifecycle.viewModelScope
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.data.Repository
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrientNeedsInfo
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrientNeedsThreshold
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodPortionOptions
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.util.ListFoodnDrinkUtil
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEvent
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.changePortion
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.handleAsyncDefaultWithUIEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ListFoodnDrinkViewModel @Inject constructor() : ViewModel() {
-    var currentFoodItems = mutableStateOf<List<FoodItemData>>(emptyList())
+class ListFoodnDrinkViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    private val repository: Repository
+) : ViewModel() {
+
+    val currentDayOptions = savedStateHandle.get<DayOptions>("dayOptions") ?: DayOptions.FirstDay
+
+    var currentFoodItems by mutableStateOf<List<FoodItem>>(emptyList())
         private set
 
-    var nutrientItems = mutableStateOf(getNutrientItems(currentFoodItems.value))
+    var dailyNutrientNeedsInfo by mutableStateOf(
+        DailyNutrientNeedsInfo(
+            dailyNutrientNeedsThreshold = DailyNutrientNeedsThreshold()
+        )
+    )
+
+    var nutrientItems by mutableStateOf(ListFoodnDrinkUtil.sumFoodNutritions(dailyNutrientNeedsInfo.meals))
         private set
 
-    var showPortionDialog = mutableStateOf<FoodItemData?>(null)
+    var showPortionDialog by mutableStateOf<FoodItem?>(null)
         private set
 
-    fun addFoodItem(foodItem: FoodItemData) {
-        currentFoodItems.value = currentFoodItems.value.toMutableList().apply {
-            add(foodItem)
-        }
-        updateNutrients()
+    var isSearching by mutableStateOf(false)
+        private set
 
 
+    private val _uiEvent = Channel<UIEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
+
+    init {
+        getDailyNutrientNeedsInfo()
+        getFoodItems()
     }
 
-    fun deleteFoodItem(foodItem: FoodItemData) {
-        currentFoodItems.value = currentFoodItems.value.toMutableList().apply {
-            remove(foodItem)
+    private fun getDailyNutrientNeedsInfo() {
+        viewModelScope.launch {
+            repository.getLatestDailyNutrientNeedsInfo(currentDayOptions)
+                .handleAsyncDefaultWithUIEvent(_uiEvent){
+                    dailyNutrientNeedsInfo = it
+                }
         }
-        updateNutrients()
+    }
+
+    private fun getFoodItems() {
+        viewModelScope.launch {
+            repository.getAllFoodItems()
+                .handleAsyncDefaultWithUIEvent(_uiEvent){
+                    currentFoodItems = it
+                }
+        }
+    }
+
+    fun saveDailyNutrientNeedsInfo() {
+        viewModelScope.launch {
+            repository.saveDailyNutrientNeedsInfo(dailyNutrientNeedsInfo)
+                .handleAsyncDefaultWithUIEvent(_uiEvent){
+                    _uiEvent.send(UIEvent.ShowToast(it))
+                }
+        }
+    }
+
+    fun deleteFoodItem(foodItem: FoodItem) {
+        dailyNutrientNeedsInfo = dailyNutrientNeedsInfo.copy(
+            meals = dailyNutrientNeedsInfo.meals
+                .toMutableList()
+                .also {
+                    it.remove(foodItem)
+                }
+        )
+        updateDailyNutrientInfo()
     }
 
 
-    fun showPortionDialog(foodItem: FoodItemData) {
-        showPortionDialog.value = foodItem
+    fun showPortionDialog(foodItem: FoodItem) {
+        showPortionDialog = foodItem
     }
 
     fun dismissPortionDialog() {
-        showPortionDialog.value = null
+        showPortionDialog = null
     }
 
-    fun updateFoodItem(portion: String, foodItem: FoodItemData) {
-        val multiplier = when (portion) {
-            "1 piring" -> 1.0
-            "1/2 piring" -> 0.5
-            "1/4 piring" -> 0.25
-            else -> 1.0
-        }
+    fun addFoodItem(portion: FoodPortionOptions, foodItem: FoodItem) {
 
-        val adjustedFoodItem = foodItem.copy(
-            calories = (foodItem.calories.toDouble() * multiplier).toString(),
-            volume = (foodItem.volume.toDouble() * multiplier).toString(),
-            protein = (foodItem.protein.toDouble() * multiplier).toString(),
-            sodium = (foodItem.sodium.toDouble() * multiplier).toString(),
-            potassium = (foodItem.potassium.toDouble() * multiplier).toString()
+        val adjustedFoodItem = foodItem.changePortion(portion)
+
+        dailyNutrientNeedsInfo = dailyNutrientNeedsInfo.copy(
+            meals = dailyNutrientNeedsInfo.meals
+                .toMutableList()
+                .also {
+                    it.add(adjustedFoodItem)
+                }
         )
 
-        currentFoodItems.value = currentFoodItems.value.toMutableList().apply {
-            add(adjustedFoodItem)
-        }
-        updateNutrients()
+        updateDailyNutrientInfo()
     }
 
-    private fun updateNutrients() {
-        nutrientItems.value = getNutrientItems(currentFoodItems.value)
+    private fun updateDailyNutrientInfo() {
+        nutrientItems = ListFoodnDrinkUtil.sumFoodNutritions(dailyNutrientNeedsInfo.meals)
+    }
+
+    fun setListFoodItemsVisibility(isVisible:Boolean){
+        isSearching = isVisible
     }
 
 }

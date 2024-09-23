@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.getMainMenuItems
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.HomeMenuItem
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.Route
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Grey40
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.MonitoringGinjalAppTheme
@@ -42,7 +42,7 @@ fun HomeMenuScreen(
             verticalArrangement = Arrangement.Top
         ) {
             val menuItems = remember {
-                getMainMenuItems()
+                HomeMenuItem.entries
             }
 
             HeadingText(
@@ -58,7 +58,7 @@ fun HomeMenuScreen(
                 columns = GridCells.Fixed(3),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(items = menuItems, key = { it.id }){ menuItem ->
+                items(items = menuItems, key = { it.hashCode() }){ menuItem ->
                     HomeMenu(
                         iconResId = menuItem.iconResId,
                         title = stringResource(id = menuItem.titleTextResId),

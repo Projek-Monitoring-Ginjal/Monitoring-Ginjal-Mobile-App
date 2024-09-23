@@ -1,8 +1,11 @@
-package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.bodyweightinput.component
+package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.component
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -19,15 +22,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrientNeedsThreshold
 
 @Composable
-fun NutrientCard(
-    calories: Int = 2310,
-    liquid: Int = 600,
-    protein: Int = 79200,
-    sodium: Int = 2000,
-    potassium: Int = 2000,
-    @SuppressLint("ModifierParameter") modifier: Modifier = Modifier
+fun NutrientNeedsDialog(
+    modifier: Modifier = Modifier,
+    dailyNutrientNeedsThreshold: DailyNutrientNeedsThreshold,
+    onConfirm: () -> Unit = {},
 ) {
     Card(
         shape = RoundedCornerShape(16.dp),
@@ -54,12 +55,34 @@ fun NutrientCard(
                     .align(Alignment.CenterHorizontally)
             )
 
-            NutrientInfoRow(stringResource(R.string.kalori), "$calories kkal")
-            NutrientInfoRow(stringResource(R.string.cairan), "$liquid ml")
-            NutrientInfoRow(stringResource(R.string.protein), "$protein gr")
-            NutrientInfoRow(stringResource(R.string.natrium), "$sodium mg")
-            NutrientInfoRow(stringResource(R.string.kalium), "$potassium mg")
-
+            NutrientInfoRow(
+                stringResource(R.string.kalori),
+                "${dailyNutrientNeedsThreshold.caloriesThreshold} kkal"
+            )
+            NutrientInfoRow(
+                stringResource(R.string.cairan),
+                "${dailyNutrientNeedsThreshold.fluidThreshold} ml"
+            )
+            NutrientInfoRow(
+                stringResource(R.string.protein),
+                "${dailyNutrientNeedsThreshold.proteinThreshold} gr"
+            )
+            NutrientInfoRow(
+                stringResource(R.string.natrium),
+                "${dailyNutrientNeedsThreshold.natriumThreshold} mg"
+            )
+            NutrientInfoRow(
+                stringResource(R.string.kalium),
+                "${dailyNutrientNeedsThreshold.kaliumThreshold} mg"
+            )
+            Button(
+                text = "OK",
+                onClick = onConfirm,
+                textColor = Color.White,
+                fontSize = 18f,
+                fontWeight = FontWeight.Normal,
+                padding = 16.dp
+            )
         }
     }
 }
@@ -94,5 +117,13 @@ fun NutrientInfoRow(label: String, value: String) {
 @Preview
 @Composable
 fun NutrientCardPreview() {
-    NutrientCard()
+    NutrientNeedsDialog(
+        dailyNutrientNeedsThreshold = DailyNutrientNeedsThreshold(
+            caloriesThreshold = 2000f,
+            fluidThreshold = 1000f,
+            proteinThreshold = 100f,
+            natriumThreshold = 1000f,
+            kaliumThreshold = 1000f
+        )
+    )
 }

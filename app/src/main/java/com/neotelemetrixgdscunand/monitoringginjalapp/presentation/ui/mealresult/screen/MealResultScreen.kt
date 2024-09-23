@@ -1,5 +1,6 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -18,34 +19,63 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.getNutrientContents
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green20
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.MonitoringGinjalAppTheme
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.util.ListFoodnDrinkUtil
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.StyledButton
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.component.MealDayTab
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.component.NutrientPreviewCard
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.component.NutritionStatBar
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green20
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green40
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.MonitoringGinjalAppTheme
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Yellow40
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.viewmodel.MealResultViewModel
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEvent
 
 @Composable
-fun MealResultScreen(modifier: Modifier = Modifier) {
-    var selectedTabIndex by remember {
-        mutableStateOf(0)
+fun MealResultScreen(
+    modifier: Modifier = Modifier,
+    viewModel: MealResultViewModel = hiltViewModel(),
+    onAddMeals: (DayOptions) -> Unit = { },
+    onFinish: () -> Unit = { }
+) {
+
+    val dailyNutrientNeedsInfo = viewModel.dailyNutrientNeedsInfo
+    val nutritionTotalInfo = remember(dailyNutrientNeedsInfo){
+        ListFoodnDrinkUtil.sumFoodNutritions(dailyNutrientNeedsInfo.meals)
     }
+    val nutritionToProgressFraction = remember(nutritionTotalInfo, dailyNutrientNeedsInfo) {
+        dailyNutrientNeedsInfo.dailyNutrientNeedsThreshold.run {
+            listOf(
+                nutritionTotalInfo.calorie to nutritionTotalInfo.calorie.amount / caloriesThreshold,
+                nutritionTotalInfo.fluid to nutritionTotalInfo.fluid.amount / fluidThreshold,
+                nutritionTotalInfo.protein to nutritionTotalInfo.protein.amount / proteinThreshold,
+                nutritionTotalInfo.natrium to nutritionTotalInfo.natrium.amount / natriumThreshold,
+                nutritionTotalInfo.kalium to nutritionTotalInfo.kalium.amount / kaliumThreshold
+            )
+        }
+    }
+
+    val context = LocalContext.current
+
+    var selectedTabIndex by remember {
+        mutableIntStateOf(viewModel.dayOptions.index)
+    }
+
     //val scrollState = rememberScrollState()
     val listState = rememberLazyListState()
 
@@ -57,7 +87,18 @@ fun MealResultScreen(modifier: Modifier = Modifier) {
         )
     }
 
-    val nutrientContents = remember { getNutrientContents() }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.uiEvent.collect{
+            when(it){
+                is UIEvent.ShowToast -> Toast.makeText(
+                    context,
+                    it.message.getValue(context),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
 
     Column(modifier = modifier
         .fillMaxSize()
@@ -78,7 +119,10 @@ fun MealResultScreen(modifier: Modifier = Modifier) {
                     tabs.forEachIndexed { index, tabText ->
                         MealDayTab(
                             isSelected = selectedTabIndex == index,
-                            onClick = { selectedTabIndex = index },
+                            onClick = {
+                                selectedTabIndex = index
+                                viewModel.dayOptions = DayOptions.entries[selectedTabIndex]
+                            },
                             text = tabText
                         )
                     }
@@ -95,12 +139,16 @@ fun MealResultScreen(modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.height(24.dp))
             }
 
-            itemsIndexed(nutrientContents){index, item ->
+            itemsIndexed(nutritionToProgressFraction){index, item ->
+
+                val (nutrient, progressFraction) = item
+                val backgroundColor = ListFoodnDrinkUtil.getColorFromGradient(progressFraction)
+
                 NutritionStatBar(
-                    color = if(index % 4 == 0) Yellow40 else Green40,
-                    nutritionalContentName = item.name,
-                    nutritionalContentValue = item.value,
-                    nutritionalContentUnit = item.unit
+                    backgroundColor = backgroundColor,
+                    nutritionalContentName = nutrient.name.getValue(context),
+                    nutritionalContentValue = nutrient.amount,
+                    nutritionalContentUnit = nutrient.unit.getValue(context)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
@@ -109,19 +157,32 @@ fun MealResultScreen(modifier: Modifier = Modifier) {
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
-            items(nutrientContents){
-                NutrientPreviewCard(nutrientContentName = it.name)
+            items(nutritionToProgressFraction){ item ->
+                val (nutrient, progressFraction) = item
+
+                NutrientPreviewCard(
+                    nutrientContentName = nutrient.name.getValue(context),
+                    progressFraction = progressFraction,
+                )
                 Spacer(modifier = Modifier.height(8.dp))
             }
         }
 
-        BottomButtons()
+        BottomButtons(
+            onAddingMeals = {
+                onAddMeals(viewModel.dayOptions)
+            },
+            onFinish = onFinish
+        )
     }
 
 }
 
 @Composable
-private fun BottomButtons(){
+private fun BottomButtons(
+    onAddingMeals:() -> Unit = {},
+    onFinish:()->Unit = {}
+){
     Row(modifier = Modifier
         .fillMaxWidth()
         .background(Color.White)
@@ -137,6 +198,7 @@ private fun BottomButtons(){
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
             text = stringResource(R.string.tambah_makanan),
+            onClick = onAddingMeals
         )
         Spacer(modifier = Modifier.width(10.dp))
         StyledButton(
@@ -146,7 +208,7 @@ private fun BottomButtons(){
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
             text = stringResource(id = R.string.simpan),
-
+            onClick = onFinish
         )
     }
 }

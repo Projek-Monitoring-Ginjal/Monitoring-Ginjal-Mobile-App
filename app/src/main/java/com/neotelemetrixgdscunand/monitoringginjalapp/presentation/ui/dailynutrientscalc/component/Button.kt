@@ -1,4 +1,4 @@
-package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.bodyweightinput.component
+package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

@@ -17,15 +17,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.MonitoringGinjalAppTheme
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NutrientPreviewCard(
     modifier: Modifier = Modifier,
-    nutrientContentName:String
+    nutrientContentName:String,
+    progressFraction:Float = 0.0f
 ) {
+
     ElevatedCard(
         modifier = modifier
             .fillMaxWidth(),
@@ -49,7 +51,8 @@ fun NutrientPreviewCard(
         )
         NutrientPreviewBar(
             modifier = Modifier
-                .padding(horizontal = 20.dp, vertical = 8.dp)
+                .padding(horizontal = 20.dp, vertical = 8.dp),
+            progressFraction = progressFraction
         )
         Row(
             modifier = Modifier

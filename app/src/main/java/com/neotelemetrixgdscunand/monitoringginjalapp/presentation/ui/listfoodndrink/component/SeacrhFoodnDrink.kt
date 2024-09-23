@@ -28,29 +28,38 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItemData
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Dummy
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
 
 @Composable
 fun SearchBar(
     modifier: Modifier = Modifier,
-    searchFoodItems: List<FoodItemData>,
-    onAddClick: (FoodItemData) -> Unit
+    searchFoodItems: List<FoodItem>,
+    onAddClick: (FoodItem) -> Unit,
+    isListVisible: Boolean = false,
+    setListVisibility: (Boolean) -> Unit = {}
 ) {
     var searchText by remember { mutableStateOf(TextFieldValue("")) }
-    var isListVisible by remember { mutableStateOf(false) }
+    //var isListVisible by remember { mutableStateOf(false) }
 
     Column(modifier = modifier.padding(8.dp)) {
         val containerColor = colorResource(R.color.lightGrey)
         TextField(
+            singleLine = true,
             value = searchText,
             onValueChange = { newValue ->
+                if(searchText.text != "" && newValue.text == ""){
+                    setListVisibility(false)
+                }else{
+                    setListVisibility(true)
+                }
                 searchText = newValue
-                isListVisible = newValue.text.isNotEmpty() || newValue.text.isEmpty()
             },
             placeholder = {
                 Text(text = "Cari", color = Color.LightGray, fontSize = 16.sp)
@@ -63,7 +72,7 @@ fun SearchBar(
                 .height(50.dp)
                 .background(Color(0xFFF5F5F5), RoundedCornerShape(25.dp))
                 .clickable {
-                    isListVisible = true
+                    setListVisibility(true)
                 },
             shape = RoundedCornerShape(25.dp),
             textStyle = androidx.compose.ui.text.TextStyle(
@@ -79,17 +88,18 @@ fun SearchBar(
             )
         )
 
-        if (isListVisible) {
+        if(isListVisible){
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp)
             ) {
-                items(searchFoodItems.filter { it.foodName.contains(searchText.text, ignoreCase = true) || searchText.text.isEmpty() }) { foodItem ->
+                items(searchFoodItems.filter { it.name.contains(searchText.text, ignoreCase = true) || searchText.text.isEmpty() }) { foodItem ->
                     FoodItemRow(foodItem, onAddClick = {
                         onAddClick(it)
                         searchText = TextFieldValue("")
-                        isListVisible = false
+                        setListVisibility(false)
+                        //isListVisible = false
                     })
                 }
             }
@@ -102,7 +112,7 @@ fun SearchBar(
 
 
 @Composable
-fun FoodItemRow(food: FoodItemData, onAddClick: (FoodItemData) -> Unit) {
+fun FoodItemRow(food: FoodItem, onAddClick: (FoodItem) -> Unit) {
     Column(
         modifier = Modifier
             .background(color = colorResource(R.color.lightGrey))
@@ -118,17 +128,35 @@ fun FoodItemRow(food: FoodItemData, onAddClick: (FoodItemData) -> Unit) {
             Column(
                 modifier = Modifier.padding(start = 8.dp)
             ) {
-                Text(text = food.foodName, fontSize = 18.sp, color = Color.Black)
+                Text(text = food.name, fontSize = 18.sp, color = Color.Black)
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    NutrientInfo(text = "Kalori", value = food.calories)
-                    NutrientInfo(text = "Cairan", value = food.volume)
-                    NutrientInfo(text = "Protein", value = food.protein)
-                    NutrientInfo(text = "Natrium", value = food.sodium)
-                    NutrientInfo(text = "Kalium", value = food.potassium)
+
+                    val nutritionEssential = food.nutritionEssential
+
+                    NutrientInfo(
+                        text = stringResource(id = R.string.kalori),
+                        value = nutritionEssential.calorie.amount.toString()
+                    )
+                    NutrientInfo(
+                        text = stringResource(id = R.string.cairan),
+                        value = nutritionEssential.fluid.amount.toString()
+                    )
+                    NutrientInfo(
+                        text = stringResource(id = R.string.protein),
+                        value = nutritionEssential.protein.amount.toString()
+                    )
+                    NutrientInfo(
+                        text = stringResource(id = R.string.natrium),
+                        value = nutritionEssential.natrium.amount.toString()
+                    )
+                    NutrientInfo(
+                        text = stringResource(id = R.string.kalium),
+                        value = nutritionEssential.calorie.amount.toString()
+                    )
                 IconButton(onClick = { onAddClick(food) }) {
                     Icon(
                         imageVector = Icons.Default.Add,
@@ -155,15 +183,7 @@ fun NutrientInfo(text: String, value: String) {
 @Preview
 @Composable
 fun SearchBarPreview() {
-    val foodItems = listOf(
-        FoodItemData("Ati ayam", "625 kkal", "50 ml", "8.8 mg", "22.5 mg", "107 mg"),
-        FoodItemData("Bubur nasi", "625 kkal", "50 ml", "8.8 mg", "22.5 mg", "107 mg"),
-        FoodItemData("Cumi-cumi", "625 kkal", "50 ml", "8.8 mg", "22.5 mg", "107 mg"),
-        FoodItemData("Daging ayam", "625 kkal", "50 ml", "8.8 mg", "22.5 mg", "107 mg"),
-        FoodItemData("Bubur nasi", "625 kkal", "50 ml", "8.8 mg", "22.5 mg", "107 mg"),
-        FoodItemData("Cumi-cumi", "625 kkal", "50 ml", "8.8 mg", "22.5 mg", "107 mg"),
-        FoodItemData("Daging ayam", "625 kkal", "50 ml", "8.8 mg", "22.5 mg", "107 mg")
-    )
+    val foodItems = Dummy.getFoodItems()
 
     SearchBar(
         searchFoodItems = foodItems,

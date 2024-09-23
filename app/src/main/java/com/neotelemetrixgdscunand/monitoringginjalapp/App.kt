@@ -33,6 +33,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.DailyNutrientCalc
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.HomeMenu
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ListFoodnDrink
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ListMenuInfoGinjal
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.Login
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.MealResult
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green20
@@ -42,6 +43,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutri
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.viewmodel.DailyNutrientCalcUtilVM
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.screen.HomeMenuScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.screen.ListFoodnDrinkScreen
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listmenuinfoginjal.screen.ListMenuInfoGinjalScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.viewmodel.ListFoodnDrinkViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.MultiColorText
@@ -142,6 +144,9 @@ fun App(
                         }
                     }
                 )
+            }
+            composable<ListMenuInfoGinjal> {
+                ListMenuInfoGinjalScreen(routeType = it.arguments?.getString("routeType") ?: "")
             }
         }
     }

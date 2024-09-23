@@ -6,16 +6,16 @@
     <string name="masuk">Submit</string>
     <string name="apa_yang_bapak_ibu_ingin_ketahui">What do you want to know\?</string>
     <string name="pilih_bahasa">Select Language</string>
-    <string name="pengaturan_makan_saya_hari_ini">My meal plans today</string>
-    <string name="makan_saya_hari_ini">My meal today</string>
-    <string name="kalori">Calorie</string>
+    <string name="pengaturan_makan_saya_hari_ini">My meal plan today</string>
+    <string name="makan_saya_hari_ini">My meals today</string>
+    <string name="kalori">Calories</string>
     <string name="protein">Protein</string>
-    <string name="pilih_makanan_harian">Choose daily food</string>
-    <string name="berat_badan_kering_saya">My dry body weight</string>
-    <string name="tulis_angka">Type number</string>
+    <string name="pilih_makanan_harian">Select daily meals</string>
+    <string name="berat_badan_kering_saya">My dry weight</string>
+    <string name="tulis_angka">Enter number</string>
     <string name="simpan">Save</string>
     <string name="ok">OK</string>
-    <string name="cairan">Fluid</string>
+    <string name="cairan">Fluids</string>
     <string name="natrium">Sodium</string>
     <string name="kalium">Potassium</string>
     <string name="kebutuhan_makan_saya_sehari">My daily food needs</string>
@@ -28,21 +28,289 @@
     <string name="_1_2_piring">½ plate</string>
     <string name="_1_4_piring">¼ plate</string>
     <string name="hasil_makan_hari_ini">Today\'s meal results</string>
-    <string name="belum_terpenuhi">Not Fulfilled</string>
+    <string name="belum_terpenuhi">Not fulfilled</string>
     <string name="terpenuhi">Fulfilled</string>
     <string name="berlebih">Excessive</string>
     <string name="indonesia">Indonesia</string>
     <string name="english">English</string>
     <string name="minang">Minang</string>
-    <string name="tambah_makanan">Add Foods</string>
-    <string name="daftar_makanan_dan_minuman">List of food and drinks</string>
-    <string name="gagal_ginjal">Kidney Failure</string>
+    <string name="tambah_makanan">Add food</string>
+    <string name="daftar_makanan_dan_minuman">List of foods and drinks</string>
+    <string name="gagal_ginjal">Kidney failure</string>
     <string name="hemodialisa">Hemodialysis</string>
-    <string name="diet_atau_pengaturan_makan">Diet or meal management</string>
+    <string name="diet_atau_pengaturan_makan">Diet or meal plan</string>
     <string name="kebutuhan_cairan">Fluid needs</string>
     <string name="perawatan_akses_vaskuler_hemodialisa">Hemodialysis vascular access care</string>
     <string name="pengaturan_makan_dan_minum_saya_hari_ini">My meal and drink management today</string>
     <string name="login_success">Login Success</string>
     <string name="daily_nutrient_needs_threshold_saved_successfully">Daily nutrient needs threshold saved successfully</string>
     <string name="expected_behaviour_error_msg">Maaf sepertinya ada masalah, silahkan coba lagi nanti..</string>
+    <string name="pengaturan_makan_dan_minum_saya_hari_ini">My food and drink plan today</string>
+    <string name="pengertian_gagal_ginjal">Definition of kidney failure</string>
+    <string name="fungsi_ginjal_normal">Normal kidney function</string>
+    <string name="penyebab_gagal_ginjal_kronis">Causes of chronic kidney failure</string>
+    <string name="tanda_dan_gejala">Signs and symptoms</string>
+    <string name="pemeriksaan_untuk_diagnosa">Diagnostic tests</string>
+    <string name="pencegahan">Prevention</string>
+    <string name="pengobatan">Treatment</string>
+    <string name="kondisi_lebih_lanjut_gagal_ginjal_kronis">Advanced chronic kidney failure conditions</string>
+
+    <!-- Definition of Kidney Failure -->
+    <string name="pengertian_gagal_ginjal_title">Definition of kidney failure</string>
+    <string name="pengertian_gagal_ginjal_description">Chronic kidney failure is a sudden decline in kidney function, generally occurring over several hours to several days, leading to disturbances in the body\'s fluid, electrolyte, and acid-base balance.</string>
+
+    <!-- Normal Kidney Function -->
+    <string name="fungsi_ginjal_normal_title">Normal kidney function</string>
+    <string name="fungsi_ginjal_normal_description">The normal function of the kidneys is to filter the body\'s metabolic waste. If these substances are not excreted, they will accumulate and become toxic, posing a danger to health.</string>
+
+    <!-- Causes of Chronic Kidney Failure -->
+    <string name="penyebab_gagal_ginjal_title">Causes of chronic kidney failure</string>
+    <string name="penyebab_gagal_ginjal_description">The causes of chronic kidney failure vary, but most are due to long-term conditions such as hypertension and diabetes. Kidney failure can also be caused by an unhealthy lifestyle, including:</string>
+    <string-array name="penyebab_gagal_ginjal_bullet_points">
+        <item>Consuming large amounts of food high in sugar, salt, and saturated fats.</item>
+        <item>Insufficient fluid intake leading to dehydration.</item>
+        <item>Uncontrolled hypertension (high blood pressure) and diabetes (high blood sugar).</item>
+    </string-array>
+
+    <!-- Signs and Symptoms -->
+    <string name="tanda_gejala_title">Signs and symptoms</string>
+    <string name="tanda_gejala_description">In the early stages, kidney failure symptoms are not very noticeable. Symptoms usually appear at stages 4–5, including:</string>
+    <string-array name="tanda_gejala_bullet_points">
+        <item>Easily fatigued</item>
+        <item>Dry and itchy skin</item>
+        <item>Nausea and vomiting</item>
+        <item>Decrease or increase in urination frequency</item>
+        <item>Frequent urination at night</item>
+        <item>Shortness of breath</item>
+        <item>Swelling in both legs</item>
+        <item>Weight loss</item>
+    </string-array>
+    <!-- Diagnostic Tests -->
+    <string name="pemeriksaan_diagnosa_title">Diagnostic tests</string>
+    <string name="pemeriksaan_diagnosa_description">Kidney failure diagnosis:</string>
+    <string-array name="pemeriksaan_diagnosa_bullet_points">
+        <item>Complete blood test: to detect waste levels in the blood</item>
+        <item>Urine test: In this test, the doctor checks the levels of albumin and creatinine in the urine, and the protein content in the urine</item>
+    </string-array>
+
+    <!-- Prevention -->
+    <string name="pencegahan_title">Prevention</string>
+    <string name="pencegahan_description">Prevention can be done in several ways, such as:</string>
+    <string-array name="pencegahan_bullet_points">
+        <item>Consuming a complete and balanced nutritious diet</item>
+        <item>Limit foods high in salt, saturated fats, and uric acid</item>
+        <item>Drink enough water, at least 8 glasses a day</item>
+        <item>Maintain an ideal body weight</item>
+        <item>Do not smoke</item>
+        <item>Avoid taking painkillers without first consulting a doctor</item>
+        <item>Avoid packaged drinks containing a lot of artificial sweeteners</item>
+        <item>Reduce instant foods that contain preservatives, flavorings, and colorings</item>
+        <item>Keep blood pressure normal</item>
+    </string-array>
+
+    <string name="pengobatan_title">Treatment</string>
+    <string name="pengobatan_description">Treatment aims to reduce symptoms, not to restore kidney function. Some treatments given for kidney failure therapy include:</string>
+    <string-array name="pengobatan_bullet_points">
+        <item>Medications to reduce symptoms, such as drugs for hypertension, anemia, calcium supplements, and vitamin D.</item>
+        <item>Restriction of protein and fluid intake.</item>
+        <item>Renal replacement therapy is divided into two types:</item>
+        <item>Dialysis: the process of filtering waste and fluids from the body.</item>
+        <item>Hemodialysis (blood washing): a dialysis procedure using a machine.</item>
+        <item>Continuous ambulatory peritoneal dialysis (CAPD): a blood washing method done through the abdomen.</item>
+        <item>Kidney transplant: the patient\'s kidney is replaced with a healthy kidney from a donor (organ transplant).</item>
+    </string-array>
+
+    <!-- Advanced Chronic Kidney Failure Conditions -->
+    <string name="kondisi_lanjut_title">Advanced chronic kidney failure conditions</string>
+    <string name="kondisi_lanjut_description">Chronic kidney failure can trigger the following conditions:</string>
+    <string name="informasi_tidak_tersedia">Information not available</string>
+    <string-array name="kondisi_lanjut_bullet_points">
+        <item>Electrolyte disorders such as phosphorus buildup and hyperkalemia (an increase in potassium levels in the blood)</item>
+        <item>Imbalances in the body\'s acid-base balance, such as acidosis</item>
+        <item>Heart and blood vessel diseases</item>
+        <item>Excess fluid buildup in body cavities, such as pulmonary edema or ascites</item>
+        <item>Anemia, because the kidneys also function to form red blood cells</item>
+        <item>Central nervous system damage, which can cause seizures</item>
+    </string-array>
+
+    <!-- Hemodialysis Information -->
+    <string name="pengertian_hemodialisa_title">Definition of Hemodialysis</string>
+    <string name="pengertian_hemodialisa">Hemodialysis is an external blood washing therapy. Hemodialysis is a treatment to filter waste and water from the blood.</string>
+
+    <string name="tujuan_hemodialisa_title">Purpose of Hemodialysis</string>
+    <string name="tujuan_hemodialisa">To help the kidneys perform their function in the body. If kidney failure patients do not undergo a transplant, this procedure needs to be done regularly.</string>
+
+    <string name="kapan_melakukan_hemodialisa_title">When to Undergo Hemodialysis?</string>
+    <string-array name="kapan_melakukan_hemodialisa_bullet_points">
+        <item>Shortness of breath</item>
+        <item>Fatigue</item>
+        <item>Muscle cramps</item>
+        <item>Nausea or vomiting</item>
+    </string-array>
+
+    <string name="bagaimana_melakukan_hemodialisa_title">How to Undergo Hemodialysis</string>
+    <string-array name="bagaimana_melakukan_hemodialisa_bullet_points">
+        <item>Medical personnel will insert a needle into the patient\'s blood vessel</item>
+        <item>Dirty blood will be filtered in the dialysis machine. After the filtering process is complete</item>
+        <item>Clean blood will be circulated back into the patient\'s body</item>
+    </string-array>
+
+    <string name="efek_samping_hemodialisa_title">Side Effects of Hemodialysis</string>
+    <string-array name="efek_samping_hemodialisa_bullet_points">
+        <item>Muscle cramps</item>
+        <item>Itchy skin</item>
+        <item>Feeling of fullness in the abdomen</item>
+        <item>Weight gain</item>
+    </string-array>
+
+    <string name="dampak_telat_cuci_darah_title">Effects of Delaying Dialysis</string>
+    <string-array name="dampak_telat_cuci_darah_bullet_points">
+        <item>Swelling in parts of the body such as hands and feet</item>
+        <item>Shortness of breath</item>
+        <item>Decreased kidney function and may eventually stop altogether</item>
+        <item>Accumulation of toxins in the blood as more waste and toxins build up in the body</item>
+    </string-array>
+
+    <string name="di_mana_melakukan_hemodialisa_title">Where to Undergo Hemodialysis?</string>
+    <string name="di_mana_melakukan_hemodialisa">Hemodialysis therapy or blood washing can only be done in hospitals that have hemodialysis facilities or specialized dialysis clinics.</string>
+
+    <!-- Why Must My Fluid and Drink Intake Be Regulated? -->
+    <string name="kenapa_cairan_dan_minuman_diaturr_title">Why Must My Fluid and Drink Intake Be Regulated?</string>
+    <string name="kenapa_cairan_dan_minuman_diaturr_desc">Excess fluid can cause heart problems and fluid buildup in the body, leading to excessive weight gain between dialysis sessions. The recommended weight gain between hemodialysis sessions is less than three kilograms.</string>
+    <!-- How much fluid is needed for patients undergoing hemodialysis -->
+    <string name="berapa_kebutuhan_cairan_title">Fluid needs for hemodialysis patients</string>
+    <string-array name="berapa_kebutuhan_cairan_bullet_points">
+        <item>If urine is still present, fluid intake should equal the amount of urine in 24 hours plus 500 to 750cc.</item>
+        <item>If there is no urine, the maximum amount of fluid is 14 small glasses or 800cc, including water from food and drinks.</item>
+    </string-array>
+
+    <!-- Tips to reduce fluid consumption -->
+    <string name="tips_mengurangi_cairan_title">Tips to reduce fluid consumption:</string>
+    <string-array name="tips_mengurangi_cairan_bullet_points">
+        <item>Food should be prepared without broth.</item>
+        <item>Reduce salt intake or salty foods to decrease thirst.</item>
+        <item>Drink water using a bottle instead of a glass.</item>
+        <item>Consume sour candies or ice cubes.</item>
+        <item>Maintain oral hygiene.</item>
+    </string-array>
+
+    <!-- How to control thirst -->
+    <string name="tips_mengontrol_haus_title">How to control thirst?</string>
+    <string-array name="tips_mengontrol_haus_bullet_points">
+        <item>Avoid spicy and salty foods, as well as foods high in sodium or salt.</item>
+        <item>Avoid greasy or fried foods.</item>
+        <item>Drink water slowly using a small glass, and try to stay in a cool place.</item>
+        <item>Schedule your water intake over 24 hours, divided into three sessions with a total of 500cc in 24 hours.</item>
+    </string-array>
+
+    <!-- Example of water intake scheduling -->
+    <string name="pembagian_waktu_minum_title">Example of water intake scheduling:</string>
+    <string-array name="pembagian_waktu_minum_bullet_points">
+        <item>From 6 AM to 12 PM, 240cc.</item>
+        <item>From 12 PM to 6 PM, 150cc.</item>
+        <item>From 6 PM to 6 AM the next day, 110cc, for a total fluid intake of 500cc in 24 hours.</item>
+    </string-array>
+
+    <!-- Vascular access care for hemodialysis -->
+    <string name="perawatan_akses_vaskuler_title">Vascular access care for hemodialysis</string>
+    <string-array name="perawatan_akses_vaskuler_bullet_points">
+        <item>Keep the dressing dry.</item>
+        <item>If you are going to bathe, cover the catheter dressing with plastic first.</item>
+        <item>If the dressing gets wet, change it immediately.</item>
+        <item>Always use clean clothes and towels.</item>
+        <item>Be careful when changing clothes to avoid snagging the catheter.</item>
+        <item>Wash hands frequently and avoid touching the catheter.</item>
+        <item>Do not sleep on the side where the catheter is located.</item>
+        <item>Consult a doctor if you notice signs of infection such as redness, swelling, or pain in the access area.</item>
+        <item>If blood leaks from the catheter, go to the emergency room for further treatment.</item>
+        <item>Use of the CDL is recommended for no more than 3 months; schedule the creation of a cimino before that period ends.</item>
+    </string-array>
+
+    <!-- Cimino care -->
+    <string name="perawatan_cimino_title">Cimino care</string>
+    <string-array name="perawatan_cimino_bullet_points">
+        <item>Keep the access area clean at all times.</item>
+        <item>Wash the access area with soap and warm water, and always wash your hands before and after touching the cimino.</item>
+        <item>Check for vibrations and a characteristic buzzing sound in your access. Changes in the buzzing sound may indicate a blockage or disruption in blood flow.</item>
+        <item>Do not allow blood pressure checks, intravenous insertions, or blood draws on the arm with the cimino access.</item>
+        <item>Avoid lifting heavy objects, wearing watches, jewelry, or tight clothing on the arm with the cimino access.</item>
+        <item>Ensure the cimino access does not get bumped or cut.</item>
+        <item>Consult a doctor if there are any issues with the cimino.</item>
+    </string-array>
+
+    <!-- Why must the diet/food of patients be regulated -->
+    <string name="kenapa_diet_diatur_title">Why must the diet/food of patients be regulated?</string>
+    <string name="kenapa_diet_diatur_description">The kidneys can no longer eliminate waste products from food because they are no longer functioning optimally.</string>
+
+    <!-- What is the purpose of regulating the diet/food of patients -->
+    <string name="tujuan_diet_diatur_title">What is the purpose of regulating the diet/food of patients?</string>
+    <string name="tujuan_diet_diatur_description">Uncontrolled intake of nutrients and fluids can lead to malnutrition, and in severe cases, death.</string>
+
+    <!-- Purpose of diet/food for hemodialysis patients -->
+    <string name="tujuan_diet_hemodialisa_title">Purpose of diet/food for hemodialysis patients:</string>
+    <string-array name="tujuan_diet_hemodialisa_bullet_points">
+        <item>To meet individual nutrient needs and ensure optimal nutritional status.</item>
+        <item>Maintain fluid and electrolyte balance.</item>
+        <item>Prevent excessive buildup of metabolic waste from protein.</item>
+        <item>Prevent nutrient deficiencies by ensuring adequate nutrient intake.</item>
+    </string-array>
+
+    <!-- Dietary requirements for hemodialysis patients -->
+    <string name="syarat_diet_hemodialisa_title">Dietary requirements for hemodialysis patients:</string>
+    <string-array name="syarat_diet_hemodialisa_bullet_points">
+        <item>Calories must be sufficient to prevent protein breakdown for energy.</item>
+        <item>Protein intake should be adequate to meet the body\'s needs and replace protein lost during each hemodialysis session.</item>
+        <item>Limit potassium-rich foods, especially if urine output is less than 400ml or if blood potassium levels exceed 5.5 mg/liter.</item>
+        <item>Limit salt and sodium sources if there is fluid retention and high blood pressure.</item>
+        <item>Fluid intake should match the amount of urine produced in a day plus 500ml of water.</item>
+        <item>Vitamins and minerals should be supplemented in medication form.</item>
+    </string-array>
+
+    <!-- Foods that should be limited -->
+    <string name="bahan_makanan_dibatasi_title">Foods to be limited:</string>
+    <string-array name="bahan_makanan_dibatasi_bullet_points">
+        <item>Protein sources: legumes and their products, such as tofu, tempeh, soybeans, mung beans, and black-eyed peas.</item>
+        <item>Vitamin and mineral sources: vegetables and fruits high in potassium.</item>
+        <item>Preserved foods: corned beef, sardines.</item>
+        <item>Salt intake.</item>
+    </string-array>
+
+    <!-- Tips for appropriate salt use for hemodialysis patients -->
+    <string name="tips_penggunaan_garam_title">Tips for appropriate salt use for hemodialysis patients:</string>
+    <string-array name="tips_penggunaan_garam_bullet_points">
+        <item>Use a small amount of salt and add it at the end of cooking.</item>
+        <item>Do not add seasoning or table salt or extra salt to food.</item>
+        <item>Avoid salt-preserved foods, salty snacks, canned foods, and fast food.</item>
+    </string-array>
+
+    <!-- How to regulate the diet -->
+    <string name="cara_mengatur_diet_title">How to regulate the diet:</string>
+    <string-array name="cara_mengatur_diet_bullet_points">
+        <item>Eat regularly, in small portions but frequently, around 6 times a day.</item>
+        <item>Serve food attractively to enhance appetite.</item>
+        <item>Choose animal protein sources according to the specified amount.</item>
+        <item>Plant-based proteins have lower quality compared to animal proteins (limited).</item>
+        <item>High-calorie foods: honey, candy, syrup.</item>
+        <item>Limit potassium-rich foods, such as vegetables, fruits, and tubers.</item>
+        <item>Avoid foods high in potassium, such as legumes, spinach, bananas, coconut water, avocados, durians, jackfruits, cauliflower.</item>
+        <item>If urine output is lower than normal, limit fluid intake from food and drinks.</item>
+    </string-array>
+
+    <!-- How to prepare and process food -->
+    <string name="cara_mempersiapkan_makanan_title">How to prepare and process food:</string>
+    <string-array name="cara_mempersiapkan_makanan_bullet_points">
+        <item>Reduce potassium content in food ingredients.</item>
+        <item>Cut food into small pieces.</item>
+        <item>Soak in warm water for at least 2 hours.</item>
+        <item>Discard the soaking water.</item>
+        <item>Rinse the food under running water.</item>
+        <item>All vegetables should be cooked; avoid eating raw vegetables (salads).</item>
+        <item>If salt is restricted, use more spices such as sugar, acid, and other seasonings.</item>
+        <item>To limit fluid, dishes should not be broth-based, such as stir-fried, grilled, steamed, baked, or fried foods.</item>
+    </string-array>
+    <string name="kembali">Back</string>
+
+
+
+
 </resources>

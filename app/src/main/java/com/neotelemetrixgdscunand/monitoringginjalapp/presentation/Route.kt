@@ -16,4 +16,7 @@ data object DailyNutrientCalc : Route()
 data class ListFoodnDrink(val dayOptions: DayOptions) : Route()
 @Serializable
 data class MealResult(val dayOptions: DayOptions):Route()
+@Serializable
+data class ListMenuInfoGinjal(val routeType: String) : Route()
+
 

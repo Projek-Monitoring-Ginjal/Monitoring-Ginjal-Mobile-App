@@ -1,5 +1,6 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.screen
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,34 +10,50 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItemData
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.getFoodItems
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Dummy
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.component.BottomBarFoodSearch
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.component.FoodItem
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.component.PortionOption
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.component.SearchBar
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.viewmodel.ListFoodnDrinkViewModel
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEvent
 
 @Composable
 fun ListFoodnDrinkScreen(
     onBackClick: () -> Unit,
-    initialFoodItems: List<FoodItemData>,
     onNavigateToMealResult: () -> Unit = { },
     viewModel: ListFoodnDrinkViewModel = hiltViewModel()
 ) {
-    val currentFoodItems by viewModel.currentFoodItems
-    val nutrientItems by viewModel.nutrientItems
-    val showPortionDialog by viewModel.showPortionDialog
+    val currentFoodItems = viewModel.currentFoodItems
+    val nutrientItems = viewModel.nutrientItems
+    val dailyNutrientNeedsInfo = viewModel.dailyNutrientNeedsInfo
+    val showPortionDialog = viewModel.showPortionDialog
+    val isSearching = viewModel.isSearching
+    val context = LocalContext.current
+
+    LaunchedEffect(key1 = true) {
+        viewModel.uiEvent.collect{
+            when(it){
+                is UIEvent.ShowToast -> Toast.makeText(
+                    context,
+                    it.message.getValue(context),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -44,40 +61,47 @@ fun ListFoodnDrinkScreen(
             .background(color = colorResource(R.color.white))
             .padding(horizontal = 8.dp)
     ) {
-
         SearchBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            searchFoodItems = initialFoodItems,
+            searchFoodItems = currentFoodItems,
             onAddClick = { foodItem ->
                 viewModel.showPortionDialog(foodItem)
-            }
+            },
+            setListVisibility = viewModel::setListFoodItemsVisibility,
+            isListVisible = isSearching
         )
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-                .weight(1f)
-        ) {
-            items(currentFoodItems) { food ->
-                FoodItem(
-                    food = food,
-                    onDeleteClick = {
-                        viewModel.deleteFoodItem(food)
-                    }
-                )
+        if(!isSearching){
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+                    .weight(1f)
+            ) {
+                items(dailyNutrientNeedsInfo.meals) { food ->
+                    FoodItem(
+                        food = food,
+                        onDeleteClick = {
+                            viewModel.deleteFoodItem(food)
+                        }
+                    )
+                }
             }
+
+            BottomBarFoodSearch(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                dailyNutrientNeedsThreshold = dailyNutrientNeedsInfo.dailyNutrientNeedsThreshold,
+                nutrition = nutrientItems,
+                onSaveClick = {
+                    viewModel.saveDailyNutrientNeedsInfo()
+                    onNavigateToMealResult()
+                },
+            )
         }
-
-        BottomBarFoodSearch(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-            nutrientItems = nutrientItems,
-            onSaveClick = onNavigateToMealResult
-        )
     }
 
     showPortionDialog?.let { foodItem ->
@@ -89,7 +113,7 @@ fun ListFoodnDrinkScreen(
 
 @Composable
 fun PortionDialog(
-    foodItem: FoodItemData,
+    foodItem: FoodItem,
     viewModel: ListFoodnDrinkViewModel,
     onDismiss: () -> Unit
 ) {
@@ -99,7 +123,7 @@ fun PortionDialog(
             contentAlignment = Alignment.Center
         ) {
             PortionOption(onOptionSelected = { portion ->
-                viewModel.updateFoodItem(portion, foodItem)
+                viewModel.addFoodItem(portion, foodItem)
                 onDismiss()
             })
         }
@@ -110,11 +134,10 @@ fun PortionDialog(
 @Preview(showBackground = true)
 @Composable
 fun ListFoodnDrinkScreenPreview() {
-    val sampleFoodItems = remember { getFoodItems() }
+    val sampleFoodItems = remember { Dummy.getFoodItems() }
 
     ListFoodnDrinkScreen(
         onBackClick = { /*TODO*/ },
-        initialFoodItems = sampleFoodItems,
         onNavigateToMealResult = { /*TODO*/ }
     )
 }

@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -28,15 +29,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItemData
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.getFoodItems
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Dummy
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 
 
 @Composable
 fun FoodItem(
-    food: FoodItemData,
+    food: FoodItem,
     onDeleteClick: () -> Unit
 ) {
+    val nutritionEssential = food.nutritionEssential
+    val context = LocalContext.current
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -51,7 +56,7 @@ fun FoodItem(
                 .padding(8.dp)
         ) {
             Text(
-                text = food.foodName,
+                text = food.name,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
@@ -64,73 +69,73 @@ fun FoodItem(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
-                    Text(
+                    HeadingText(
                         text = stringResource(R.string.kalori),
                         fontSize = 12.sp,
                         color = Color.Gray
                     )
-                    Text(
-                        text = stringResource(R.string.kkal, food.calories),
-                        fontSize = 14.sp,
+                    HeadingText(
+                        text = "${nutritionEssential.calorie.amount} ${nutritionEssential.calorie.unit.getValue(context)}",
+                        fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
                 }
                 Column {
-                    Text(
+                    HeadingText(
                         text = stringResource(R.string.cairan),
                         fontSize = 12.sp,
                         color = Color.Gray
                     )
-                    Text(
-                        text = stringResource(R.string.ml, food.volume),
-                        fontSize = 14.sp,
+                    HeadingText(
+                        text = "${nutritionEssential.fluid.amount} ${nutritionEssential.fluid.unit.getValue(context)}",
+                        fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
                 }
                 Column {
-                    Text(
+                    HeadingText(
                         text = stringResource(R.string.protein),
                         fontSize = 12.sp,
                         color = Color.Gray
                     )
-                    Text(
-                        text = stringResource(R.string.gr, food.protein),
-                        fontSize = 14.sp,
+                    HeadingText(
+                        text = "${nutritionEssential.protein.amount} ${nutritionEssential.protein.unit.getValue(context)}",
+                        fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
                 }
                 Column {
-                    Text(
+                    HeadingText(
                         text = stringResource(R.string.natrium),
                         fontSize = 12.sp,
                         color = Color.Gray
                     )
-                    Text(
-                        text = stringResource(R.string.mg, food.sodium),
-                        fontSize = 14.sp,
+                    HeadingText(
+                        text = "${nutritionEssential.natrium.amount} ${nutritionEssential.natrium.unit.getValue(context)}",
+                        fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
                 }
                 Column {
-                    Text(
+                    HeadingText(
                         text = stringResource(R.string.kalium),
                         fontSize = 12.sp,
                         color = Color.Gray
                     )
-                    Text(
-                        text = stringResource(R.string.mg, food.potassium),
-                        fontSize = 14.sp,
+                    HeadingText(
+                        text = "${nutritionEssential.kalium.amount} ${nutritionEssential.kalium.unit.getValue(context)}",
+                        fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Black
+                        color = Color.Black,
                     )
                 }
                 IconButton(
                     onClick = onDeleteClick,
-                    modifier = Modifier.align(Alignment.Bottom)
+                    modifier = Modifier.align(Alignment.Top)
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_delete),
@@ -145,7 +150,7 @@ fun FoodItem(
 }
 
 @Composable
-fun FoodList(foodItems: List<FoodItemData>, onDeleteClick: (FoodItemData) -> Unit) {
+fun FoodList(foodItems: List<FoodItem>, onDeleteClick: (FoodItem) -> Unit) {
 
     Column(
         modifier = Modifier
@@ -167,7 +172,7 @@ fun FoodList(foodItems: List<FoodItemData>, onDeleteClick: (FoodItemData) -> Uni
 fun PreviewFoodList() {
 
     val foodItems = remember {
-        getFoodItems()
+        Dummy.getFoodItems()
     }
 
     FoodList(

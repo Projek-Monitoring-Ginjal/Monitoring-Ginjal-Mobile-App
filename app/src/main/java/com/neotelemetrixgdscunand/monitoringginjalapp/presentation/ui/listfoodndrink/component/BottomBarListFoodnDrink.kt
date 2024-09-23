@@ -18,10 +18,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -29,18 +31,31 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutrientItem
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutrientStatus
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutrientThresholds
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.getNutrientStatus
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrientNeedsThreshold
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEssential
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.util.ListFoodnDrinkUtil
 
 @SuppressLint("DefaultLocale")
 @Composable
 fun BottomBarFoodSearch(
     modifier: Modifier = Modifier,
-    nutrientItems: List<NutrientItem> = createDummyNutrientItems(),
+    nutrition: NutritionEssential = NutritionEssential(),
+    dailyNutrientNeedsThreshold: DailyNutrientNeedsThreshold,
     onSaveClick: () -> Unit = {},
 ) {
+    val context = LocalContext.current
+    val nutritionToProgressFraction = remember(nutrition) {
+        dailyNutrientNeedsThreshold.run {
+            listOf(
+                nutrition.calorie to nutrition.calorie.amount / caloriesThreshold,
+                nutrition.fluid to nutrition.fluid.amount / fluidThreshold,
+                nutrition.protein to nutrition.protein.amount / proteinThreshold,
+                nutrition.natrium to nutrition.natrium.amount / natriumThreshold,
+                nutrition.kalium to nutrition.kalium.amount / kaliumThreshold
+            )
+        }
+    }
+
     Column(
         modifier = modifier
             .background(color = colorResource(R.color.white))
@@ -60,14 +75,27 @@ fun BottomBarFoodSearch(
         Spacer(modifier = Modifier.height(8.dp))
 
         // Display each nutrient row
-        nutrientItems.forEach { nutrient ->
+        /*nutrientItems.forEach { nutrient ->
             val backgroundColor = when (nutrient.status) {
                 NutrientStatus.BELUM_TERPENUHI -> colorResource(R.color.white)
                 NutrientStatus.TERPENUHI -> colorResource(R.color.lightGreen)
                 NutrientStatus.BERLEBIH -> colorResource(R.color.lightYellow)
             }
             NutrientRow(nutrient.name,String.format("%.2f", nutrient.value) + " ${nutrient.unit}", backgroundColor)
+        }*/
+        nutritionToProgressFraction.forEach { it ->
+            val (nutrient, progressFraction) = it
+            val backgroundColor = remember(nutrient) {
+                ListFoodnDrinkUtil.getColorFromGradient(progressFraction)
+            }
+
+            NutrientRow(
+                label = nutrient.name.getValue(context),
+                value = String.format("%.2f", nutrient.amount) + " ${nutrient.unit.getValue(context)}",
+                backgroundColor = backgroundColor
+            )
         }
+
 
         Spacer(modifier = Modifier.height(12.dp))
 
@@ -118,7 +146,7 @@ fun LegendItem(text: String, color: Color) {
 }
 
 @Composable
-fun NutrientRow(label: String, value: String, backgroundColor: Color) {
+fun NutrientRow(label: String, value: String, backgroundColor:Color) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -144,43 +172,11 @@ fun NutrientRow(label: String, value: String, backgroundColor: Color) {
         )
     }
 }
-fun createDummyNutrientItems(): List<NutrientItem> {
-    return listOf(
-        NutrientItem(
-            name = "Kalori",
-            value = 1800.0,
-            unit = "kal",
-            status = getNutrientStatus(1800.0, NutrientThresholds.CALORIE_THRESHOLD)
-        ),
-        NutrientItem(
-            name = "Cairan",
-            value = 2100.0,
-            unit = "ml",
-            status = getNutrientStatus(2100.0, NutrientThresholds.LIQUID_THRESHOLD)
-        ),
-        NutrientItem(
-            name = "Protein",
-            value = 45.0,
-            unit = "mg",
-            status = getNutrientStatus(45.0, NutrientThresholds.PROTEIN_THRESHOLD)
-        ),
-        NutrientItem(
-            name = "Natrium",
-            value = 2400.0,
-            unit = "mg",
-            status = getNutrientStatus(2400.0, NutrientThresholds.SODIUM_THRESHOLD)
-        ),
-        NutrientItem(
-            name = "Kalium",
-            value = 3000.0,
-            unit = "mg",
-            status = getNutrientStatus(3000.0, NutrientThresholds.POTASSIUM_THRESHOLD)
-        )
-    )
-}
 
 @Preview
 @Composable
 fun BottomBarFoodSearchPreview() {
-    BottomBarFoodSearch()
+    BottomBarFoodSearch(
+        dailyNutrientNeedsThreshold = DailyNutrientNeedsThreshold()
+    )
 }

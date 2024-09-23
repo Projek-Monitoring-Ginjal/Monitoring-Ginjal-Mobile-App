@@ -17,21 +17,25 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import androidx.compose.ui.zIndex
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green50
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Grey50
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.MonitoringGinjalAppTheme
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Yellow40
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.util.ListFoodnDrinkUtil
 
 @Composable
-fun NutrientPreviewBar(modifier: Modifier = Modifier) {
+fun NutrientPreviewBar(
+    modifier: Modifier = Modifier,
+    progressFraction:Float = 0f
+) {
     BoxWithConstraints(
         modifier = modifier
             .background(
                 color = Color.Transparent
             )
     ){
-        this
         Box(
             modifier = Modifier
                 .height(12.dp)
@@ -59,9 +63,10 @@ fun NutrientPreviewBar(modifier: Modifier = Modifier) {
                     )
                 )
         )
+
         Box(
             modifier = Modifier
-                .padding(end = 12.dp)
+                .padding(start = (progressFraction/1.5f) * this.maxWidth)
                 .size(24.dp)
                 .border(
                     width = 2.dp,
@@ -69,10 +74,10 @@ fun NutrientPreviewBar(modifier: Modifier = Modifier) {
                     shape = CircleShape
                 )
                 .background(
-                    color = Yellow40,
+                    color = ListFoodnDrinkUtil.getColorFromGradient(progressFraction),
                     shape = CircleShape
                 )
-                .align(Alignment.CenterEnd)
+                .align(Alignment.CenterStart)
                 .zIndex(2f)
         )
     }
@@ -83,6 +88,8 @@ fun NutrientPreviewBar(modifier: Modifier = Modifier) {
 @Composable
 private fun NutrientPreviewBarPreview() {
     MonitoringGinjalAppTheme {
-        NutrientPreviewBar()
+        NutrientPreviewBar(
+            progressFraction = 0.5f
+        )
     }
 }

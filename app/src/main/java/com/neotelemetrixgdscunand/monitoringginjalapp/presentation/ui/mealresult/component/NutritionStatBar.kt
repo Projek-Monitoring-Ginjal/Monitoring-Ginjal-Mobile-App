@@ -13,23 +13,23 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green40
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.MonitoringGinjalAppTheme
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 
 @Composable
 fun NutritionStatBar(
     modifier: Modifier = Modifier,
-    color: Color = Green40,
+    backgroundColor: Color = Green40,
     nutritionalContentName:String = "",
-    nutritionalContentValue:Int = -1,
+    nutritionalContentValue:Float = 0f,
     nutritionalContentUnit:String = ""
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(
-            containerColor = color
+            containerColor = backgroundColor
         )
     ) {
         Row {
@@ -56,7 +56,7 @@ private fun NutritionStatBarPreview() {
     MonitoringGinjalAppTheme {
         NutritionStatBar(
             nutritionalContentName = "Kalori",
-            nutritionalContentValue = 2400,
+            nutritionalContentValue = 2400f,
             nutritionalContentUnit = "kal"
         )
     }

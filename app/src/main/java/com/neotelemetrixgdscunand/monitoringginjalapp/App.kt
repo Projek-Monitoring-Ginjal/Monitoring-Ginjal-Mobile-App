@@ -22,13 +22,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.getFoodItems
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.BodyWeightInput
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.DailyNutrientCalc
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.HomeMenu
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ListFoodnDrink
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.Login
@@ -36,13 +36,16 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.MealResult
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green20
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.MonitoringGinjalAppTheme
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Yellow20
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.bodyweightinput.screen.PengaturanMakanPage
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.screen.DailyNutrientsCalcScreen
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.viewmodel.DailyNutrientCalcUtilVM
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.screen.HomeMenuScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.screen.ListFoodnDrinkScreen
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.viewmodel.ListFoodnDrinkViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.MultiColorText
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.screen.LoginScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.screen.MealResultScreen
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.viewmodel.MealResultViewModel
 
 @Composable
 fun App(
@@ -91,27 +94,35 @@ fun App(
                     }
                 )
             }
-            composable<BodyWeightInput> {
-                PengaturanMakanPage(
+            composable<DailyNutrientCalc> {
+                val viewModel: DailyNutrientCalcUtilVM = hiltViewModel()
+
+                DailyNutrientsCalcScreen(
                     onNavigate = {
                         navController.navigate(ListFoodnDrink)
-                    }
+                    },
+                    viewModel = viewModel
                 )
             }
             composable<ListFoodnDrink> {
-                val sampleFoodItems = remember {
-                    getFoodItems()
-                }
+                val viewModel:ListFoodnDrinkViewModel = hiltViewModel()
+
                 ListFoodnDrinkScreen(
                     onBackClick = { /*TODO*/ },
-                    initialFoodItems = sampleFoodItems,
                     onNavigateToMealResult = {
                         navController.navigate(MealResult)
-                    }
+                    },
+                    viewModel = viewModel
                 )
+
             }
             composable<MealResult> {
-                MealResultScreen()
+                val viewModel:MealResultViewModel = hiltViewModel()
+
+                MealResultScreen(
+                    viewModel = viewModel,
+
+                )
             }
         }
     }

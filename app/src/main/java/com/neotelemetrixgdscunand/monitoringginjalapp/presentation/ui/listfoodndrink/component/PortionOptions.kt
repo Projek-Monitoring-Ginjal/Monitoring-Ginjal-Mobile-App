@@ -2,7 +2,12 @@ package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodn
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -14,15 +19,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.text.style.TextAlign
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodPortionOptions
 
 @Composable
 fun PortionOption(
-    onOptionSelected: (String) -> Unit,
+    onOptionSelected: (FoodPortionOptions) -> Unit,
 ) {
     Card(
         shape = RoundedCornerShape(24.dp),
@@ -47,9 +53,9 @@ fun PortionOption(
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            PortionButton(text = stringResource(R.string._1_piring), onClick = { onOptionSelected("1 piring") })
-            PortionButton(text = stringResource(R.string._1_2_piring), onClick = { onOptionSelected("1/2 piring") })
-            PortionButton(text = stringResource(R.string._1_4_piring), onClick = { onOptionSelected("1/4 piring") })
+            PortionButton(text = stringResource(R.string._1_piring), onClick = { onOptionSelected(FoodPortionOptions.OnePlate) })
+            PortionButton(text = stringResource(R.string._1_2_piring), onClick = { onOptionSelected(FoodPortionOptions.HalfPlate) })
+            PortionButton(text = stringResource(R.string._1_4_piring), onClick = { onOptionSelected(FoodPortionOptions.QuarterPlate) })
         }
     }
 }

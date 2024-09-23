@@ -21,7 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green20
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.MonitoringGinjalAppTheme
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.util.ListFoodnDrinkUtil
@@ -48,7 +49,9 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEve
 @Composable
 fun MealResultScreen(
     modifier: Modifier = Modifier,
-    viewModel: MealResultViewModel = hiltViewModel()
+    viewModel: MealResultViewModel = hiltViewModel(),
+    onAddMeals: (DayOptions) -> Unit = { },
+    onFinish: () -> Unit = { }
 ) {
 
     val dailyNutrientNeedsInfo = viewModel.dailyNutrientNeedsInfo
@@ -70,8 +73,9 @@ fun MealResultScreen(
     val context = LocalContext.current
 
     var selectedTabIndex by remember {
-        mutableStateOf(0)
+        mutableIntStateOf(viewModel.dayOptions.index)
     }
+
     //val scrollState = rememberScrollState()
     val listState = rememberLazyListState()
 
@@ -115,7 +119,10 @@ fun MealResultScreen(
                     tabs.forEachIndexed { index, tabText ->
                         MealDayTab(
                             isSelected = selectedTabIndex == index,
-                            onClick = { selectedTabIndex = index },
+                            onClick = {
+                                selectedTabIndex = index
+                                viewModel.dayOptions = DayOptions.entries[selectedTabIndex]
+                            },
                             text = tabText
                         )
                     }
@@ -161,13 +168,21 @@ fun MealResultScreen(
             }
         }
 
-        BottomButtons()
+        BottomButtons(
+            onAddingMeals = {
+                onAddMeals(viewModel.dayOptions)
+            },
+            onFinish = onFinish
+        )
     }
 
 }
 
 @Composable
-private fun BottomButtons(){
+private fun BottomButtons(
+    onAddingMeals:() -> Unit = {},
+    onFinish:()->Unit = {}
+){
     Row(modifier = Modifier
         .fillMaxWidth()
         .background(Color.White)
@@ -183,6 +198,7 @@ private fun BottomButtons(){
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
             text = stringResource(R.string.tambah_makanan),
+            onClick = onAddingMeals
         )
         Spacer(modifier = Modifier.width(10.dp))
         StyledButton(
@@ -192,7 +208,7 @@ private fun BottomButtons(){
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
             text = stringResource(id = R.string.simpan),
-
+            onClick = onFinish
         )
     }
 }

@@ -28,6 +28,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.DailyNutrientCalc
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.HomeMenu
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ListFoodnDrink
@@ -99,7 +101,9 @@ fun App(
 
                 DailyNutrientsCalcScreen(
                     onNavigate = {
-                        navController.navigate(ListFoodnDrink)
+                        navController.navigate(
+                            ListFoodnDrink(DayOptions.FirstDay)
+                        )
                     },
                     viewModel = viewModel
                 )
@@ -109,19 +113,34 @@ fun App(
 
                 ListFoodnDrinkScreen(
                     onBackClick = { /*TODO*/ },
-                    onNavigateToMealResult = {
-                        navController.navigate(MealResult)
+                    onNavigateToMealResult = { dayOptions ->
+                        navController.navigate(MealResult(dayOptions))
                     },
                     viewModel = viewModel
                 )
-
             }
             composable<MealResult> {
                 val viewModel:MealResultViewModel = hiltViewModel()
+                val listFoodnDrink:ListFoodnDrink = it.toRoute()
 
                 MealResultScreen(
                     viewModel = viewModel,
-
+                    onAddMeals = { dayOptions ->
+                        navController.navigate(
+                            ListFoodnDrink(dayOptions)
+                        ){
+                            popUpTo(listFoodnDrink){
+                                inclusive = true
+                            }
+                        }
+                    },
+                    onFinish = {
+                        navController.navigate(HomeMenu){
+                            popUpTo(HomeMenu){
+                                inclusive = true
+                            }
+                        }
+                    }
                 )
             }
         }

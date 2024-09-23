@@ -4,6 +4,7 @@ package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodn
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.data.Repository
@@ -24,12 +25,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ListFoodnDrinkViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val repository: Repository
 ) : ViewModel() {
+
+    val currentDayOptions = savedStateHandle.get<DayOptions>("dayOptions") ?: DayOptions.FirstDay
+
     var currentFoodItems by mutableStateOf<List<FoodItem>>(emptyList())
         private set
-
-    var currentDayOption = DayOptions.FirstDay
 
     var dailyNutrientNeedsInfo by mutableStateOf(
         DailyNutrientNeedsInfo(
@@ -51,13 +54,13 @@ class ListFoodnDrinkViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        getDailyNutrientNeedsInfo(DayOptions.FirstDay)
+        getDailyNutrientNeedsInfo()
         getFoodItems()
     }
 
-    private fun getDailyNutrientNeedsInfo(dayOptions: DayOptions) {
+    private fun getDailyNutrientNeedsInfo() {
         viewModelScope.launch {
-            repository.getLatestDailyNutrientNeedsInfo(dayOptions)
+            repository.getLatestDailyNutrientNeedsInfo(currentDayOptions)
                 .handleAsyncDefaultWithUIEvent(_uiEvent){
                     dailyNutrientNeedsInfo = it
                 }

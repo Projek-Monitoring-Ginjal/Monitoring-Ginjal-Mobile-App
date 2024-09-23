@@ -22,6 +22,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Dummy
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.component.BottomBarFoodSearch
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.component.FoodItem
@@ -33,7 +34,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEve
 @Composable
 fun ListFoodnDrinkScreen(
     onBackClick: () -> Unit,
-    onNavigateToMealResult: () -> Unit = { },
+    onNavigateToMealResult: (DayOptions) -> Unit = { },
     viewModel: ListFoodnDrinkViewModel = hiltViewModel()
 ) {
     val currentFoodItems = viewModel.currentFoodItems
@@ -98,7 +99,7 @@ fun ListFoodnDrinkScreen(
                 nutrition = nutrientItems,
                 onSaveClick = {
                     viewModel.saveDailyNutrientNeedsInfo()
-                    onNavigateToMealResult()
+                    onNavigateToMealResult(viewModel.currentDayOptions)
                 },
             )
         }

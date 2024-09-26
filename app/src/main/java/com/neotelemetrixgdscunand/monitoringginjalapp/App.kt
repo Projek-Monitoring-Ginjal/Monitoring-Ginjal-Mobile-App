@@ -43,13 +43,14 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutri
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.viewmodel.DailyNutrientCalcUtilVM
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.screen.HomeMenuScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.screen.ListFoodnDrinkScreen
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listmenuinfoginjal.screen.ListMenuInfoGinjalScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.viewmodel.ListFoodnDrinkViewModel
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listmenuinfoginjal.screen.ListMenuInfoGinjalScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.MultiColorText
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.screen.LoginScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.screen.MealResultScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.viewmodel.MealResultViewModel
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.navigateWithCheck
 
 @Composable
 fun App(
@@ -94,7 +95,7 @@ fun App(
             composable<HomeMenu> {
                 HomeMenuScreen(
                     onMenuItemClick = { route ->
-                        navController.navigate(route)
+                        navController.navigateWithCheck(route)
                     }
                 )
             }
@@ -103,7 +104,7 @@ fun App(
 
                 DailyNutrientsCalcScreen(
                     onNavigate = {
-                        navController.navigate(
+                        navController.navigateWithCheck(
                             ListFoodnDrink(DayOptions.FirstDay)
                         )
                     },
@@ -116,7 +117,9 @@ fun App(
                 ListFoodnDrinkScreen(
                     onBackClick = { /*TODO*/ },
                     onNavigateToMealResult = { dayOptions ->
-                        navController.navigate(MealResult(dayOptions))
+                        navController.navigateWithCheck(
+                            MealResult(dayOptions)
+                        )
                     },
                     viewModel = viewModel
                 )
@@ -128,7 +131,7 @@ fun App(
                 MealResultScreen(
                     viewModel = viewModel,
                     onAddMeals = { dayOptions ->
-                        navController.navigate(
+                        navController.navigateWithCheck(
                             ListFoodnDrink(dayOptions)
                         ){
                             popUpTo(listFoodnDrink){
@@ -137,7 +140,7 @@ fun App(
                         }
                     },
                     onFinish = {
-                        navController.navigate(HomeMenu){
+                        navController.navigateWithCheck(HomeMenu){
                             popUpTo(HomeMenu){
                                 inclusive = true
                             }

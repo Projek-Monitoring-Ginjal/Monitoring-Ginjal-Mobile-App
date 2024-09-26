@@ -1,6 +1,7 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.viewmodel
 
 
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -39,9 +40,13 @@ class ListFoodnDrinkViewModel @Inject constructor(
             dailyNutrientNeedsThreshold = DailyNutrientNeedsThreshold()
         )
     )
-
-    var nutrientItems by mutableStateOf(ListFoodnDrinkUtil.sumFoodNutritions(dailyNutrientNeedsInfo.meals))
         private set
+
+    val nutrientItems by derivedStateOf{
+        ListFoodnDrinkUtil.sumFoodNutritions(
+            meals = dailyNutrientNeedsInfo.meals
+        )
+    }
 
     var showPortionDialog by mutableStateOf<FoodItem?>(null)
         private set
@@ -93,7 +98,6 @@ class ListFoodnDrinkViewModel @Inject constructor(
                     it.remove(foodItem)
                 }
         )
-        updateDailyNutrientInfo()
     }
 
 
@@ -116,13 +120,8 @@ class ListFoodnDrinkViewModel @Inject constructor(
                     it.add(adjustedFoodItem)
                 }
         )
-
-        updateDailyNutrientInfo()
     }
 
-    private fun updateDailyNutrientInfo() {
-        nutrientItems = ListFoodnDrinkUtil.sumFoodNutritions(dailyNutrientNeedsInfo.meals)
-    }
 
     fun setListFoodItemsVisibility(isVisible:Boolean){
         isSearching = isVisible

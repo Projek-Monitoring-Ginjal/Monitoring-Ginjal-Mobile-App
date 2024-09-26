@@ -1,7 +1,6 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.component
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -9,6 +8,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -54,25 +54,27 @@ fun NutrientPreviewCard(
                 .padding(horizontal = 20.dp, vertical = 8.dp),
             progressFraction = progressFraction
         )
-        Row(
+        Box(
             modifier = Modifier
                 .padding(start = 20.dp, end = 20.dp, bottom = 16.dp)
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
         ){
             HeadingText(
+                modifier = Modifier.align(Alignment.CenterStart),
                 text = stringResource(R.string.belum_terpenuhi),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Normal,
                 color = Color.Black
             )
             HeadingText(
+                modifier = Modifier.align(Alignment.Center),
                 text = stringResource(R.string.terpenuhi),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Normal,
                 color = Color.Black
             )
             HeadingText(
+                modifier = Modifier.align(Alignment.CenterEnd),
                 text = stringResource(R.string.berlebih),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Normal,
@@ -88,6 +90,7 @@ private fun NutrientPreviewCardPreview() {
     MonitoringGinjalAppTheme {
         NutrientPreviewCard(
             modifier = Modifier.padding(16.dp),
+            progressFraction = 1f,
             nutrientContentName = "Kalori"
         )
     }

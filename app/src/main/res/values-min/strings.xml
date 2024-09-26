@@ -45,4 +45,182 @@
     <string name="login_success">Login Success</string>
     <string name="daily_nutrient_needs_threshold_saved_successfully">Daily nutrient needs threshold saved successfully</string>
     <string name="expected_behaviour_error_msg">Maaf sepertinya ada masalah, silahkan coba lagi nanti..</string>
+
+    <!-- Informasi Hemodialisa -->
+    <string name="pengertian_hemodialisa_title">Pengertian Hemodialisa</string>
+    <string name="pengertian_hemodialisa">Hemodialisa merupakan terapi cuci darah di luar tubuh. Hemodialisia merupakan perawatan untuk menyaring limbah dan air dari darah.</string>
+
+    <string name="tujuan_hemodialisa_title">Tujuan Hemodialisa</string>
+    <string name="tujuan_hemodialisa">Membantu organ ginjal melakukan tugasnya dalam tubuh. Apabila pasien gagal ginjal tidak melakukan transplantasi, maka prosedur ini perlu untuk dilakukan secara rutin.</string>
+
+    <string name="kapan_melakukan_hemodialisa_title">Kapan Harus Melakukan Hemodialisa?</string>
+    <string-array name="kapan_melakukan_hemodialisa_bullet_points">
+        <item>Sesak napas</item>
+        <item>Kelelahan</item>
+        <item>Kram otot</item>
+        <item>Mual atau muntah</item>
+    </string-array>
+
+    <string name="bagaimana_melakukan_hemodialisa_title">Bagaimana Melakukan Hemodialisa</string>
+    <string-array name="bagaimana_melakukan_hemodialisa_bullet_points">
+        <item>Pembuluh darah pasien akan dimasukkan jarum oleh petugas medis</item>
+        <item>Darah kotor akan disaring dalam mesin pencuci darah. Setelah proses penyaringan selesai</item>
+        <item>Darah bersih akan dialirkan ke dalam tubuh pasien</item>
+    </string-array>
+
+    <string name="efek_samping_hemodialisa_title">Efek Samping dari Hemodialisa</string>
+    <string-array name="efek_samping_hemodialisa_bullet_points">
+        <item>Kram otot</item>
+        <item>Kulit gatal</item>
+        <item>Perut terasa penuh</item>
+        <item>Kenaikan berat badan</item>
+    </string-array>
+
+    <string name="dampak_telat_cuci_darah_title">Dampak Telat Cuci Darah</string>
+    <string-array name="dampak_telat_cuci_darah_bullet_points">
+        <item>Sebagian tubuh seperti tangan dan kaki mengalami pembengkakan</item>
+        <item>Sesak napas</item>
+        <item>Penurunan fungsi ginjal dan bahkan bisa berhenti sepenuhnya</item>
+        <item>Penumpukan racun dalam darah karena semakin banyak limbah dan racun dalam tubuh</item>
+    </string-array>
+
+    <string name="di_mana_melakukan_hemodialisa_title">Di mana Melakukan Hemodialisa?</string>
+    <string name="di_mana_melakukan_hemodialisa">Terapi hemodialisa atau cuci darah ini hanya bisa dilakukan di rumah sakit yang memiliki fasilitas hemodialisa atau klinik khusus cuci darah.</string>
+    <!-- Kenapa cairan dan minuman saya harus diatur? -->
+    <string name="kenapa_cairan_dan_minuman_diaturr_title">Kenapa cairan dan minuman saya harus diatur?</string>
+    <string name="kenapa_cairan_dan_minuman_diaturr_desc">Kelebihan cairan dapat menimbulkan gangguan jantung serta penumpukan cairan di dalam tubuh sehingga kenaikan berat badan diantara periode waktu dialisis menjadi berlebih. Kenaikan berat badan yang dianjurkan diantara periode waktu hemodialisa adalah kurang dari tiga kilo.</string>
+
+    <!-- Berapa kebutuhan cairan pada pasien yang menjalani hemodialisa -->
+    <string name="berapa_kebutuhan_cairan_title">Kebutuhan cairan pasien hemodialisa</string>
+    <string-array name="berapa_kebutuhan_cairan_bullet_points">
+        <item>Jika masih ada urine, cairan yang dikonsumsi sejumlah urin 24 jam ditambah 500 sampai dengan 750cc.</item>
+        <item>Jika sudah tidak ada urine, jumlah cairan maksimal 14 gelas kecil atau 800cc jumlah air yang dikonsumsi berasal dari air dalam makanan dan minuman.</item>
+    </string-array>
+
+    <!-- Tips mengurangi konsumsi cairan -->
+    <string name="tips_mengurangi_cairan_title">Tips mengurangi konsumsi cairan:</string>
+    <string-array name="tips_mengurangi_cairan_bullet_points">
+        <item>Makanan dibuat dalam bentuk tidak berkuah.</item>
+        <item>Kurangi konsumsi garam atau makanan tinggi garam untuk mengurangi rasa haus.</item>
+        <item>Konsumsi air putih hendaknya gunakan botol bukan gelas.</item>
+        <item>Konsumsi permen rasa asam atau es batu.</item>
+        <item>Jaga kebersihan mulut.</item>
+    </string-array>
+
+    <!-- Bagaimana tips mengontrol rasa haus -->
+    <string name="tips_mengontrol_haus_title">Bagaimana tips mengontrol rasa haus?</string>
+    <string-array name="tips_mengontrol_haus_bullet_points">
+        <item>Menghindari makanan pedas dan asin serta kandungan natrium atau garam yang tinggi.</item>
+        <item>Hindari makanan yang berminyak atau gorengan.</item>
+        <item>Minum air secara perlahan dengan gelas berukuran kecil serta usahakan selalu berada di tempat sejuk.</item>
+        <item>Mengatur jadwal minum dalam 24 jam yang dibagi dalam 3 sesi dengan total 500 cc dalam 24 jam.</item>
+    </string-array>
+
+    <!-- Contoh pembagian waktu minum -->
+    <string name="pembagian_waktu_minum_title">Contoh pembagian waktu minum:</string>
+    <string-array name="pembagian_waktu_minum_bullet_points">
+        <item>Dari jam 6 pagi sampai jam 12 siang sebanyak 240 cc.</item>
+        <item>Jam 12 siang sampai jam 6 sore sebanyak 150 cc.</item>
+        <item>Jam 6 sore sampai jam 6 pagi hari selanjutnya sebanyak 110 cc, dengan total intake cairan 500 cc dalam 24 jam.</item>
+    </string-array>
+
+    <!-- Perawatan akses vaskuler hemodialisa -->
+    <string name="perawatan_akses_vaskuler_title">Perawatan akses vaskuler hemodialisa</string>
+    <string-array name="perawatan_akses_vaskuler_bullet_points">
+        <item>Jaga balutan agar tetap kering.</item>
+        <item>Apabila akan mandi, tutupi balutan kateter dengan plastik terlebih dahulu.</item>
+        <item>Jika balutan basah, segera ganti balutan.</item>
+        <item>Selalu gunakan pakaian dan handuk yang bersih.</item>
+        <item>Hati-hati saat berganti pakaian agar kateter tidak tersangkut.</item>
+        <item>Rajin mencuci tangan dan hindari menyentuh kateter.</item>
+        <item>Jangan tidur miring ke arah kateter.</item>
+        <item>Konsultasikan dengan dokter jika muncul tanda infeksi seperti merah, bengkak, atau nyeri di area akses.</item>
+        <item>Jika ada darah merembes dari kateter, segera ke IGD untuk penanganan lebih lanjut.</item>
+        <item>Dianjurkan pemakaian CDL tidak lebih dari 3 bulan, atur pembuatan cimino sebelum batas waktu tersebut.</item>
+    </string-array>
+
+    <!-- Perawatan cimino -->
+    <string name="perawatan_cimino_title">Perawatan cimino</string>
+    <string-array name="perawatan_cimino_bullet_points">
+        <item>Jaga daerah akses agar selalu bersih.</item>
+        <item>Cuci daerah akses dengan sabun dan air hangat, serta selalu cuci tangan sebelum dan sesudah menyentuh cimino.</item>
+        <item>Periksa adanya vibrasi dan suara dengung khas di akses Anda. Perubahan suara dengung dapat menandakan adanya sumbatan atau gangguan aliran darah.</item>
+        <item>Jangan perbolehkan pemeriksaan tekanan darah, pemasangan infus, atau pengambilan darah di tangan yang terdapat akses cimino.</item>
+        <item>Jangan mengangkat beban berat, memakai jam, perhiasan, atau pakaian ketat di tangan yang terdapat akses cimino.</item>
+        <item>Jaga agar akses cimino tidak terkena benturan atau sayatan.</item>
+        <item>Konsultasikan dengan dokter jika terjadi masalah pada cimino.</item>
+    </string-array>
+    <!-- Kenapa diet/makanan pasien harus diatur -->
+    <string name="kenapa_diet_diatur_title">Kenapa diet/makanan pasien harus diatur?</string>
+    <string name="kenapa_diet_diatur_description">Ginjal tidak bisa mengeluarkan zat sisa metabolisme makanan karena sudah tidak berfungsi optimal lagi.</string>
+
+    <!-- Untuk apa diet/makanan pasien harus diatur -->
+    <string name="tujuan_diet_diatur_title">Untuk apa diet/makanan pasien harus diatur?</string>
+    <string name="tujuan_diet_diatur_description">Jumlah nutrisi dan cairan yang masuk ke dalam tubuh apabila tidak terkontrol dapat berisiko mengalami malnutrisi dan pada keadaan yang lebih berat dapat menyebabkan kematian.</string>
+
+    <!-- Tujuan diet/makanan pada pasien hemodialisa -->
+    <string name="tujuan_diet_hemodialisa_title">Tujuan Diet/makanan pada pasien hemodialisa:</string>
+    <string-array name="tujuan_diet_hemodialisa_bullet_points">
+        <item>Mencukupi kebutuhan zat gizi sesuai kebutuhan perorangan agar status gizi optimal.</item>
+        <item>Menjaga keseimbangan cairan dan elektrolit.</item>
+        <item>Menjaga agar penumpukan produk sisa metabolisme protein tidak berlebihan.</item>
+        <item>Mencegah defisiensi zat gizi dengan cara memenuhi kebutuhan zat gizi.</item>
+    </string-array>
+
+    <!-- Syarat diet/makanan pasien hemodialisa -->
+    <string name="syarat_diet_hemodialisa_title">Syarat Diet/makanan pasien hemodialisa:</string>
+    <string-array name="syarat_diet_hemodialisa_bullet_points">
+        <item>Kalori harus cukup agar protein tidak pecah menjadi energi.</item>
+        <item>Protein diberikan cukup untuk memenuhi kebutuhan tubuh dan mengganti protein yang hilang pada setiap proses Hemodialisa.</item>
+        <item>Membatasi bahan makanan sumber kalium terutama bila urin kurang dari 400 ml atau apabila kalium darah lebih dari 5,5 mg/liter.</item>
+        <item>Membatasi garam dan sumber natrium, bila ada penimbunan air dalam tubuh dan tekanan darah tinggi.</item>
+        <item>Konsumsi cairan disesuaikan dengan jumlah air kemih satu hari ditambah dengan 500 ml air.</item>
+        <item>Vitamin dan mineral harus ditambahkan dalam bentuk obat.</item>
+    </string-array>
+
+    <!-- Bahan makanan yang dibatasi -->
+    <string name="bahan_makanan_dibatasi_title">Bahan Makanan yang Dibatasi:</string>
+    <string-array name="bahan_makanan_dibatasi_bullet_points">
+        <item>Sumber protein: kacang-kacangan dan hasil olahannya seperti tahu, tempe, kacang kedelai, kacang hijau, kacang tolo.</item>
+        <item>Sumber vitamin dan mineral: sayur dan buah yang tinggi Kalium.</item>
+        <item>Bahan makanan yang diawetkan: kornet, sarden.</item>
+        <item>Konsumsi garam.</item>
+    </string-array>
+
+    <!-- Tips penggunaan garam yang tepat untuk pasien Hemodialisa -->
+    <string name="tips_penggunaan_garam_title">Bagaimana tips penggunaan garam yang tepat untuk pasien Hemodialisa?</string>
+    <string-array name="tips_penggunaan_garam_bullet_points">
+        <item>Gunakan sedikit garam dan tambahkan pada akhir proses pemasakan.</item>
+        <item>Jangan menambahkan bumbu penyedap atau garam meja atau extra garam pada makanan.</item>
+        <item>Hindari makanan yang diawetkan dengan garam, makanan ringan tinggi garam, makanan kaleng, dan fast food.</item>
+    </string-array>
+
+    <!-- Cara mengatur diet -->
+    <string name="cara_mengatur_diet_title">Cara Mengatur Diet:</string>
+    <string-array name="cara_mengatur_diet_bullet_points">
+        <item>Makanlah secara teratur, porsi kecil tapi sering, ± 6 kali sehari.</item>
+        <item>Hidangkan makanan dengan menarik agar meningkatkan selera makan.</item>
+        <item>Pilihlah makanan sumber protein hewani sesuai jumlah yang ditentukan.</item>
+        <item>Protein nabati mempunyai mutu lebih rendah dibanding protein hewani (dibatasi).</item>
+        <item>Makanan tinggi kalori: madu, permen, sirup.</item>
+        <item>Makanan sumber kalium dibatasi, seperti sayuran, buah-buahan, umbi-umbian.</item>
+        <item>Hindari makanan berkadar kalium tinggi seperti kacang-kacangan, bayam, pisang, air kelapa, alpukat, durian, nangka, kembang kol.</item>
+        <item>Jika jumlah air seni kurang dari normal, batasi cairan dari makanan dan minuman.</item>
+    </string-array>
+
+    <!-- Cara mempersiapkan dan mengolah makanan -->
+    <string name="cara_mempersiapkan_makanan_title">Cara Mempersiapkan dan Mengolah Makanan:</string>
+    <string name="kembali">Kembali</string>
+    <string-array name="cara_mempersiapkan_makanan_bullet_points">
+        <item>Mengurangi kadar kalium dalam bahan makanan.</item>
+        <item>Potong kecil-kecil bahan makanan.</item>
+        <item>Rendam dalam air hangat minimal selama 2 jam.</item>
+        <item>Buang air perendaman.</item>
+        <item>Cuci bahan makanan dengan air mengalir.</item>
+        <item>Semua sayuran harus dimasak, hindari memakan sayuran mentah (lalapan).</item>
+        <item>Jika ada pembatasan garam, gunakan lebih banyak bumbu seperti gula, asam, dan bumbu dapur lainnya.</item>
+        <item>Untuk membatasi cairan, masakan sebaiknya tidak berkuah, seperti ditumis, dipanggang, dikukus, dibakar, atau digoreng.</item>
+    </string-array>
+
+
 </resources>

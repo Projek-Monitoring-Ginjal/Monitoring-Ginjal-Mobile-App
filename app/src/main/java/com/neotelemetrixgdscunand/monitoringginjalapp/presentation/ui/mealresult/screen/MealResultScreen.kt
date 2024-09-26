@@ -43,6 +43,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.comp
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.component.MealDayTab
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.component.NutrientPreviewCard
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.component.NutritionStatBar
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.util.MealResultUtil
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.viewmodel.MealResultViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEvent
 
@@ -61,11 +62,26 @@ fun MealResultScreen(
     val nutritionToProgressFraction = remember(nutritionTotalInfo, dailyNutrientNeedsInfo) {
         dailyNutrientNeedsInfo.dailyNutrientNeedsThreshold.run {
             listOf(
-                nutritionTotalInfo.calorie to nutritionTotalInfo.calorie.amount / caloriesThreshold,
-                nutritionTotalInfo.fluid to nutritionTotalInfo.fluid.amount / fluidThreshold,
-                nutritionTotalInfo.protein to nutritionTotalInfo.protein.amount / proteinThreshold,
-                nutritionTotalInfo.natrium to nutritionTotalInfo.natrium.amount / natriumThreshold,
-                nutritionTotalInfo.kalium to nutritionTotalInfo.kalium.amount / kaliumThreshold
+                nutritionTotalInfo.calorie to MealResultUtil.calculateProgressFraction(
+                    nutritionTotalInfo.calorie.amount,
+                    caloriesThreshold
+                ),
+                nutritionTotalInfo.fluid to MealResultUtil.calculateProgressFraction(
+                    nutritionTotalInfo.fluid.amount,
+                    fluidThreshold
+                ),
+                nutritionTotalInfo.protein to MealResultUtil.calculateProgressFraction(
+                    nutritionTotalInfo.protein.amount,
+                    proteinThreshold
+                ),
+                nutritionTotalInfo.natrium to MealResultUtil.calculateProgressFraction(
+                    nutritionTotalInfo.natrium.amount,
+                    natriumThreshold
+                ),
+                nutritionTotalInfo.kalium to MealResultUtil.calculateProgressFraction(
+                    nutritionTotalInfo.kalium.amount,
+                    kaliumThreshold
+                )
             )
         }
     }

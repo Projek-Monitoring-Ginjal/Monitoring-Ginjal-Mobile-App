@@ -41,7 +41,6 @@
     <string name="diet_atau_pengaturan_makan">Diet or meal plan</string>
     <string name="kebutuhan_cairan">Fluid needs</string>
     <string name="perawatan_akses_vaskuler_hemodialisa">Hemodialysis vascular access care</string>
-    <string name="pengaturan_makan_dan_minum_saya_hari_ini">My meal and drink management today</string>
     <string name="login_success">Login Success</string>
     <string name="daily_nutrient_needs_threshold_saved_successfully">Daily nutrient needs threshold saved successfully</string>
     <string name="expected_behaviour_error_msg">Maaf sepertinya ada masalah, silahkan coba lagi nanti..</string>
@@ -309,8 +308,5 @@
         <item>To limit fluid, dishes should not be broth-based, such as stir-fried, grilled, steamed, baked, or fried foods.</item>
     </string-array>
     <string name="kembali">Back</string>
-
-
-
 
 </resources>

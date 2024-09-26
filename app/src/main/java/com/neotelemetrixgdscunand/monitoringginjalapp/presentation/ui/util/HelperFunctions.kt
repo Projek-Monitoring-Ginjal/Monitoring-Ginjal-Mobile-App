@@ -4,6 +4,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavHostController
+import androidx.navigation.NavOptionsBuilder
 import com.fajar.githubuserappdicoding.core.domain.common.DynamicString
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Resource
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
@@ -30,6 +32,20 @@ fun <T> LifecycleOwner.collectChannelFlowOnLifecycleStarted(
     }
 }
 
+fun <T:Any> NavHostController.navigateWithCheck(route : T){
+    if(currentBackStackEntry?.lifecycle?.currentState  == Lifecycle.State.RESUMED){
+        navigate(route)
+    }
+}
+
+fun <T:Any> NavHostController.navigateWithCheck(route : T, builder : NavOptionsBuilder.() -> Unit){
+    if(currentBackStackEntry?.lifecycle?.currentState  == Lifecycle.State.RESUMED){
+        navigate(
+            route = route,
+            builder = builder
+        )
+    }
+}
 
 
 suspend fun <T> Resource<T>.handleAsyncDefaultWithUIEvent(

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -30,12 +31,22 @@ fun NutrientPreviewBar(
     modifier: Modifier = Modifier,
     progressFraction:Float = 0f
 ) {
+
     BoxWithConstraints(
         modifier = modifier
             .background(
                 color = Color.Transparent
             )
     ){
+        val bulletSize = 24.dp
+        val bulletPosition = remember (progressFraction) {
+            val position = ((progressFraction/2f) * this.maxWidth) - (bulletSize / 2)
+            if(position < 0.dp) 0.dp else position
+        }
+        val isMaximumExcessive = remember(progressFraction) {
+            progressFraction == 2f
+        }
+
         Box(
             modifier = Modifier
                 .height(12.dp)
@@ -66,8 +77,8 @@ fun NutrientPreviewBar(
 
         Box(
             modifier = Modifier
-                .padding(start = (progressFraction/1.5f) * this.maxWidth)
-                .size(24.dp)
+                .padding(start = if(!isMaximumExcessive) bulletPosition else 0.dp)
+                .size(bulletSize)
                 .border(
                     width = 2.dp,
                     color = Color.White,
@@ -77,7 +88,7 @@ fun NutrientPreviewBar(
                     color = ListFoodnDrinkUtil.getColorFromGradient(progressFraction),
                     shape = CircleShape
                 )
-                .align(Alignment.CenterStart)
+                .align(if(!isMaximumExcessive) Alignment.CenterStart else Alignment.CenterEnd)
                 .zIndex(2f)
         )
     }
@@ -89,7 +100,7 @@ fun NutrientPreviewBar(
 private fun NutrientPreviewBarPreview() {
     MonitoringGinjalAppTheme {
         NutrientPreviewBar(
-            progressFraction = 0.5f
+            progressFraction = 1f,
         )
     }
 }

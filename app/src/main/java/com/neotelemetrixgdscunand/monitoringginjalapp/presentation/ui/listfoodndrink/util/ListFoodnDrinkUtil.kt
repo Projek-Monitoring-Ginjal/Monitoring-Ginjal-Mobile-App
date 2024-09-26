@@ -38,14 +38,13 @@ object ListFoodnDrinkUtil {
         fraction: Float,
         gradient: List<Pair<Color, Float>> = listOf(
             Grey50 to 0f,
-            Green50 to 0.75f,
-            Yellow40 to 1.5f
+            Green50 to 1f,
+            Yellow40 to 2f
         )
     ): Color {
         if (gradient.isEmpty()) return Color.Transparent
 
-
-        val normalizedFraction = fraction.coerceIn(0f, 1f)
+        val normalizedFraction = fraction.coerceIn(0f, 2f)
 
         for (i in 0 until gradient.size - 1) {
             val (startColor, startFraction) = gradient[i]

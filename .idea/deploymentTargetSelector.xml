@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-09-23T08:49:03.333409800Z">
+        <DropdownSelection timestamp="2024-09-25T14:34:44.398317200Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=D:\AndroidStudio\avd\Pixel_3_API_33.avd" />
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=b11dca4a" />
             </handle>
           </Target>
         </DropdownSelection>
@@ -16,21 +16,10 @@
       <SelectionState runConfigName="ComposableRiveAnimationViewPreview">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="ListMenuInfoGinjalPreview">
-        <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-09-21T14:33:34.013560700Z">
-          <Target type="DEFAULT_BOOT">
-            <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\ASUS\.android\avd\Pixel_7_Pro_API_30.avd" />
-            </handle>
-          </Target>
-        </DropdownSelection>
-        <DialogSelection />
-      </SelectionState>
-      <SelectionState runConfigName="PreviewListMenu">
+      <SelectionState runConfigName="ComposableRiveAnimationViewPreview (1)">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="PengaturanMakanPagePreview">
+      <SelectionState runConfigName="ComposableRiveAnimationViewPreview (2)">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>

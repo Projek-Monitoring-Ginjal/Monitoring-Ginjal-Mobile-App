@@ -35,6 +35,7 @@ fun HomeMenu(
     val cardSize = 102.dp
     val titleMaxWidth = cardSize - 4.dp
 
+
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,

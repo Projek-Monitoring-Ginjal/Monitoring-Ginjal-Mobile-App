@@ -1,6 +1,7 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.screen
 
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,10 +15,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,6 +34,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green20
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.MonitoringGinjalAppTheme
@@ -44,155 +46,181 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.comp
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.MultiColorText
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.StyledButton
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.util.LoginUtil
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.viewmodel.LoginViewModel
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEvent
 
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    onLoginClick: () -> Unit = {}
+    onLoginClick: () -> Unit = {},
+    viewModel : LoginViewModel = hiltViewModel()
 ) {
-    var name by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+
     var isPasswordVisible by remember { mutableStateOf(false) }
-    var language by rememberSaveable { mutableStateOf("") }
     var isSpinnerExpanded by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
+    val context = LocalContext.current
     val localeLanguageOptions = LoginUtil.getLanguageLocaleOptions(LocalContext.current)
 
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-    ) {
-        Column(
-            verticalArrangement = Arrangement.Bottom,
-            modifier = Modifier
-                .align(Alignment.TopCenter)
-                .fillMaxHeight(0.2f)
-        ){
-            MultiColorText(
-                textWithColors = arrayOf(
-                    Pair(
-                        "MAN",
-                        Yellow20
-                    ),
-                    Pair(
-                        "DEH",
-                        Green20
+    LaunchedEffect(key1 = viewModel.isSignedIn) {
+        if(viewModel.isSignedIn == true){
+            onLoginClick()
+        }
+    }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.uiEvent.collect{
+            when(it){
+                is UIEvent.ShowToast -> Toast.makeText(
+                    context,
+                    it.message.getValue(context),
+                    Toast.LENGTH_SHORT
+                ).show()
+                else -> {}
+            }
+        }
+    }
+
+
+    if(viewModel.isSignedIn == false){
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+        ) {
+            Column(
+                verticalArrangement = Arrangement.Bottom,
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .fillMaxHeight(0.2f)
+            ){
+                MultiColorText(
+                    textWithColors = arrayOf(
+                        Pair(
+                            "MAN",
+                            Yellow20
+                        ),
+                        Pair(
+                            "DEH",
+                            Green20
+                        )
                     )
                 )
-            )
-        }
+            }
 
-        Column(
-            verticalArrangement = Arrangement.Bottom,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .align(Alignment.Center)
-        ) {
-            HeadingText(
-                text = stringResource(R.string.masukkan_nama_dan_kata_sandi),
-                color = Color.Black
-            )
-
+            Column(
+                verticalArrangement = Arrangement.Bottom,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .align(Alignment.Center)
+            ) {
+                HeadingText(
+                    text = stringResource(R.string.masukkan_nama_dan_kata_sandi),
+                    color = Color.Black
+                )
 
 
-            LoginOutlinedTextField(
-                labelText = stringResource(R.string.nama),
-                value = name,
-                onValueChange = { name = it },
-                leadingIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_person),
-                        contentDescription = null
-                    )
-                },
-            )
+
+                LoginOutlinedTextField(
+                    labelText = stringResource(R.string.nama),
+                    value = viewModel.name,
+                    onValueChange = { viewModel.name = it },
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_person),
+                            contentDescription = null
+                        )
+                    },
+                )
 
 
-            LoginOutlinedTextField(
-                labelText = stringResource(R.string.kata_sandi),
-                value = password,
-                onValueChange = { password = it },
-                leadingIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_key),
-                        contentDescription = null
-                    )
-                },
-                trailingIcon = {
-                    Icon(
-                        modifier = Modifier
-                            .clickable {
-                                 isPasswordVisible = !isPasswordVisible
-                            },
-                        painter =
-                        if(isPasswordVisible)
-                            painterResource(id = R.drawable.ic_eye)
-                        else painterResource(
-                            id = R.drawable.ic_eye_hide),
-                        contentDescription = null
-                    )
-                },
-                visualTransformation = if (isPasswordVisible)
-                    VisualTransformation.None
-                else PasswordVisualTransformation()
-            )
+                LoginOutlinedTextField(
+                    labelText = stringResource(R.string.kata_sandi),
+                    value = viewModel.password,
+                    onValueChange = { viewModel.password = it },
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_key),
+                            contentDescription = null
+                        )
+                    },
+                    trailingIcon = {
+                        Icon(
+                            modifier = Modifier
+                                .clickable {
+                                    isPasswordVisible = !isPasswordVisible
+                                },
+                            painter =
+                            if(isPasswordVisible)
+                                painterResource(id = R.drawable.ic_eye)
+                            else painterResource(
+                                id = R.drawable.ic_eye_hide),
+                            contentDescription = null
+                        )
+                    },
+                    visualTransformation = if (isPasswordVisible)
+                        VisualTransformation.None
+                    else PasswordVisualTransformation()
+                )
 
-            LoginSpinner(
-                onItemSelected = {
-                    language = it
-                    isSpinnerExpanded = false
-                    val newLanguageCode = localeLanguageOptions[it] ?: "in"
-                    LoginUtil.setNewLanguageLocale(newLanguageCode)
-                },
-                onDismissRequest = {
-                    isSpinnerExpanded = false
-                },
-                isExpanded = isSpinnerExpanded,
+                LoginSpinner(
+                    onItemSelected = {
+                        viewModel.language = it
+                        isSpinnerExpanded = false
+                        val newLanguageCode = localeLanguageOptions[it] ?: "in"
+                        LoginUtil.setNewLanguageLocale(newLanguageCode)
+                    },
+                    onDismissRequest = {
+                        isSpinnerExpanded = false
+                    },
+                    isExpanded = isSpinnerExpanded,
+                    onClick = {
+                        isSpinnerExpanded = !isSpinnerExpanded
+                    },
+                    labelText = stringResource(id = R.string.pilih_bahasa),
+                    selectedText = viewModel.language,
+                    options = listOf(
+                        stringResource(R.string.indonesia),
+                        stringResource(R.string.english),
+                        stringResource(R.string.minang)
+                    ),
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_language),
+                            contentDescription = null
+                        )
+                    } ,
+                    trailingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_arrow_down),
+                            contentDescription = null
+                        )
+                    }
+                )
+            }
+            StyledButton(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+                    .height(50.dp)
+                    .align(Alignment.BottomCenter),
                 onClick = {
-                    isSpinnerExpanded = !isSpinnerExpanded
+                    keyboardController?.hide()
+                    focusManager.clearFocus(true)
+                    viewModel.login()
                 },
-                labelText = stringResource(id = R.string.pilih_bahasa),
-                selectedText = language,
-                options = listOf(
-                    stringResource(R.string.indonesia),
-                    stringResource(R.string.english),
-                    stringResource(R.string.minang)
-                ),
-                leadingIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_language),
-                        contentDescription = null
-                    )
-                } ,
-                trailingIcon = {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_arrow_down),
-                        contentDescription = null
-                    )
-                }
+                backgroundColor = Green20,
+                shape = RoundedCornerShape(16.dp),
+                text = stringResource(R.string.masuk),
+                textColor = Color.White,
+                fontFamily = karlaFamily,
+                fontWeight = FontWeight.Normal,
+                letterSpacing = 0.1.sp
             )
         }
-        StyledButton(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth()
-                .height(50.dp)
-                .align(Alignment.BottomCenter),
-            onClick = {
-                keyboardController?.hide()
-                focusManager.clearFocus(true)
-                onLoginClick()
-            },
-            backgroundColor = Green20,
-            shape = RoundedCornerShape(16.dp),
-            text = stringResource(R.string.masuk),
-            textColor = Color.White,
-            fontFamily = karlaFamily,
-            fontWeight = FontWeight.Normal,
-            letterSpacing = 0.1.sp
-        )
     }
+
+
 }
 
 

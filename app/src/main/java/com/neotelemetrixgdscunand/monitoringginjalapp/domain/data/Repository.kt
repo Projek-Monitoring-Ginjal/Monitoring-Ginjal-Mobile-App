@@ -9,18 +9,21 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
 
 interface Repository {
 
-    fun login(name:String, password:String):Resource<StringRes>
-    fun checkIsInNutritionalDailyPeriods():Resource<Boolean>
-    fun saveDailyNutrientNeedsThreshold(
+    suspend fun login(name:String, password:String):Resource<StringRes>
+    suspend fun checkIsInNutritionalDailyPeriods():Resource<Boolean>
+    suspend fun saveDailyNutrientNeedsThreshold(
         dailyNutrientNeedsThreshold: DailyNutrientNeedsThreshold
     ):Resource<StringRes>
-    fun getLatestDailyNutrientNeedsInfo(
+    suspend fun getLatestDailyNutrientNeedsInfo(
         dayOptions: DayOptions
     ):Resource<DailyNutrientNeedsInfo>
-    fun getAllFoodItems():Resource<List<FoodItem>>
+    suspend fun getAllFoodItems():Resource<List<FoodItem>>
 
-    fun saveDailyNutrientNeedsInfo(
+    suspend fun checkIfAlreadySignedIn():Boolean
+
+    suspend fun saveDailyNutrientNeedsInfo(
         dailyNutrientNeedsInfo: DailyNutrientNeedsInfo
     ):Resource<StringRes>
+
 
 }

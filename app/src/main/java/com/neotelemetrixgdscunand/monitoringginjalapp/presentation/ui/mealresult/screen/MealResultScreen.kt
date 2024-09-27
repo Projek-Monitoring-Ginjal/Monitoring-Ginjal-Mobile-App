@@ -97,9 +97,10 @@ fun MealResultScreen(
 
     val tabs = remember {
         listOf(
-            "Hari 1",
-            "Hari 2",
-            "Hari 3"
+            R.string.hari_1,
+            R.string.hari_2,
+            R.string.hari_3,
+            R.string.hari_4,
         )
     }
 
@@ -112,6 +113,7 @@ fun MealResultScreen(
                     it.message.getValue(context),
                     Toast.LENGTH_SHORT
                 ).show()
+                else -> {}
             }
         }
     }
@@ -132,14 +134,14 @@ fun MealResultScreen(
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ){
-                    tabs.forEachIndexed { index, tabText ->
+                    tabs.forEachIndexed { index, tabTextResId ->
                         MealDayTab(
                             isSelected = selectedTabIndex == index,
                             onClick = {
                                 selectedTabIndex = index
                                 viewModel.dayOptions = DayOptions.entries[selectedTabIndex]
                             },
-                            text = tabText
+                            text = stringResource(id = tabTextResId)
                         )
                     }
                 }

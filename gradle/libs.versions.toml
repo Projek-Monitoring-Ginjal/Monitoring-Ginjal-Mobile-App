@@ -19,6 +19,7 @@ retrofit_version = "2.11.0"
 appcompat = "1.6.1"
 rive_version = "9.6.5"
 startupRuntime = "1.1.1"
+dataStorePrefs = "1.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -47,7 +48,7 @@ converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", ve
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 rive-android = { group = "app.rive", name = "rive-android", version.ref = "rive_version"}
 startup-runtime = { group = "androidx.startup", name = "startup-runtime", version.ref = "startupRuntime" }
-
+datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "dataStorePrefs"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -1,5 +1,7 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util
 
+import android.content.Context
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -8,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
 import com.fajar.githubuserappdicoding.core.domain.common.DynamicString
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Resource
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.data.UserPreference
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodNutrient
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodPortionOptions
@@ -17,6 +20,9 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
+
+val Context.dataStore by preferencesDataStore(name = UserPreference.NAME)
 
 
 fun <T> LifecycleOwner.collectChannelFlowOnLifecycleStarted(

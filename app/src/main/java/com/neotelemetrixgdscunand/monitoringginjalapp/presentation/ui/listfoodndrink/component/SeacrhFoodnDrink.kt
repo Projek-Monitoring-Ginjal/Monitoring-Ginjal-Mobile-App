@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -36,6 +37,8 @@ import androidx.compose.ui.unit.sp
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Dummy
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.PurpleGrey40
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 
 @Composable
 fun SearchBar(
@@ -46,10 +49,21 @@ fun SearchBar(
     setListVisibility: (Boolean) -> Unit = {}
 ) {
     var searchText by remember { mutableStateOf(TextFieldValue("")) }
+    val containerColor = colorResource(R.color.lightGrey)
     //var isListVisible by remember { mutableStateOf(false) }
 
-    Column(modifier = modifier.padding(8.dp)) {
-        val containerColor = colorResource(R.color.lightGrey)
+    Column(modifier = modifier
+        .fillMaxWidth()
+        .padding(8.dp)) {
+
+        HeadingText(
+            text = stringResource(R.string.cari_makanan_dan_minuman_saya),
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            color =  PurpleGrey40
+        )
+
+        Spacer(modifier =  Modifier.height(8.dp))
+
         TextField(
             singleLine = true,
             value = searchText,
@@ -165,7 +179,6 @@ fun FoodItemRow(food: FoodItem, onAddClick: (FoodItem) -> Unit) {
                     )
                 }
                 }
-
             }
         }
     }
@@ -180,13 +193,15 @@ fun NutrientInfo(text: String, value: String) {
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun SearchBarPreview() {
     val foodItems = Dummy.getFoodItems()
 
     SearchBar(
         searchFoodItems = foodItems,
-        onAddClick = { /* Handle Add Click */ }
+        onAddClick = { /* Handle Add Click */ },
+        isListVisible = true,
+        setListVisibility = {}
     )
 }

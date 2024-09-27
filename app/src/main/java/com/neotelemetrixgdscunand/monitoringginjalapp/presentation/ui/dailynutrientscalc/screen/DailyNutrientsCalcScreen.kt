@@ -52,6 +52,7 @@ fun DailyNutrientsCalcScreen(
                     it.message.getValue(context),
                     Toast.LENGTH_SHORT
                 ).show()
+                else -> {}
             }
         }
     }

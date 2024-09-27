@@ -299,6 +299,7 @@
     <!-- Cara mempersiapkan dan mengolah makanan -->
     <string name="cara_mempersiapkan_makanan_title">Cara Mempersiapkan dan Mengolah Makanan:</string>
     <string name="kembali">Kembali</string>
+
     <string-array name="cara_mempersiapkan_makanan_bullet_points">
         <item>Mengurangi kadar kalium dalam bahan makanan.</item>
         <item>Potong kecil-kecil bahan makanan.</item>
@@ -310,5 +311,11 @@
         <item>Untuk membatasi cairan, masakan sebaiknya tidak berkuah, seperti ditumis, dipanggang, dikukus, dibakar, atau digoreng.</item>
     </string-array>
 
+    <string name="cari_makanan_dan_minuman_saya">Cari makanan dan minuman saya...</string>
+    <string name="hari_4">Hari 4</string>
+    <string name="hari_3">Hari 3</string>
+    <string name="hari_2">Hari 2</string>
+    <string name="hari_1">Hari 1</string>
+    <string name="response_not_success">Terjadi kesalahan pada response...</string>
 
 </resources>

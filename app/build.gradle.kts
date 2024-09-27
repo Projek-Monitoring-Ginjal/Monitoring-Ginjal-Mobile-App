@@ -17,6 +17,8 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        buildConfigField("String", "BASE_URL", "\"https://mandeh.neotelemetri.com/api/\"")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -42,6 +44,7 @@ android {
     buildFeatures {
         compose = true
         viewBinding = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -95,6 +98,9 @@ dependencies {
     //rive animation
     implementation(libs.rive.android)
     implementation(libs.startup.runtime)
+
+    // datastore prefs
+    implementation(libs.datastore.preferences)
 }
 
 // Allow references to generated code

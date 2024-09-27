@@ -46,180 +46,259 @@
     <string name="daily_nutrient_needs_threshold_saved_successfully">Daily nutrient needs threshold saved successfully</string>
     <string name="expected_behaviour_error_msg">Maaf sepertinya ada masalah, silahkan coba lagi nanti..</string>
 
+    <!-- Pengertian Gagal Ginjal -->
+    <string name="pengertian_gagal_ginjal_title">Pangaratian gagal ginjal</string>
+    <string name="pengertian_gagal_ginjal_description">Gagal ginjal kronis ko iyolah manurunnyo guno ginjal nan tajadi sacaro tibo-tibo, biasonyo tajadi salamo babarapo jam sampai babarapo hari jo maakibaikan tajadinyo gangguan ka cairan, elektrolit dan asam basa dalam badan.</string>
+
+    <!-- Fungsi Ginjal Normal -->
+    <string name="fungsi_ginjal_normal_title">Guno ginjal normal </string>
+    <string name="fungsi_ginjal_normal_description">Guno ginjal normal ko manyariang zat siso metabolisme tubuah. Jikok zat ko indak dikaluaan akan maakibaikan panumpuakan racun tubuah nan babahayo untuak Kesehatan.</string>
+
+    <!-- Penyebab Gagal Ginjal Kronis -->
+    <string name="penyebab_gagal_ginjal_title">Penyebab gagal ginjal kronis</string>
+    <string name="penyebab_gagal_ginjal_description">Panyabab gagal ginjal kronis bamacam-macam,tapi biasonyo disababkan panyakik jangka lamo,contohnyo hipertensi jo diabetes. Salain tu gagal ginjal disababkan karano pola hiduik nan indak sehat, contohnyo :</string>
+    <string-array name="penyebab_gagal_ginjal_bullet_points">
+        <item>Talalu banyak mamakan  makanan tinggi gulo, garam jo lemak jenuh. </item>
+        <item>Kurangnyo minum aia putiah sahinggo menyababkan dehidrasi.</item>
+        <item>Panyakik Hipertensi (takanan darah tinggi) jo Diabetes (kencing manis) nan indak takontrol.</item>
+    </string-array>
+
+    <!-- Tanda dan Gejala -->
+    <string name="tanda_gejala_title">Tando jo Gejala</string>
+    <string name="tanda_gejala_description">Asa mulonyo gejala gagal ginjal indak talampau nampak. Gejala gagal ginjal biasanyo tibo katiko alah mancapai stadium 4 sampai 5 diantaranyo : </string>
+    <string-array name="tanda_gejala_bullet_points">
+        <item>Acok latiah</item>
+        <item>Kulik kariang jo gata-gata</item>
+        <item>Mual jo muntah</item>
+        <item>Panurunan atau paningkekan frekuensi buang aia ketek</item>
+        <item>Acok buang aia ketek tangah malam</item>
+        <item>Sasak angok</item>
+        <item>Kaki bangkak</item>
+        <item>Panurunan  barek badan</item>
+    </string-array>
+
+    <!-- Pemeriksaan untuk Diagnosa -->
+    <string name="pemeriksaan_diagnosa_title">Caro mamariso untuak mandiagnosis</string>
+    <string name="pemeriksaan_diagnosa_description">Diagnosa gagal ginjal:</string>
+    <string-array name="pemeriksaan_diagnosa_bullet_points">
+        <item>Mamariso darah lengkap : untuak mancari tau ado atau indak kadar limbah dalam darah</item>
+        <item>Tes urine : Dalam tes iko, dokter mamriso kadar albumin jo kreatinin dalam urine, kandungan protein dalam urine</item>
+    </string-array>
+
+    <!-- Pencegahan -->
+    <string name="pencegahan_title">Pancagahan</string>
+    <string name="pencegahan_description">Caro supayo indak gagal ginjal</string>
+    <string-array name="pencegahan_bullet_points">
+        <item>Makan makanan bagizi cukuik jo saimbang</item>
+        <item>Jan banyak makan makanan nan manganduang tinggi garam, tinggi lemak januah, jo tinggi asam urek</item>
+        <item>Cukuik minum aia putiah, minimal 8 galeh sahari</item>
+        <item>Manjago barek badan ideal</item>
+        <item>Indak marokok</item>
+        <item>Mangurangi konsumsi ubek nan mangurangan raso nyeri tapi indak batanyo dulu ka dokter</item>
+        <item>Mangurangi minum minuman manih nan banyak manganduang pamanih buatan</item>
+        <item>Mangurangi makanan instan nan manganduang zat pengawet, peraso, dan pawarna.</item>
+        <item>Manjago takanan darah tetap normal</item>
+    </string-array>
+
+    <!-- Pengobatan -->
+    <string name="pengobatan_title">Caro maubek</string>
+    <string name="pengobatan_description">Caro maubek baguno untuak mangurangi gejala, bukan untuak maelokan guno ginjal. Ado abarapo macam caro yang diagiah untuk terapi panyakik gagal ginjal ko:</string>
+    <string-array name="pengobatan_bullet_points">
+        <item>Ado babarapo ubek untuak mangurangi gejala ko, bantuak ubek hipertensi/darah tinggi, anemia/ kurang darah, jo suplemen kalsium vitamin D</item>
+        <item>Mambatehan asupan protein jo cairan</item>
+        <item>Terapi pengganti ginjal. Terapi pengganti ginjal tabagi 2 :
+            Pertamo Dialisis  : Dialisis iyolah proses penyaringan limbah jo cairan dalam tubuah. Ado duo macam dialisis, yakni: Hemodialisis atau biaso disabuik dengan cuci darah, prosedur dialisis yang manggunokan alat atau masin, Continuous ambulatory peritoneal dialysis (CAPD), iyolah metode cuci darah yang biasonyo dilakuan malalui paruik. Metode ko manggunoan selaput dalam rongga paruik (peritoneum), yang mampunyoi permukaan laweh jo banyaknyo jaringan pembuluh darah, digunoan sabagai panghambek alami ketiko dilalui smo zat-zat siso.
+            Kaduo Transplantasi ginjal : transplantasi ginjal ko, ginjal pasien akan diganti dengan ginjal yang sehat dari pendonor (organ cangkok).
+        </item>
+    </string-array>
+
+    <!-- Kondisi Lanjutan Gagal Ginjal Kronis -->
+    <string name="kondisi_lanjut_title">Kondisi yang labiah lanjuik dari Gagal Ginjal Kronis</string>
+    <string name="kondisi_lanjut_description">Gagal ginjal kronis ko dapek mamicu sajumlah keadaan berikut:</string>
+    <string name="informasi_tidak_tersedia">Informasi indak tasadio</string>
+    <string-array name="kondisi_lanjut_bullet_points">
+        <item>Gangguan elektrolit, manumpuaknyo fosfor serta hiperkalemia atau biaso dikenal dengan naiaknyo kadar kalium yang tinggi di dalam darah</item>
+        <item>Ganggauan kasimbangan asam jo basa di dalam tubuh, contohnyo asidosis</item>
+        <item>Panyakik jantung jo pambuluah darah</item>
+        <item>Panumpuakan cairan nan labiah di rongga tubuah, umpamo edema paru atau asites</item>
+        <item>Anemia, karano ginjal juo bafungsi untuak manyusun sel darah marah</item>
+        <item>Karusuakan sistim saraf pusat nan bisa manyabakan kejang</item>
+    </string-array>
+
     <!-- Informasi Hemodialisa -->
-    <string name="pengertian_hemodialisa_title">Pengertian Hemodialisa</string>
-    <string name="pengertian_hemodialisa">Hemodialisa merupakan terapi cuci darah di luar tubuh. Hemodialisia merupakan perawatan untuk menyaring limbah dan air dari darah.</string>
+    <string name="pengertian_hemodialisa_title">Pangaratian Hemodialisa</string>
+    <string name="pengertian_hemodialisa">Hemodialisa adolah terapi cuci darah di lua tubuah. Hemodialisa marupokan parawatan untuak manyariang limbah jo aia dari darah.</string>
 
     <string name="tujuan_hemodialisa_title">Tujuan Hemodialisa</string>
-    <string name="tujuan_hemodialisa">Membantu organ ginjal melakukan tugasnya dalam tubuh. Apabila pasien gagal ginjal tidak melakukan transplantasi, maka prosedur ini perlu untuk dilakukan secara rutin.</string>
+    <string name="tujuan_hemodialisa">Mambantu organ ginjal malakukan tugasnyo dalam tubuah. Kalau pasien gagal ginjal indak malakukan transplantasi, mako prosedur ko perlu dilakuan sacaro rutin</string>
 
-    <string name="kapan_melakukan_hemodialisa_title">Kapan Harus Melakukan Hemodialisa?</string>
+    <string name="kapan_melakukan_hemodialisa_title">Bilo Wak Harus Malakukan Hemodialisa?</string>
     <string-array name="kapan_melakukan_hemodialisa_bullet_points">
-        <item>Sesak napas</item>
-        <item>Kelelahan</item>
+        <item>Sasak Angok</item>
+        <item>Talampau Panek</item>
         <item>Kram otot</item>
         <item>Mual atau muntah</item>
     </string-array>
 
-    <string name="bagaimana_melakukan_hemodialisa_title">Bagaimana Melakukan Hemodialisa</string>
+    <string name="bagaimana_melakukan_hemodialisa_title">Baa caro Malakuan Hemodialisa</string>
     <string-array name="bagaimana_melakukan_hemodialisa_bullet_points">
-        <item>Pembuluh darah pasien akan dimasukkan jarum oleh petugas medis</item>
-        <item>Darah kotor akan disaring dalam mesin pencuci darah. Setelah proses penyaringan selesai</item>
-        <item>Darah bersih akan dialirkan ke dalam tubuh pasien</item>
+        <item>Pambuluah darah pasien akan dimasuakan jarum dek petugas medis</item>
+        <item>Darah kumuah akan disariangnyo dalam masin atau alat pancuci darah. Dilakuan katiko alah salasai proses panyaringannyo</item>
+        <item>Darah barasiah akan dialiahan ka dalam tubuh pasien</item>
     </string-array>
 
-    <string name="efek_samping_hemodialisa_title">Efek Samping dari Hemodialisa</string>
+    <string name="efek_samping_hemodialisa_title">Efek Sampiang dari Hemodialisa</string>
     <string-array name="efek_samping_hemodialisa_bullet_points">
         <item>Kram otot</item>
-        <item>Kulit gatal</item>
-        <item>Perut terasa penuh</item>
-        <item>Kenaikan berat badan</item>
+        <item>Kulik gata-gata</item>
+        <item>Paruik taraso panuah/ kambuang</item>
+        <item>Naiak nyo barek badan</item>
     </string-array>
 
-    <string name="dampak_telat_cuci_darah_title">Dampak Telat Cuci Darah</string>
+    <string name="dampak_telat_cuci_darah_title">Dampaknyo katiko wak talambek Cuci Darah</string>
     <string-array name="dampak_telat_cuci_darah_bullet_points">
-        <item>Sebagian tubuh seperti tangan dan kaki mengalami pembengkakan</item>
-        <item>Sesak napas</item>
-        <item>Penurunan fungsi ginjal dan bahkan bisa berhenti sepenuhnya</item>
-        <item>Penumpukan racun dalam darah karena semakin banyak limbah dan racun dalam tubuh</item>
+        <item>Bangkaknyo dibagian samode kaki jo tangan</item>
+        <item>Sasak angok</item>
+        <item>Turunnyo fungsi ginjal bahkan bisa baranti ndak berfungsi</item>
+        <item>Panumpuakan racun dalam tubuah dek samakin banyaknyi limbah jo racun dalam tubuah</item>
     </string-array>
 
-    <string name="di_mana_melakukan_hemodialisa_title">Di mana Melakukan Hemodialisa?</string>
-    <string name="di_mana_melakukan_hemodialisa">Terapi hemodialisa atau cuci darah ini hanya bisa dilakukan di rumah sakit yang memiliki fasilitas hemodialisa atau klinik khusus cuci darah.</string>
+    <string name="di_mana_melakukan_hemodialisa_title">Dima wak bisa malakuan Hemodialisa?</string>
+    <string name="di_mana_melakukan_hemodialisa">Tarapi hemodialisa atau biasonyo cuci darah ko bisa wak lakuan di rumah sakik yang mampunyoi fasilitas atau alat-alat untuak cuci darah, atau bisa di klinik yang khusus untuak cuci darah</string>
     <!-- Kenapa cairan dan minuman saya harus diatur? -->
-    <string name="kenapa_cairan_dan_minuman_diaturr_title">Kenapa cairan dan minuman saya harus diatur?</string>
-    <string name="kenapa_cairan_dan_minuman_diaturr_desc">Kelebihan cairan dapat menimbulkan gangguan jantung serta penumpukan cairan di dalam tubuh sehingga kenaikan berat badan diantara periode waktu dialisis menjadi berlebih. Kenaikan berat badan yang dianjurkan diantara periode waktu hemodialisa adalah kurang dari tiga kilo.</string>
+    <string name="kenapa_cairan_dan_minuman_diaturr_title">Manga wak harus diet/baa kok makan wak harus di atur?</string>
+    <string name="kenapa_cairan_dan_minuman_diaturr_desc">Dek karano ginjal wak ko indak bisa mangaluan zat siso metabolisme makanan, karano alah ndak bafungsi sacaro optimal lai.</string>
 
     <!-- Berapa kebutuhan cairan pada pasien yang menjalani hemodialisa -->
-    <string name="berapa_kebutuhan_cairan_title">Kebutuhan cairan pasien hemodialisa</string>
+    <string name="berapa_kebutuhan_cairan_title">Kabutuhan Cairan</string>
     <string-array name="berapa_kebutuhan_cairan_bullet_points">
-        <item>Jika masih ada urine, cairan yang dikonsumsi sejumlah urin 24 jam ditambah 500 sampai dengan 750cc.</item>
-        <item>Jika sudah tidak ada urine, jumlah cairan maksimal 14 gelas kecil atau 800cc jumlah air yang dikonsumsi berasal dari air dalam makanan dan minuman.</item>
+        <item>Jikok masih ado urine, cairan yang dikonsumsi sajumlah urin yang salamo 24 jam ditambah jo 500 sampai dengan 750cc</item>
+        <item>Jikok urine alah ndkdolai, jumlah cairan maksimal 14 galeh ketek atau 800cc jumlah aia yang dikonsumsi barasal dari aia dalam makanan dan minuman.</item>
     </string-array>
 
     <!-- Tips mengurangi konsumsi cairan -->
-    <string name="tips_mengurangi_cairan_title">Tips mengurangi konsumsi cairan:</string>
+    <string name="tips_mengurangi_cairan_title">Tips mangurangi konsumsi cairan diantaranyo iyolah:</string>
     <string-array name="tips_mengurangi_cairan_bullet_points">
-        <item>Makanan dibuat dalam bentuk tidak berkuah.</item>
-        <item>Kurangi konsumsi garam atau makanan tinggi garam untuk mengurangi rasa haus.</item>
-        <item>Konsumsi air putih hendaknya gunakan botol bukan gelas.</item>
-        <item>Konsumsi permen rasa asam atau es batu.</item>
-        <item>Jaga kebersihan mulut.</item>
+        <item>Buek makanan yang dalam bantuak indak bakuah.</item>
+        <item>Kurangan mengkonsumsi atau mamakan yang tinggi garam untuak mnagurangi raso auih.</item>
+        <item>Konsumsi aia putiah yang labiah rancaknyo gunoan botol ndak galeh.</item>
+        <item>Konsumsi gulo-gulo yang raso asam atau es batu</item>
+        <item>Kabarasiahan muluik harus dijago</item>
     </string-array>
 
     <!-- Bagaimana tips mengontrol rasa haus -->
-    <string name="tips_mengontrol_haus_title">Bagaimana tips mengontrol rasa haus?</string>
+    <string name="tips_mengontrol_haus_title">Baa caro mengontrol raso auih?</string>
     <string-array name="tips_mengontrol_haus_bullet_points">
-        <item>Menghindari makanan pedas dan asin serta kandungan natrium atau garam yang tinggi.</item>
-        <item>Hindari makanan yang berminyak atau gorengan.</item>
-        <item>Minum air secara perlahan dengan gelas berukuran kecil serta usahakan selalu berada di tempat sejuk.</item>
-        <item>Mengatur jadwal minum dalam 24 jam yang dibagi dalam 3 sesi dengan total 500 cc dalam 24 jam.</item>
+        <item>Yaitu dengan caro hindari mkanan yang padeh jo asin, sarato kandungan natrium atau garam yang tinggi</item>
+        <item>Hindari makanan yang bagoreng atau yang baminyak</item>
+        <item>Minum aia sacaro lambek-lambek dengan galeh yang berukuran ketek jo usahokan salalu barado di tampek yang sajuak</item>
+        <item>Maatur jadwal minum dalam waktu 24 jam yang dibagi manjadi 3 sesi dengan total 500 cc dalam 24 jam.</item>
     </string-array>
 
     <!-- Contoh pembagian waktu minum -->
-    <string name="pembagian_waktu_minum_title">Contoh pembagian waktu minum:</string>
+    <string name="pembagian_waktu_minum_title">Contohnyo pambagian waktu minum:</string>
     <string-array name="pembagian_waktu_minum_bullet_points">
-        <item>Dari jam 6 pagi sampai jam 12 siang sebanyak 240 cc.</item>
-        <item>Jam 12 siang sampai jam 6 sore sebanyak 150 cc.</item>
-        <item>Jam 6 sore sampai jam 6 pagi hari selanjutnya sebanyak 110 cc, dengan total intake cairan 500 cc dalam 24 jam.</item>
+        <item>Dari jam 6 sampai jam 12 siang sabanyak 240 cc</item>
+        <item>Jam 12 siang sampai jam 18 atau 6 sore sabanyak 150 cc</item>
+        <item>Jam 6 sore sampai jam 6 pagi hari salanjuiknyo sabanyak 110 cc dengan total intake cairan 500 cc dalam 24 jam.</item>
     </string-array>
 
     <!-- Perawatan akses vaskuler hemodialisa -->
-    <string name="perawatan_akses_vaskuler_title">Perawatan akses vaskuler hemodialisa</string>
+    <string name="perawatan_akses_vaskuler_title">Parawatan akses vaskuler hemodialisa</string>
     <string-array name="perawatan_akses_vaskuler_bullet_points">
-        <item>Jaga balutan agar tetap kering.</item>
-        <item>Apabila akan mandi, tutupi balutan kateter dengan plastik terlebih dahulu.</item>
-        <item>Jika balutan basah, segera ganti balutan.</item>
-        <item>Selalu gunakan pakaian dan handuk yang bersih.</item>
-        <item>Hati-hati saat berganti pakaian agar kateter tidak tersangkut.</item>
-        <item>Rajin mencuci tangan dan hindari menyentuh kateter.</item>
-        <item>Jangan tidur miring ke arah kateter.</item>
-        <item>Konsultasikan dengan dokter jika muncul tanda infeksi seperti merah, bengkak, atau nyeri di area akses.</item>
-        <item>Jika ada darah merembes dari kateter, segera ke IGD untuk penanganan lebih lanjut.</item>
-        <item>Dianjurkan pemakaian CDL tidak lebih dari 3 bulan, atur pembuatan cimino sebelum batas waktu tersebut.</item>
+        <item>Jago  balutan supayo tetap kariang</item>
+        <item>Apobilo nio mandi, tutuiklah balutan kateter dengan plastik talabiah dahulu</item>
+        <item>Jikok balutan talanjua basah, mako balutan harus sacapeknyo di ganti</item>
+        <item>Taruih gunoan pakaian jo handuk yang barasiah</item>
+        <item>Elok-elok katiko mangganti baju jan sampai kateter tasangkuik jo taelo</item>
+        <item>Acok mancuci tangan jo hindari manyantuah kateter</item>
+        <item>Katiko ka lalok jan sampai badan miriang ka arah kateter</item>
+        <item>Konsultasi dengan dokter apobilo muncul tando-tando infeksi sabantuak bangkak merah jo nyeri di daerah akses</item>
+        <item>Jikok ado darah yang kalua dari kateter capek baok ke IGD unutuak di ubekan labiah lanjuik</item>
+        <item>Di anjurkan mamakai CDL ndak labiah dari 3 bulan aturlah pambuekan cimino jo dokter sabalum bateh waktu tasabuik</item>
     </string-array>
 
     <!-- Perawatan cimino -->
     <string name="perawatan_cimino_title">Perawatan cimino</string>
     <string-array name="perawatan_cimino_bullet_points">
-        <item>Jaga daerah akses agar selalu bersih.</item>
-        <item>Cuci daerah akses dengan sabun dan air hangat, serta selalu cuci tangan sebelum dan sesudah menyentuh cimino.</item>
-        <item>Periksa adanya vibrasi dan suara dengung khas di akses Anda. Perubahan suara dengung dapat menandakan adanya sumbatan atau gangguan aliran darah.</item>
-        <item>Jangan perbolehkan pemeriksaan tekanan darah, pemasangan infus, atau pengambilan darah di tangan yang terdapat akses cimino.</item>
-        <item>Jangan mengangkat beban berat, memakai jam, perhiasan, atau pakaian ketat di tangan yang terdapat akses cimino.</item>
-        <item>Jaga agar akses cimino tidak terkena benturan atau sayatan.</item>
-        <item>Konsultasikan dengan dokter jika terjadi masalah pada cimino.</item>
+        <item>Jago daerah di sekitaran akses supayo barasiah taruih</item>
+        <item>Cuci daerah akses dengan sabun jo aia angek sarato taruih cuci tangan awak sabalun dan setelah mamegang cimino</item>
+        <item>Pelajari adonyo vibrasi jo suaradengung khas diakses awak. Adonyo perubahan pado suara danguang tu, manandoan adonyo aliran darah yang tasumbek atau gangguan diakses cimino awak</item>
+        <item>Jan sampai akses cimino tahimpik katiko lalok</item>
+        <item>Indak buliah maangkek Baban barek, mamakai jam atau perhiasan, jauhan mamakai baju yang ketat</item>
+        <item>Elok-elok supayo akses cimino indak takanai benturan jo sayatan</item>
+        <item>Konsultasikan jo dokter apobilo wak takanai cimino</item>
     </string-array>
     <!-- Kenapa diet/makanan pasien harus diatur -->
-    <string name="kenapa_diet_diatur_title">Kenapa diet/makanan pasien harus diatur?</string>
-    <string name="kenapa_diet_diatur_description">Ginjal tidak bisa mengeluarkan zat sisa metabolisme makanan karena sudah tidak berfungsi optimal lagi.</string>
+    <string name="kenapa_diet_diatur_title">Manga wak harus diet/baa kok makan wak harus di atur?</string>
+    <string name="kenapa_diet_diatur_description">Dek karano ginjal wak ko indak bisa mangaluan zat siso metabolisme makanan, karano alah ndak bafungsi sacaro optimal lai.</string>
 
     <!-- Untuk apa diet/makanan pasien harus diatur -->
-    <string name="tujuan_diet_diatur_title">Untuk apa diet/makanan pasien harus diatur?</string>
-    <string name="tujuan_diet_diatur_description">Jumlah nutrisi dan cairan yang masuk ke dalam tubuh apabila tidak terkontrol dapat berisiko mengalami malnutrisi dan pada keadaan yang lebih berat dapat menyebabkan kematian.</string>
+    <string name="tujuan_diet_diatur_title">Untuak apo diet?</string>
+    <string name="tujuan_diet_diatur_description">Jumlah nutrisi jo cairan yang masuak ka dalam tubuah apabilo indak takontrol dapek mangkibaikan malnutrisi jo keadaan yang labiah barek sampai mangkibaikan kematian.</string>
 
     <!-- Tujuan diet/makanan pada pasien hemodialisa -->
-    <string name="tujuan_diet_hemodialisa_title">Tujuan Diet/makanan pada pasien hemodialisa:</string>
+    <string name="tujuan_diet_hemodialisa_title">Apo se tujuan diet untuak pasien hemodialisa:</string>
     <string-array name="tujuan_diet_hemodialisa_bullet_points">
-        <item>Mencukupi kebutuhan zat gizi sesuai kebutuhan perorangan agar status gizi optimal.</item>
-        <item>Menjaga keseimbangan cairan dan elektrolit.</item>
-        <item>Menjaga agar penumpukan produk sisa metabolisme protein tidak berlebihan.</item>
-        <item>Mencegah defisiensi zat gizi dengan cara memenuhi kebutuhan zat gizi.</item>
+        <item>Mancukuikan kabutuhan zat gizi sasuai samo kabutuhan perorangan supayo status gizi optimal</item>
+        <item>Manjago kasaimbangan cairan jo elektrilit</item>
+        <item>Manjago supayo panumpuakan siso metabolisme protein indak talalu balabiah</item>
+        <item>Mencegah defisiensi zat gizi dengan caro mamanuhi kebutuhan zat gizi</item>
     </string-array>
 
     <!-- Syarat diet/makanan pasien hemodialisa -->
-    <string name="syarat_diet_hemodialisa_title">Syarat Diet/makanan pasien hemodialisa:</string>
+    <string name="syarat_diet_hemodialisa_title">Syarat Diet untuak pasien hemodialisa:</string>
     <string-array name="syarat_diet_hemodialisa_bullet_points">
-        <item>Kalori harus cukup agar protein tidak pecah menjadi energi.</item>
-        <item>Protein diberikan cukup untuk memenuhi kebutuhan tubuh dan mengganti protein yang hilang pada setiap proses Hemodialisa.</item>
-        <item>Membatasi bahan makanan sumber kalium terutama bila urin kurang dari 400 ml atau apabila kalium darah lebih dari 5,5 mg/liter.</item>
-        <item>Membatasi garam dan sumber natrium, bila ada penimbunan air dalam tubuh dan tekanan darah tinggi.</item>
-        <item>Konsumsi cairan disesuaikan dengan jumlah air kemih satu hari ditambah dengan 500 ml air.</item>
-        <item>Vitamin dan mineral harus ditambahkan dalam bentuk obat.</item>
+        <item>Kalori harus cukuik supayo protein ndak pacah manjadi energi</item>
+        <item>Protein yang diagiahan cukuik untuak kebutuhan tubuah jo mangganti protein yang ilang di satiok proses hemodialisa.</item>
+        <item>Mambatehan bahan makan yang sumber dari kalium tarutamo katiko urin kurang dari 400 ml atau katiko kalium labiah dari 5,5 mg/liter</item>
+        <item>Mambatehan garam jo sumber natrium, apabilo ado panimbunan aia dalam tubuah jo tekanan darah tinggi</item>
+        <item>Konsumsi cairan sasuai dengan jumlah aia kemih sahari ditambah dengan 500 ml aia</item>
+        <item>Vitamin jo mineral harus ditambahkan dalam bantuak ubek.</item>
     </string-array>
 
     <!-- Bahan makanan yang dibatasi -->
-    <string name="bahan_makanan_dibatasi_title">Bahan Makanan yang Dibatasi:</string>
+    <string name="bahan_makanan_dibatasi_title">Bahan Makanan nan Dibatasan:</string>
     <string-array name="bahan_makanan_dibatasi_bullet_points">
-        <item>Sumber protein: kacang-kacangan dan hasil olahannya seperti tahu, tempe, kacang kedelai, kacang hijau, kacang tolo.</item>
-        <item>Sumber vitamin dan mineral: sayur dan buah yang tinggi Kalium.</item>
-        <item>Bahan makanan yang diawetkan: kornet, sarden.</item>
+        <item>Sumber protein: kacang-kacangan jo hasilan olahannyo tahu, tempe, kacang, kacang kedelei, kacang hijau, kacang tolo</item>
+        <item>Sumber vitamin jo mineral: sayua jo buah nan tinggi Kalium.</item>
+        <item>Bahan makanan nan diawaik an: kornet, sarden.</item>
         <item>Konsumsi garam.</item>
     </string-array>
 
     <!-- Tips penggunaan garam yang tepat untuk pasien Hemodialisa -->
-    <string name="tips_penggunaan_garam_title">Bagaimana tips penggunaan garam yang tepat untuk pasien Hemodialisa?</string>
+    <string name="tips_penggunaan_garam_title">Bagaimano tips penggunaan garam yang tapek untuak pasiaen Hemodialisa?</string>
     <string-array name="tips_penggunaan_garam_bullet_points">
-        <item>Gunakan sedikit garam dan tambahkan pada akhir proses pemasakan.</item>
-        <item>Jangan menambahkan bumbu penyedap atau garam meja atau extra garam pada makanan.</item>
-        <item>Hindari makanan yang diawetkan dengan garam, makanan ringan tinggi garam, makanan kaleng, dan fast food.</item>
+        <item>Gunoan saketek garam jo tambahan garam tu di akhia proses masak.</item>
+        <item>Jan tambah bumbu penyedap, garam meja, atau extra garam di ateh makanan.</item>
+        <item>Salain garam, ado juo bahan makanan nan manganduang garam tinggi, diantaranyo makanan nan diawetkan jo garam, makanan ringan nan tinggi garam, makanan kaleng, jo makanan capek saji atau fast food.</item>
     </string-array>
 
     <!-- Cara mengatur diet -->
-    <string name="cara_mengatur_diet_title">Cara Mengatur Diet:</string>
+    <string name="cara_mengatur_diet_title">Caro maatur Diet:</string>
     <string-array name="cara_mengatur_diet_bullet_points">
-        <item>Makanlah secara teratur, porsi kecil tapi sering, ± 6 kali sehari.</item>
-        <item>Hidangkan makanan dengan menarik agar meningkatkan selera makan.</item>
-        <item>Pilihlah makanan sumber protein hewani sesuai jumlah yang ditentukan.</item>
-        <item>Protein nabati mempunyai mutu lebih rendah dibanding protein hewani (dibatasi).</item>
-        <item>Makanan tinggi kalori: madu, permen, sirup.</item>
-        <item>Makanan sumber kalium dibatasi, seperti sayuran, buah-buahan, umbi-umbian.</item>
-        <item>Hindari makanan berkadar kalium tinggi seperti kacang-kacangan, bayam, pisang, air kelapa, alpukat, durian, nangka, kembang kol.</item>
-        <item>Jika jumlah air seni kurang dari normal, batasi cairan dari makanan dan minuman.</item>
+        <item>Makanlah secaro taratur, bialah makan jo porsi ketek tapi acok, ± 6 kali sehari.</item>
+        <item>Hidangkan makanan yang saelok-eloknyo jo menarik sahinggo tumbuah raso nafsu makan.</item>
+        <item>Piliahlah makanan sumber protein hewani sasuai jo jumlah yang alah di tantuan.</item>
+        <item>Makanan sumber protein nabati mampunyoi mutu protein yang labiah rendah dibandiang protein hewani (dibatasi).</item>
+        <item>Makanan tinggi kalori : madu, permen, sirup.</item>
+        <item>Makanan sumber kalium dibatehi, bantuak sayuran, buah-buahan, umbi-umbian.</item>
+        <item>Usahoan indak mamakan makanan yang berkadar kalium tinggi, sabantuak kacang-kacangan, bayam, pisang, aia karambia/degan, alpukat, durian, cubadak, kembang kol.</item>
+        <item>Apabobilo aia seni kurang dari normal, mako paral untuak mambatehi ciran yang asal nyo dari makanan jo minuman.</item>
     </string-array>
 
     <!-- Cara mempersiapkan dan mengolah makanan -->
-    <string name="cara_mempersiapkan_makanan_title">Cara Mempersiapkan dan Mengolah Makanan:</string>
-    <string name="kembali">Kembali</string>
+    <string name="cara_mempersiapkan_makanan_title">Caro mampasiapan jo Mangolah Makanan:</string>
+    <string name="kembali">Kambali</string>
     <string-array name="cara_mempersiapkan_makanan_bullet_points">
-        <item>Mengurangi kadar kalium dalam bahan makanan.</item>
-        <item>Potong kecil-kecil bahan makanan.</item>
-        <item>Rendam dalam air hangat minimal selama 2 jam.</item>
-        <item>Buang air perendaman.</item>
-        <item>Cuci bahan makanan dengan air mengalir.</item>
-        <item>Semua sayuran harus dimasak, hindari memakan sayuran mentah (lalapan).</item>
-        <item>Jika ada pembatasan garam, gunakan lebih banyak bumbu seperti gula, asam, dan bumbu dapur lainnya.</item>
-        <item>Untuk membatasi cairan, masakan sebaiknya tidak berkuah, seperti ditumis, dipanggang, dikukus, dibakar, atau digoreng.</item>
+        <item>Mangurangi kadar kalium dalam bahan makanan.</item>
+        <item>Karek ketek-ketek bahan makanan.</item>
+        <item>Randam dalam aia angek paliang indak salamo 2 jam.</item>
+        <item>Buang aia siso randaman tadi.</item>
+        <item>Cuci bahan makanan jo aia mangalia.</item>
+        <item>Sado sayua harus dimasak, indak dianjurkan dimakan dalam keadaan matah (lalapan).</item>
+        <item>Kalau ado mambatehan garam, mako pakai labiah banyak bumbu-bumbu bantuak gulo, asam, jo bumbu dapua lainnyo.</item>
+        <item>Untuak mambatehan cairan, masakan labiah eloknyo dibuek tanpa aia kuah,  ditumis, dipanggang, dikukus, dibaka, atau digoreng.</item>
     </string-array>
 
 

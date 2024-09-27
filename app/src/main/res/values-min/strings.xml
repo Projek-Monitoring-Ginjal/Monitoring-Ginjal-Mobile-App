@@ -45,6 +45,15 @@
     <string name="login_success">Login Success</string>
     <string name="daily_nutrient_needs_threshold_saved_successfully">Daily nutrient needs threshold saved successfully</string>
     <string name="expected_behaviour_error_msg">Maaf sepertinya ada masalah, silahkan coba lagi nanti..</string>
+    <string name="daily_nutrient_needs_information_saved_successfully">Daily nutrient needs information saved successfully</string>
+    <string name="pengertian_gagal_ginjal">Pengertian gagal ginjal</string>
+    <string name="fungsi_ginjal_normal">Fungsi ginjal normal</string>
+    <string name="penyebab_gagal_ginjal_kronis">Penyebab gagal ginjal kronis</string>
+    <string name="tanda_dan_gejala">Tanda dan gejala</string>
+    <string name="pemeriksaan_untuk_diagnosa">Pemeriksaan untuk diagnosa</string>
+    <string name="pencegahan">Pencegahan</string>
+    <string name="pengobatan">Pengobatan</string>
+    <string name="kondisi_lebih_lanjut_gagal_ginjal_kronis">Kondisi lebih lanjut gagal ginjal kronis</string>
 
     <!-- Pengertian Gagal Ginjal -->
     <string name="pengertian_gagal_ginjal_title">Pangaratian gagal ginjal</string>

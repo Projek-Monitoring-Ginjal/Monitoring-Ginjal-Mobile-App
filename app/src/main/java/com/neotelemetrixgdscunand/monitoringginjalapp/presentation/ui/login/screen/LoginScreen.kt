@@ -207,7 +207,9 @@ fun LoginScreen(
                 onClick = {
                     keyboardController?.hide()
                     focusManager.clearFocus(true)
-                    viewModel.login()
+                    viewModel.login(
+                        localeLanguageOptions[viewModel.language] ?: "en"
+                    )
                 },
                 backgroundColor = Green20,
                 shape = RoundedCornerShape(16.dp),

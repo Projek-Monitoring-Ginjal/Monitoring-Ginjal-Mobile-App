@@ -13,8 +13,8 @@ object DailyNutrientsCalcUtil {
             caloriesThreshold = calorie,
             fluidThreshold = fluid,
             proteinThreshold = protein,
-            kaliumThreshold = kalium,
-            natriumThreshold = natrium
+            potassiumThreshold = kalium,
+            sodiumThreshold = natrium
         )
     }
 }

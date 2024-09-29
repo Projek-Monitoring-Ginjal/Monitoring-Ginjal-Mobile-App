@@ -90,6 +90,7 @@ fun HomeMenuScreen(
 
                     onMenuItemClick(route)
                 }
+                else -> {}
             }
         }
     }

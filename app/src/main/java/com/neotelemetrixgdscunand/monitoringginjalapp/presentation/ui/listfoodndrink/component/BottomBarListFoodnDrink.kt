@@ -50,8 +50,8 @@ fun BottomBarFoodSearch(
                 nutrition.calorie to nutrition.calorie.amount / caloriesThreshold,
                 nutrition.fluid to nutrition.fluid.amount / fluidThreshold,
                 nutrition.protein to nutrition.protein.amount / proteinThreshold,
-                nutrition.natrium to nutrition.natrium.amount / natriumThreshold,
-                nutrition.kalium to nutrition.kalium.amount / kaliumThreshold
+                nutrition.sodium to nutrition.sodium.amount / sodiumThreshold,
+                nutrition.potassium to nutrition.potassium.amount / potassiumThreshold
             )
         }
     }

@@ -55,35 +55,31 @@ fun MealResultScreen(
     onFinish: () -> Unit = { }
 ) {
 
-    val dailyNutrientNeedsInfo = viewModel.dailyNutrientNeedsInfo
-    val nutritionTotalInfo = remember(dailyNutrientNeedsInfo){
-        ListFoodnDrinkUtil.sumFoodNutritions(dailyNutrientNeedsInfo.meals)
-    }
-    val nutritionToProgressFraction = remember(nutritionTotalInfo, dailyNutrientNeedsInfo) {
-        dailyNutrientNeedsInfo.dailyNutrientNeedsThreshold.run {
-            listOf(
-                nutritionTotalInfo.calorie to MealResultUtil.calculateProgressFraction(
-                    nutritionTotalInfo.calorie.amount,
-                    caloriesThreshold
-                ),
-                nutritionTotalInfo.fluid to MealResultUtil.calculateProgressFraction(
-                    nutritionTotalInfo.fluid.amount,
-                    fluidThreshold
-                ),
-                nutritionTotalInfo.protein to MealResultUtil.calculateProgressFraction(
-                    nutritionTotalInfo.protein.amount,
-                    proteinThreshold
-                ),
-                nutritionTotalInfo.natrium to MealResultUtil.calculateProgressFraction(
-                    nutritionTotalInfo.natrium.amount,
-                    natriumThreshold
-                ),
-                nutritionTotalInfo.kalium to MealResultUtil.calculateProgressFraction(
-                    nutritionTotalInfo.kalium.amount,
-                    kaliumThreshold
-                )
+
+    val nutritionToProgressFraction = remember(viewModel.currentDayMealResult) {
+        val (thresholds, nutritionTotalInfo) = viewModel.currentDayMealResult
+        listOf(
+             nutritionTotalInfo.calorie to MealResultUtil.calculateProgressFraction(
+                nutritionTotalInfo.calorie.amount,
+                thresholds.caloriesThreshold
+            ),
+            nutritionTotalInfo.fluid to MealResultUtil.calculateProgressFraction(
+                nutritionTotalInfo.fluid.amount,
+                thresholds.fluidThreshold
+            ),
+            nutritionTotalInfo.protein to MealResultUtil.calculateProgressFraction(
+                nutritionTotalInfo.protein.amount,
+                thresholds.proteinThreshold
+            ),
+            nutritionTotalInfo.sodium to MealResultUtil.calculateProgressFraction(
+                nutritionTotalInfo.sodium.amount,
+                thresholds.sodiumThreshold
+            ),
+            nutritionTotalInfo.potassium to MealResultUtil.calculateProgressFraction(
+                nutritionTotalInfo.potassium.amount,
+                thresholds.potassiumThreshold
             )
-        }
+        )
     }
 
     val context = LocalContext.current

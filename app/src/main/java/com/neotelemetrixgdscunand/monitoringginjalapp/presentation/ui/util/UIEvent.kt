@@ -10,4 +10,6 @@ sealed class UIEvent:Event() {
         val isInPeriods:Boolean
     ) : UIEvent()
 
+    data object SuccessUpdateFoodCarts:UIEvent()
+
 }

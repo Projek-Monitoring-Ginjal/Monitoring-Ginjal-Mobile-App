@@ -38,6 +38,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.Login
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.MealResult
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green20
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.MonitoringGinjalAppTheme
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Neutral03
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Yellow20
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.screen.DailyNutrientsCalcScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.viewmodel.DailyNutrientCalcUtilVM
@@ -130,7 +131,7 @@ fun App(
                         )
                     },
                     viewModel = viewModel
-                )
+                    )
             }
             composable<MealResult> {
                 val viewModel:MealResultViewModel = hiltViewModel()
@@ -173,7 +174,7 @@ fun TopBarApp(
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.White
+            containerColor = Neutral03
         ),
         modifier = modifier
             .shadow(

@@ -41,11 +41,12 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.PurpleG
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 
 @Composable
-fun SearchBar(
+fun     SearchBar(
     modifier: Modifier = Modifier,
-    searchFoodItems: List<FoodItem>,
+    foodItems: List<FoodItem>,
     onAddClick: (FoodItem) -> Unit,
     isListVisible: Boolean = false,
+    searchFoodItems:(String) -> Unit = { },
     setListVisibility: (Boolean) -> Unit = {}
 ) {
     var searchText by remember { mutableStateOf(TextFieldValue("")) }
@@ -72,6 +73,7 @@ fun SearchBar(
                     setListVisibility(false)
                 }else{
                     setListVisibility(true)
+                    searchFoodItems(newValue.text)
                 }
                 searchText = newValue
             },
@@ -108,7 +110,7 @@ fun SearchBar(
                     .fillMaxWidth()
                     .padding(top = 8.dp)
             ) {
-                items(searchFoodItems.filter { it.name.contains(searchText.text, ignoreCase = true) || searchText.text.isEmpty() }) { foodItem ->
+                items(foodItems) { foodItem ->
                     FoodItemRow(foodItem, onAddClick = {
                         onAddClick(it)
                         searchText = TextFieldValue("")
@@ -165,7 +167,7 @@ fun FoodItemRow(food: FoodItem, onAddClick: (FoodItem) -> Unit) {
                     )
                     NutrientInfo(
                         text = stringResource(id = R.string.natrium),
-                        value = nutritionEssential.natrium.amount.toString()
+                        value = nutritionEssential.sodium.amount.toString()
                     )
                     NutrientInfo(
                         text = stringResource(id = R.string.kalium),
@@ -199,7 +201,7 @@ fun SearchBarPreview() {
     val foodItems = Dummy.getFoodItems()
 
     SearchBar(
-        searchFoodItems = foodItems,
+        foodItems = foodItems,
         onAddClick = { /* Handle Add Click */ },
         isListVisible = true,
         setListVisibility = {}

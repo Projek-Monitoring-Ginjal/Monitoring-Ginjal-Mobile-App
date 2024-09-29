@@ -101,6 +101,9 @@ dependencies {
 
     // datastore prefs
     implementation(libs.datastore.preferences)
+
+    //logging
+    implementation(libs.logging.interceptor)
 }
 
 // Allow references to generated code

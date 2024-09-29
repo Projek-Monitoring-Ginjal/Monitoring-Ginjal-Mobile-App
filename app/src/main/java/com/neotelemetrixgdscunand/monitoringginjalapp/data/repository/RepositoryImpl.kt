@@ -7,6 +7,10 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.data.remote.network.ApiService
+import com.neotelemetrixgdscunand.monitoringginjalapp.data.repository.Mapper.mapToDailyNutrientNeedsInfo
+import com.neotelemetrixgdscunand.monitoringginjalapp.data.repository.Mapper.mapToFoodItem
+import com.neotelemetrixgdscunand.monitoringginjalapp.data.repository.Mapper.mapToFoodItemBody
+import com.neotelemetrixgdscunand.monitoringginjalapp.data.repository.Mapper.mapToMealResultInfo
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Dummy
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Mapper
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Resource
@@ -17,6 +21,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrient
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrientNeedsThreshold
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEssential
 import retrofit2.HttpException
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -53,6 +58,7 @@ class RepositoryImpl @Inject constructor(
             return Resource.Failure(
                 DynamicString(errorResponse.message)
             )
+
         } catch (e: Exception) {
             println(e.message)
 
@@ -66,22 +72,26 @@ class RepositoryImpl @Inject constructor(
     private var latestDailyNutrientNeedsThreshold: DailyNutrientNeedsThreshold? = null
     private var latestDailyNutrientNeedsInfos:MutableList<DailyNutrientNeedsInfo> = mutableListOf(
         DailyNutrientNeedsInfo(
+            day = DayOptions.FirstDay,
             dailyNutrientNeedsThreshold = DailyNutrientNeedsThreshold()
         ),
         DailyNutrientNeedsInfo(
+            day = DayOptions.SecondDay,
             dailyNutrientNeedsThreshold = DailyNutrientNeedsThreshold()
         ),
         DailyNutrientNeedsInfo(
+            day = DayOptions.ThirdDay,
             dailyNutrientNeedsThreshold = DailyNutrientNeedsThreshold()
         ),
         DailyNutrientNeedsInfo(
+            day = DayOptions.FourthDay,
             dailyNutrientNeedsThreshold = DailyNutrientNeedsThreshold()
         ),
     )
 
     private val foodItems = Dummy.getFoodItems()
 
-    override suspend fun login(name: String, password: String): Resource<StringRes> {
+    override suspend fun login(name: String, password: String, languageCode:String): Resource<StringRes> {
         return fetchData(
             fetch = {
                 apiService.login(
@@ -98,6 +108,7 @@ class RepositoryImpl @Inject constructor(
                     saveToken(
                         data.token ?: throw Exception("There's something wrong..")
                     )
+                    saveLanguageCode(languageCode)
                 }
 
                 return@fetchData DynamicString(message)
@@ -108,8 +119,9 @@ class RepositoryImpl @Inject constructor(
     override suspend fun checkIfAlreadySignedIn(): Boolean {
         val userId = userPreference.getUserId()
         val token = userPreference.getToken()
+        val languageCode = userPreference.getLanguageCode()
 
-        return userId != -1 && token.isNotBlank()
+        return userId != -1 && token.isNotBlank() && languageCode.isNotBlank()
     }
 
     override suspend fun checkIsInNutritionalDailyPeriods(): Resource<Boolean> {
@@ -143,31 +155,67 @@ class RepositoryImpl @Inject constructor(
     }
 
     override suspend fun getLatestDailyNutrientNeedsInfo(
-        dayOptions: DayOptions
+        dayOptions: DayOptions,
     ): Resource<DailyNutrientNeedsInfo> {
-        /*if(latestDailyNutrientNeedsInfos.isNotEmpty()){
-            return Resource.Success(
-                latestDailyNutrientNeedsInfos[dayOptions.index]
-            )
-        }else return Resource.Failure(StaticString(R.string.expected_behaviour_error_msg))*/
-
-
-    }
-
-    override suspend fun saveDailyNutrientNeedsInfo(dailyNutrientNeedsInfo: DailyNutrientNeedsInfo): Resource<StringRes> {
-        val index = latestDailyNutrientNeedsInfos.indexOfFirst {
-            it.id == dailyNutrientNeedsInfo.id
-        }
-        latestDailyNutrientNeedsInfos[index] = dailyNutrientNeedsInfo
-
-        return Resource.Success(
-            StaticString(
-                R.string.daily_nutrient_needs_information_saved_successfully
-            )
+        return fetchData(
+            fetch = {
+                val languageCode = userPreference.getLanguageCode()
+                apiService.getFoodCarts(
+                    dayOptions.index + 1,
+                    languageCode
+                )
+            },
+            mapData = {
+                val dailyNutrientNeedsInfo = this.data?.mapToDailyNutrientNeedsInfo() ?: throw Exception("error...")
+                dailyNutrientNeedsInfo
+            }
         )
     }
 
-    override suspend fun getAllFoodItems(): Resource<List<FoodItem>> {
-        return Resource.Success(foodItems)
+    override suspend fun saveDailyNutrientNeedsInfo(dailyNutrientNeedsInfo: DailyNutrientNeedsInfo): Resource<StringRes> {
+        val foodItemsBody = dailyNutrientNeedsInfo.meals.map {
+            it.mapToFoodItemBody()
+        }
+        val jsonifyStringBody = "[${foodItemsBody.joinToString(",")}]"
+        return fetchData(
+            fetch = {
+
+                apiService.updateFoodCarts(
+                    dailyNutrientNeedsInfo.day.index + 1,
+                    jsonifyStringBody
+                )
+            },
+            mapData = {
+                return@fetchData DynamicString(message)
+            }
+        )
+    }
+
+    override suspend fun searchFoodItems(query:String): Resource<List<FoodItem>> {
+        return fetchData(
+            fetch = {
+                val langCode = userPreference.getLanguageCode()
+                apiService.searchItem(langCode, query)
+            },
+            mapData = {
+                val foodItems = this.data?.map {
+                    it.mapToFoodItem()
+                } ?: emptyList()
+
+                return@fetchData foodItems
+            }
+        )
+    }
+
+    override suspend fun getHemodialisaResults(): Resource<Pair<DailyNutrientNeedsThreshold, List<NutritionEssential>>> {
+        return fetchData(
+            fetch = {
+                apiService.getHemodialisaResult()
+            },
+            mapData = {
+                val pairs = this.data?.mapToMealResultInfo() ?: throw Exception("error")
+                pairs
+            }
+        )
     }
 }

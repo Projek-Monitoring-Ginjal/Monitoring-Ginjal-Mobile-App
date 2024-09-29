@@ -69,11 +69,11 @@ fun NutrientNeedsDialog(
             )
             NutrientInfoRow(
                 stringResource(R.string.natrium),
-                "${dailyNutrientNeedsThreshold.natriumThreshold} mg"
+                "${dailyNutrientNeedsThreshold.sodiumThreshold} mg"
             )
             NutrientInfoRow(
                 stringResource(R.string.kalium),
-                "${dailyNutrientNeedsThreshold.kaliumThreshold} mg"
+                "${dailyNutrientNeedsThreshold.potassiumThreshold} mg"
             )
             Button(
                 text = "OK",
@@ -122,8 +122,8 @@ fun NutrientCardPreview() {
             caloriesThreshold = 2000f,
             fluidThreshold = 1000f,
             proteinThreshold = 100f,
-            natriumThreshold = 1000f,
-            kaliumThreshold = 1000f
+            sodiumThreshold = 1000f,
+            potassiumThreshold = 1000f
         )
     )
 }

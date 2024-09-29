@@ -30,16 +30,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Dummy
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItemCart
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 
 
 @Composable
 fun FoodItem(
-    food: FoodItem,
+    food: FoodItemCart,
     onDeleteClick: () -> Unit
 ) {
-    val nutritionEssential = food.nutritionEssential
+    val nutritionEssential = food.foodItem.nutritionEssential
     val context = LocalContext.current
 
     Card(
@@ -56,7 +56,7 @@ fun FoodItem(
                 .padding(8.dp)
         ) {
             Text(
-                text = food.name,
+                text = food.foodItem.name,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
@@ -114,7 +114,7 @@ fun FoodItem(
                         color = Color.Gray
                     )
                     HeadingText(
-                        text = "${nutritionEssential.natrium.amount} ${nutritionEssential.natrium.unit.getValue(context)}",
+                        text = "${nutritionEssential.sodium.amount} ${nutritionEssential.sodium.unit.getValue(context)}",
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
@@ -127,7 +127,7 @@ fun FoodItem(
                         color = Color.Gray
                     )
                     HeadingText(
-                        text = "${nutritionEssential.kalium.amount} ${nutritionEssential.kalium.unit.getValue(context)}",
+                        text = "${nutritionEssential.potassium.amount} ${nutritionEssential.potassium.unit.getValue(context)}",
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
@@ -150,7 +150,7 @@ fun FoodItem(
 }
 
 @Composable
-fun FoodList(foodItems: List<FoodItem>, onDeleteClick: (FoodItem) -> Unit) {
+fun FoodList(foodItems: List<FoodItemCart>, onDeleteClick: (FoodItemCart) -> Unit) {
 
     Column(
         modifier = Modifier
@@ -171,12 +171,12 @@ fun FoodList(foodItems: List<FoodItem>, onDeleteClick: (FoodItem) -> Unit) {
 @Composable
 fun PreviewFoodList() {
 
-    val foodItems = remember {
-        Dummy.getFoodItems()
+    val foodItemsCart = remember {
+        Dummy.getFoodItemsCart()
     }
 
     FoodList(
-        foodItems = foodItems,
+        foodItems = foodItemsCart,
         onDeleteClick = {  }
     )
 }

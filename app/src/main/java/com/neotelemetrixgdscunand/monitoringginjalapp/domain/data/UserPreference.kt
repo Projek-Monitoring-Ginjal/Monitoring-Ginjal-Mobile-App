@@ -13,6 +13,12 @@ interface UserPreference {
 
     suspend fun deleteUserId():Boolean
 
+    suspend fun getLanguageCode():String
+
+    suspend fun saveLanguageCode(langCode:String)
+
+    suspend fun deleteLanguageCode():Boolean
+
     companion object{
         const val NAME = "UserPrefs"
     }

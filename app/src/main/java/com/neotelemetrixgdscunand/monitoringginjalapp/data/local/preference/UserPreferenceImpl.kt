@@ -52,9 +52,28 @@ class UserPreferenceImpl @Inject constructor(
         return true
     }
 
+    override suspend fun getLanguageCode(): String {
+        val prefs = dataStorePrefs.data.first()
+        return prefs[LANGUAGE_CODE] ?: "in"
+
+    }
+
+    override suspend fun saveLanguageCode(langCode: String) {
+        dataStorePrefs.edit { prefs ->
+            prefs[LANGUAGE_CODE] = langCode
+        }
+    }
+
+    override suspend fun deleteLanguageCode(): Boolean {
+        dataStorePrefs.edit { prefs ->
+            prefs[LANGUAGE_CODE] = ""
+        }
+        return true
+    }
 
     companion object{
         private val TOKEN = stringPreferencesKey("Token")
         private val USERID = intPreferencesKey("UserId")
+        private val LANGUAGE_CODE = stringPreferencesKey("LangCode")
     }
 }

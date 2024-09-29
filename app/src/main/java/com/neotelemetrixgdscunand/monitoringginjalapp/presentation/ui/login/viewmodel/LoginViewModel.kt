@@ -39,12 +39,12 @@ class LoginViewModel @Inject constructor(
         checkIfAlreadySignedIn()
     }
 
-    fun login(){
+    fun login(languageCode:String){
         job?.cancel()
         job = viewModelScope.launch {
             isLoading = true
             repository.login(
-                name, password
+                name, password, languageCode
             ).handleAsyncDefaultWithUIEvent(
                 _uiEvent,
                 onSuccess = {

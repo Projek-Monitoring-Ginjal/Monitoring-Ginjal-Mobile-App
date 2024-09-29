@@ -29,6 +29,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodPortionOp
 @Composable
 fun PortionOption(
     onOptionSelected: (FoodPortionOptions) -> Unit,
+    unit:String = "Unit"
 ) {
     Card(
         shape = RoundedCornerShape(24.dp),
@@ -53,9 +54,9 @@ fun PortionOption(
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            PortionButton(text = stringResource(R.string._1_piring), onClick = { onOptionSelected(FoodPortionOptions.OnePlate) })
-            PortionButton(text = stringResource(R.string._1_2_piring), onClick = { onOptionSelected(FoodPortionOptions.HalfPlate) })
-            PortionButton(text = stringResource(R.string._1_4_piring), onClick = { onOptionSelected(FoodPortionOptions.QuarterPlate) })
+            PortionButton(text = "1 $unit", onClick = { onOptionSelected(FoodPortionOptions.OnePlate) })
+            PortionButton(text = "1/2 $unit", onClick = { onOptionSelected(FoodPortionOptions.HalfPlate) })
+            PortionButton(text = "1/4 $unit", onClick = { onOptionSelected(FoodPortionOptions.QuarterPlate) })
         }
     }
 }

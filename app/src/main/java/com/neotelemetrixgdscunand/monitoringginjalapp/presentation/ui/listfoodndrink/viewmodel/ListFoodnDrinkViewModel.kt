@@ -8,17 +8,22 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fajar.githubuserappdicoding.core.domain.common.DynamicString
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.data.Repository
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrientNeedsInfo
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrientNeedsThreshold
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItemCart
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodPortionOptions
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEssential
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.util.ListFoodnDrinkUtil
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.util.ListFoodnDrinkUtil.adjustWithAccumulationOtherDays
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEvent
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.changePortion
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.handleAsyncDefaultWithUIEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -35,16 +40,24 @@ class ListFoodnDrinkViewModel @Inject constructor(
     var currentFoodItems by mutableStateOf<List<FoodItem>>(emptyList())
         private set
 
+    private var oldDailyNutrientThreshold by mutableStateOf(
+        DailyNutrientNeedsThreshold()
+    )
+
     var dailyNutrientNeedsInfo by mutableStateOf(
         DailyNutrientNeedsInfo(
+            DayOptions.FirstDay,
             dailyNutrientNeedsThreshold = DailyNutrientNeedsThreshold()
         )
     )
         private set
 
-    val nutrientItems by derivedStateOf{
+    val nutritionAccumulation by derivedStateOf {
         ListFoodnDrinkUtil.sumFoodNutritions(
-            meals = dailyNutrientNeedsInfo.meals
+            dailyNutrientNeedsInfo.meals,
+            currentDayOptions,
+            nutritionInfoFourDays,
+            oldDailyNutrientThreshold ?: throw Exception("error")
         )
     }
 
@@ -54,6 +67,14 @@ class ListFoodnDrinkViewModel @Inject constructor(
     var isSearching by mutableStateOf(false)
         private set
 
+    private var searchJob: Job? = null
+
+    private var nutritionInfoFourDays = listOf(
+        NutritionEssential(),
+        NutritionEssential(),
+        NutritionEssential(),
+        NutritionEssential(),
+    )
 
     private val _uiEvent = Channel<UIEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
@@ -65,17 +86,41 @@ class ListFoodnDrinkViewModel @Inject constructor(
 
     private fun getDailyNutrientNeedsInfo() {
         viewModelScope.launch {
+
+            var dailyNeedsInfo:DailyNutrientNeedsInfo? = null
+
             repository.getLatestDailyNutrientNeedsInfo(currentDayOptions)
-                .handleAsyncDefaultWithUIEvent(_uiEvent){
-                    dailyNutrientNeedsInfo = it
+                .handleAsyncDefaultWithUIEvent(_uiEvent) {
+                    dailyNeedsInfo = it
+                }
+
+            if(dailyNeedsInfo == null) {
+                _uiEvent.send(
+                    UIEvent.ShowToast(DynamicString("error.."))
+                )
+                return@launch
+            }
+
+            repository.getHemodialisaResults()
+                .handleAsyncDefaultWithUIEvent(
+                    _uiEvent
+                ){
+                    val (_, listNutritions) = it
+                    nutritionInfoFourDays = listNutritions
+                    oldDailyNutrientThreshold = dailyNeedsInfo?.dailyNutrientNeedsThreshold ?: throw Exception()
+                   val adjustedDailyNutritionInfo =  dailyNeedsInfo?.adjustWithAccumulationOtherDays(
+                        listNutritions,
+                        currentDayOptions
+                    )?: throw Exception("error")
+                    dailyNutrientNeedsInfo = adjustedDailyNutritionInfo
                 }
         }
     }
 
     private fun getFoodItems() {
         viewModelScope.launch {
-            repository.getAllFoodItems()
-                .handleAsyncDefaultWithUIEvent(_uiEvent){
+            repository.searchFoodItems("")
+                .handleAsyncDefaultWithUIEvent(_uiEvent) {
                     currentFoodItems = it
                 }
         }
@@ -84,18 +129,44 @@ class ListFoodnDrinkViewModel @Inject constructor(
     fun saveDailyNutrientNeedsInfo() {
         viewModelScope.launch {
             repository.saveDailyNutrientNeedsInfo(dailyNutrientNeedsInfo)
-                .handleAsyncDefaultWithUIEvent(_uiEvent){
-                    _uiEvent.send(UIEvent.ShowToast(it))
-                }
+                .handleAsync(
+                    onSuccess = {
+                        _uiEvent.send(
+                            UIEvent.ShowToast(
+                                it
+                            )
+                        )
+                        _uiEvent.send(
+                            UIEvent.SuccessUpdateFoodCarts
+                        )
+
+                    },
+                    onFailure = {
+                        _uiEvent.send(
+                            UIEvent.ShowToast(
+                                it
+                            )
+                        )
+                    },
+                    onError = {
+                        _uiEvent.send(
+                            UIEvent.ShowToast(
+                                DynamicString(
+                                    it.message.toString()
+                                )
+                            )
+                        )
+                    }
+                )
         }
     }
 
-    fun deleteFoodItem(foodItem: FoodItem) {
+    fun deleteFoodItem(foodItemCart: FoodItemCart) {
         dailyNutrientNeedsInfo = dailyNutrientNeedsInfo.copy(
             meals = dailyNutrientNeedsInfo.meals
                 .toMutableList()
                 .also {
-                    it.remove(foodItem)
+                    it.remove(foodItemCart)
                 }
         )
     }
@@ -110,20 +181,29 @@ class ListFoodnDrinkViewModel @Inject constructor(
     }
 
     fun addFoodItem(portion: FoodPortionOptions, foodItem: FoodItem) {
-
-        val adjustedFoodItem = foodItem.changePortion(portion)
+        val adjustedFoodItemCart = foodItem.changePortion(portion)
 
         dailyNutrientNeedsInfo = dailyNutrientNeedsInfo.copy(
             meals = dailyNutrientNeedsInfo.meals
                 .toMutableList()
                 .also {
-                    it.add(adjustedFoodItem)
+                    it.add(adjustedFoodItemCart)
                 }
         )
     }
 
 
-    fun setListFoodItemsVisibility(isVisible:Boolean){
+    fun searchFoodItem(query: String) {
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            repository.searchFoodItems(query)
+                .handleAsyncDefaultWithUIEvent(_uiEvent) { foodItems ->
+                    currentFoodItems = foodItems
+                }
+        }
+    }
+
+    fun setListFoodItemsVisibility(isVisible: Boolean) {
         isSearching = isVisible
     }
 

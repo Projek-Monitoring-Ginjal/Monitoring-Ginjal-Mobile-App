@@ -28,7 +28,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.DailyNutrientCalc
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.HomeMenu
@@ -38,9 +37,11 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.Login
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.MealResult
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green20
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.MonitoringGinjalAppTheme
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Neutral03
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Yellow20
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.screen.DailyNutrientsCalcScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.viewmodel.DailyNutrientCalcUtilVM
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.HomeMenuViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.screen.HomeMenuScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.screen.ListFoodnDrinkScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.viewmodel.ListFoodnDrinkViewModel
@@ -48,6 +49,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listmenuin
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.MultiColorText
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.screen.LoginScreen
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.viewmodel.LoginViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.screen.MealResultScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.viewmodel.MealResultViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.navigateWithCheck
@@ -86,17 +88,23 @@ fun App(
             modifier = Modifier.padding(innerPadding)
         ){
             composable<Login> {
+                val viewModel:LoginViewModel = hiltViewModel()
+
                 LoginScreen(
                     onLoginClick = {
                         isSignedIn = true
-                    }
+                    },
+                    viewModel = viewModel
                 )
             }
             composable<HomeMenu> {
+                val viewModel:HomeMenuViewModel = hiltViewModel()
+
                 HomeMenuScreen(
                     onMenuItemClick = { route ->
                         navController.navigateWithCheck(route)
-                    }
+                    },
+                    viewModel = viewModel
                 )
             }
             composable<DailyNutrientCalc> {
@@ -105,8 +113,12 @@ fun App(
                 DailyNutrientsCalcScreen(
                     onNavigate = {
                         navController.navigateWithCheck(
-                            ListFoodnDrink(DayOptions.FirstDay)
-                        )
+                            MealResult(DayOptions.FirstDay)
+                        ){
+                            popUpTo(HomeMenu){
+                                inclusive = false
+                            }
+                        }
                     },
                     viewModel = viewModel
                 )
@@ -122,11 +134,10 @@ fun App(
                         )
                     },
                     viewModel = viewModel
-                )
+                    )
             }
             composable<MealResult> {
                 val viewModel:MealResultViewModel = hiltViewModel()
-                val listFoodnDrink:ListFoodnDrink = it.toRoute()
 
                 MealResultScreen(
                     viewModel = viewModel,
@@ -134,8 +145,8 @@ fun App(
                         navController.navigateWithCheck(
                             ListFoodnDrink(dayOptions)
                         ){
-                            popUpTo(listFoodnDrink){
-                                inclusive = true
+                            popUpTo(HomeMenu){
+                                inclusive = false
                             }
                         }
                     },
@@ -165,7 +176,7 @@ fun TopBarApp(
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.White
+            containerColor = Neutral03
         ),
         modifier = modifier
             .shadow(

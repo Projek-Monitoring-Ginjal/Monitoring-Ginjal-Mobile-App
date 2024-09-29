@@ -38,7 +38,7 @@ fun ListFoodnDrinkScreen(
     viewModel: ListFoodnDrinkViewModel = hiltViewModel()
 ) {
     val currentFoodItems = viewModel.currentFoodItems
-    val nutrientItems = viewModel.nutrientItems
+    val nutrientItems = viewModel.nutritionAccumulation
     val dailyNutrientNeedsInfo = viewModel.dailyNutrientNeedsInfo
     val showPortionDialog = viewModel.showPortionDialog
     val isSearching = viewModel.isSearching
@@ -52,9 +52,17 @@ fun ListFoodnDrinkScreen(
                     it.message.getValue(context),
                     Toast.LENGTH_SHORT
                 ).show()
+                is UIEvent.SuccessUpdateFoodCarts ->{
+                    onNavigateToMealResult(
+                        viewModel.currentDayOptions
+                    )
+                }
+                else -> {}
             }
+
         }
     }
+
 
     Column(
         modifier = Modifier
@@ -66,12 +74,15 @@ fun ListFoodnDrinkScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
-            searchFoodItems = currentFoodItems,
+            foodItems = currentFoodItems,
             onAddClick = { foodItem ->
                 viewModel.showPortionDialog(foodItem)
             },
             setListVisibility = viewModel::setListFoodItemsVisibility,
-            isListVisible = isSearching
+            isListVisible = isSearching,
+            searchFoodItems = {
+                viewModel.searchFoodItem(it)
+            }
         )
 
         if(!isSearching){
@@ -123,7 +134,9 @@ fun PortionDialog(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            PortionOption(onOptionSelected = { portion ->
+            PortionOption(
+                unit = foodItem.unit,
+                onOptionSelected = { portion ->
                 viewModel.addFoodItem(portion, foodItem)
                 onDismiss()
             })

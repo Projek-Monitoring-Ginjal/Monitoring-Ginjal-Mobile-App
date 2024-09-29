@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,7 +28,6 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Typogra
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.component.Button
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.component.FormField
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.component.NutrientNeedsDialog
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.util.DailyNutrientsCalcUtil
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.viewmodel.DailyNutrientCalcUtilVM
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEvent
 
@@ -41,7 +39,6 @@ fun DailyNutrientsCalcScreen(
 ) {
     val textState = viewModel.textState
     val showDialog = viewModel.showDialog
-    val bodyweight = viewModel.bodyweight
     val context = LocalContext.current
 
     LaunchedEffect(key1 = true) {
@@ -52,6 +49,7 @@ fun DailyNutrientsCalcScreen(
                     it.message.getValue(context),
                     Toast.LENGTH_SHORT
                 ).show()
+                else -> {}
             }
         }
     }
@@ -111,15 +109,10 @@ fun DailyNutrientsCalcScreen(
 
         if (showDialog) {
             Dialog(onDismissRequest = viewModel::onDismissDialog) {
-                val dailyFoodNeedsData = remember {
-                    DailyNutrientsCalcUtil.calculateDailyFoodNeeds(
-                        weight = bodyweight
-                    )
-                }
                 NutrientNeedsDialog(
-                    dailyNutrientNeedsThreshold = dailyFoodNeedsData,
+                    nutritionNeeds = viewModel.nutritionNeeds,
                     onConfirm = {
-                        viewModel.onConfirmDialog(dailyFoodNeedsData)
+                        viewModel.onDismissDialog()
                         onNavigate()
                     }
                 )

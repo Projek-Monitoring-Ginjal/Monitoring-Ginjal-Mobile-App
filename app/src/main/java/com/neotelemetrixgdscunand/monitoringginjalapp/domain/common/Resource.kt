@@ -7,7 +7,7 @@ sealed class Resource<out T> private constructor() {
     data class Failure(val message: StringRes) : Resource<Nothing>()
     data class Error(val e: Exception) : Resource<Nothing>()
     suspend fun handleAsync(
-        onSuccess:(T) -> Unit = { },
+        onSuccess: suspend (T) -> Unit = { },
         onFailure: suspend (StringRes) -> Unit = { },
         onError: suspend (Exception) -> Unit = { }
     ){

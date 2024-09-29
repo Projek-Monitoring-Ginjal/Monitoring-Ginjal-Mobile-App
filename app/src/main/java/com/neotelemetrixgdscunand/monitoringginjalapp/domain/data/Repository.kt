@@ -6,21 +6,29 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrient
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrientNeedsThreshold
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEssential
 
 interface Repository {
 
-    fun login(name:String, password:String):Resource<StringRes>
-    fun checkIsInNutritionalDailyPeriods():Resource<Boolean>
-    fun saveDailyNutrientNeedsThreshold(
-        dailyNutrientNeedsThreshold: DailyNutrientNeedsThreshold
-    ):Resource<StringRes>
-    fun getLatestDailyNutrientNeedsInfo(
+    suspend fun login(name:String, password:String, languageCode:String):Resource<StringRes>
+
+    suspend fun checkIsInNutritionalDailyPeriods():Resource<Boolean>
+
+    suspend fun startNewHemodialisa(
+        bodyWeight:Float
+    ):Resource<Pair<NutritionEssential?, StringRes>>
+
+    suspend fun getLatestDailyNutrientNeedsInfo(
         dayOptions: DayOptions
     ):Resource<DailyNutrientNeedsInfo>
-    fun getAllFoodItems():Resource<List<FoodItem>>
+    suspend fun searchFoodItems(query:String):Resource<List<FoodItem>>
 
-    fun saveDailyNutrientNeedsInfo(
+    suspend fun checkIfAlreadySignedIn():Boolean
+
+    suspend fun saveDailyNutrientNeedsInfo(
         dailyNutrientNeedsInfo: DailyNutrientNeedsInfo
     ):Resource<StringRes>
+
+    suspend fun getHemodialisaResults():Resource<Pair<DailyNutrientNeedsThreshold, List<NutritionEssential>>>
 
 }

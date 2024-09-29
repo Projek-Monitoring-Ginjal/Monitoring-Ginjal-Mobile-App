@@ -34,6 +34,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrientNeedsThreshold
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEssential
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.util.ListFoodnDrinkUtil
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.util.MealResultUtil.roundOffDecimal
 
 @SuppressLint("DefaultLocale")
 @Composable
@@ -50,8 +51,8 @@ fun BottomBarFoodSearch(
                 nutrition.calorie to nutrition.calorie.amount / caloriesThreshold,
                 nutrition.fluid to nutrition.fluid.amount / fluidThreshold,
                 nutrition.protein to nutrition.protein.amount / proteinThreshold,
-                nutrition.natrium to nutrition.natrium.amount / natriumThreshold,
-                nutrition.kalium to nutrition.kalium.amount / kaliumThreshold
+                nutrition.sodium to nutrition.sodium.amount / sodiumThreshold,
+                nutrition.potassium to nutrition.potassium.amount / potassiumThreshold
             )
         }
     }
@@ -91,7 +92,7 @@ fun BottomBarFoodSearch(
 
             NutrientRow(
                 label = nutrient.name.getValue(context),
-                value = String.format("%.2f", nutrient.amount) + " ${nutrient.unit.getValue(context)}",
+                value = String.format("%.2f", nutrient.amount.roundOffDecimal()) + " ${nutrient.unit.getValue(context)}",
                 backgroundColor = backgroundColor
             )
         }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -18,6 +19,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.*
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listmenuinfoginjal.component.InfoDialogGinjal
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listmenuinfoginjal.component.ListMenu
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.component.ComposableRiveAnimationView
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
@@ -69,83 +71,109 @@ fun ListMenuInfoGinjalScreen(routeType: String) {
     }
 
     var selectedMenuItem by remember { mutableStateOf<String?>(null) }
-
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .padding(16.dp)
-    ) {
-        itemsIndexed(menuItems) { index, item ->
-            AnimatedListMenu(
-                title = item,
-                index = index,
-                onClick = { selectedMenuItem = item }
-            )
-        }
+    val selectedAnimation= when (routeType) {
+        "Ginjal" -> R.raw.animasiawal // Replace with the actual animation resource
+        "Hemodialisa" -> R.raw.animasi_berpikir
+        "Cairan" -> R.raw.animasi_berpikir
+        "Perawatan" -> R.raw.animasi_berpikir
+        "Diet" -> R.raw.animasi_berpikir
+        else -> null
     }
 
-    selectedMenuItem?.let {
-        val menuInfo = when (routeType) {
-            "Ginjal" -> getGinjalMenuInfo(context, it)
-            "Hemodialisa" -> {
-                val hemodialisaInfo = getHemodialisaMenuInfo(context, it)
-                MenuInfo(
-                    title = hemodialisaInfo.title,
-                    description = hemodialisaInfo.description,
-                    bulletPoints = hemodialisaInfo.bulletPoints,
-                    imageResId = hemodialisaInfo.imageResId
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        LazyColumn(
+            modifier = Modifier
+                .weight(1f)
+                .background(Color.White)
+                .padding(16.dp)
+        ) {
+            itemsIndexed(menuItems) { index, item ->
+                AnimatedListMenu(
+                    title = item,
+                    index = index,
+                    onClick = {
+                        selectedMenuItem = item
+
+                    }
                 )
             }
-            "Cairan" -> {
-                val fluidNeedInfo = getFluidNeedMenuInfo(context, it)
-                MenuInfo(
-                    title = fluidNeedInfo.title,
-                    description = fluidNeedInfo.description,
-                    bulletPoints = fluidNeedInfo.bulletPoints,
-                    imageResId = fluidNeedInfo.imageResId
-                )
-            }
-            "Perawatan" -> {
-                val careInfo = getHemodyalisisVascularAccesCareMenuInfo(context, it)
-                MenuInfo(
-                    title = careInfo.title,
-                    description = careInfo.description,
-                    bulletPoints = careInfo.bulletPoints,
-                    imageResId = careInfo.imageResId
-                )
-            }
-            "Diet" -> {
-                val dietInfo = getDietMenuInfo(context, it)
-                MenuInfo(
-                    title = dietInfo.title,
-                    description = dietInfo.description,
-                    bulletPoints = dietInfo.bulletPoints,
-                    imageResId = dietInfo.imageResId
-                )
-            }
-            else -> null
         }
 
-        menuInfo?.let {
-            InfoDialogGinjal(
-                title = it.title,
-                description = it.description,
-                imageResId = it.imageResId,
-                bulletPoints = it.bulletPoints,
-                onDismiss = { selectedMenuItem = null }
+        selectedMenuItem?.let {
+            val menuInfo = when (routeType) {
+                "Ginjal" -> getGinjalMenuInfo(context, it)
+                "Hemodialisa" -> {
+                    val hemodialisaInfo = getHemodialisaMenuInfo(context, it)
+                    MenuInfo(
+                        title = hemodialisaInfo.title,
+                        description = hemodialisaInfo.description,
+                        bulletPoints = hemodialisaInfo.bulletPoints,
+                        imageResId = hemodialisaInfo.imageResId
+                    )
+                }
+                "Cairan" -> {
+                    val fluidNeedInfo = getFluidNeedMenuInfo(context, it)
+                    MenuInfo(
+                        title = fluidNeedInfo.title,
+                        description = fluidNeedInfo.description,
+                        bulletPoints = fluidNeedInfo.bulletPoints,
+                        imageResId = fluidNeedInfo.imageResId
+                    )
+                }
+                "Perawatan" -> {
+                    val careInfo = getHemodyalisisVascularAccesCareMenuInfo(context, it)
+                    MenuInfo(
+                        title = careInfo.title,
+                        description = careInfo.description,
+                        bulletPoints = careInfo.bulletPoints,
+                        imageResId = careInfo.imageResId
+                    )
+                }
+                "Diet" -> {
+                    val dietInfo = getDietMenuInfo(context, it)
+                    MenuInfo(
+                        title = dietInfo.title,
+                        description = dietInfo.description,
+                        bulletPoints = dietInfo.bulletPoints,
+                        imageResId = dietInfo.imageResId
+                    )
+                }
+                else -> null
+            }
+
+            menuInfo?.let {
+                InfoDialogGinjal(
+                    title = it.title,
+                    description = it.description,
+                    imageResId = it.imageResId,
+                    bulletPoints = it.bulletPoints,
+                    onDismiss = { selectedMenuItem = null }
+                )
+            }
+        }
+        println(selectedAnimation)
+        // Display the selected animation in the bottom left corner
+        selectedAnimation?.let { animation ->
+            ComposableRiveAnimationView(
+                animation = animation,
+                modifier = Modifier
+//                    .align(Alignment.BottomStart) // Align to the bottom-left corner
+                    .padding(start = 16.dp, bottom = 16.dp) // Optional padding
+                    .size(220.dp) // Set the size for the animation
             )
         }
     }
 }
-
 
 @Composable
 fun AnimatedListMenu(title: String, index: Int, onClick: () -> Unit) {
     var visible by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        delay(index * 3000L)
+        delay(index * 2000L)
         visible = true
     }
 
@@ -169,3 +197,4 @@ fun AnimatedListMenu(title: String, index: Int, onClick: () -> Unit) {
 private fun ListMenuInfoGinjalPreview() {
     ListMenuInfoGinjalScreen("Cairan")
 }
+

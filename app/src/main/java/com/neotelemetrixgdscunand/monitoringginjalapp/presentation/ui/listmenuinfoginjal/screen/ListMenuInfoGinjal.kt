@@ -95,7 +95,6 @@ fun ListMenuInfoGinjalScreen(routeType: String) {
         "Diet" -> R.raw.submenudiet
         else -> null
     }
-
     Column(
         modifier = Modifier
             .fillMaxSize()

@@ -1,5 +1,6 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.screen
 
+import android.media.MediaPlayer
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
@@ -26,8 +28,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -54,24 +56,57 @@ fun HomeMenuScreen(
     onMenuItemClick: (Route) -> Unit = { },
     viewModel: HomeMenuViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current // Access the current context
+
 
     var isOpeningAnimationComplete by remember {
-        mutableStateOf(false)
+        mutableStateOf(true)
     }
 
     val animationDuration = 5000L
     var isVisible by remember {
-        mutableStateOf(false)
+        mutableStateOf(true)
     }
 
-    val context = LocalContext.current
+    var visibleMenuIndex by remember {
+        mutableStateOf(-1) // Start with -1, so no items are visible initially
+    }
+
+    val menuItems = remember {
+        HomeMenuItem.entries
+    }
+
+//    LaunchedEffect(key1 = isOpeningAnimationComplete) {
+//        if (!isOpeningAnimationComplete) {
+//            delay(animationDuration)
+//            isOpeningAnimationComplete = true
+//        } else {
+//            isVisible = true
+//            // Trigger item visibility one by one
+//            menuItems.indices.forEach { index ->
+//                delay(1000L) // 1 second delay for each menu item
+//                visibleMenuIndex = index
+//            }
+//        }
+//    }
 
     LaunchedEffect(key1 = isOpeningAnimationComplete) {
         if (!isOpeningAnimationComplete) {
             delay(animationDuration)
             isOpeningAnimationComplete = true
-        }else {
+        } else {
             isVisible = true
+            val mediaPlayer = MediaPlayer.create(context, R.raw.sound_awal) // Replace with your audio file
+            mediaPlayer.start()
+            mediaPlayer.setOnCompletionListener {
+                mediaPlayer.release() // Release the media player when done
+            }
+            // Trigger item visibility one by one
+            menuItems.indices.forEach { index ->
+                delay(2000L) // 1 second delay for each menu item
+                visibleMenuIndex = index
+
+            }
         }
     }
 
@@ -96,43 +131,33 @@ fun HomeMenuScreen(
     }
 
     Surface(color = Grey40) {
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = if (!isOpeningAnimationComplete) Alignment.CenterHorizontally else Alignment.Start,
-            verticalArrangement = if (!isOpeningAnimationComplete) Arrangement.Center else Arrangement.Top
-        ) {
+        // Removed unnecessary padding here
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(
+                modifier = modifier
+                    .padding(16.dp), // Padding is still applied to content
+                horizontalAlignment = if (!isOpeningAnimationComplete) Alignment.CenterHorizontally else Alignment.Start,
+                verticalArrangement = if (!isOpeningAnimationComplete) Arrangement.Center else Arrangement.Top
+            ) {
 
-            if (!isOpeningAnimationComplete) {
-                ComposableRiveAnimationView(animation = R.raw.animasi_berpikir)
-            } else {
-                val menuItems = remember {
-                    HomeMenuItem.entries
-                }
 
-                HeadingText(
-                    text = stringResource(R.string.apa_yang_bapak_ibu_ingin_ketahui),
-                    color = Color.Black,
-                    fontWeight = FontWeight.ExtraBold
-                )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
+                // Make the LazyVerticalGrid scrollable if it becomes too long
                 LazyVerticalGrid(
+                    modifier = Modifier.weight(1f), // This ensures the grid takes up remaining space and is scrollable
                     contentPadding = PaddingValues(top = 4.dp),
-                    columns = GridCells.Fixed(3),
+                    columns = GridCells.Fixed(2), // Set to 2 columns
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-
-
                     itemsIndexed(
                         items = menuItems,
                         key = { _, it -> it.hashCode() }
                     ) { i, menuItem ->
 
                         AnimatedVisibility(
-                            visible = isVisible,
+                            visible = i <= visibleMenuIndex, // Only show items up to the current index
                             enter = scaleIn(),
                             exit = scaleOut()
                         ) {
@@ -151,10 +176,18 @@ fun HomeMenuScreen(
                     }
                 }
             }
+
+            // Ensure the animation is fixed at the bottom-left corner without padding
+            ComposableRiveAnimationView(
+                animation = R.raw.animasiawal,
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(start = 36.dp)
+                    .size(220.dp) // The size is applied but without padding
+            )
+
         }
     }
-
-
 }
 
 
@@ -185,3 +218,4 @@ private fun HomeScreenPreview() {
         HomeMenuScreen()
     }
 }
+

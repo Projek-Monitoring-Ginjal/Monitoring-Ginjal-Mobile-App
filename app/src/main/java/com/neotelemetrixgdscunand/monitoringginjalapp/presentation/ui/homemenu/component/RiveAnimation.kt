@@ -19,7 +19,7 @@ fun ComposableRiveAnimationView(
     modifier: Modifier = Modifier,
     @RawRes animation: Int,
     stateMachineName: String? = null,
-    alignment: app.rive.runtime.kotlin.core.Alignment = app.rive.runtime.kotlin.core.Alignment.CENTER,
+    alignment: app.rive.runtime.kotlin.core.Alignment = app.rive.runtime.kotlin.core.Alignment.BOTTOM_CENTER,
     fit: Fit = Fit.CONTAIN,
     onInit: (RiveAnimationView) -> Unit = {}
 ) {

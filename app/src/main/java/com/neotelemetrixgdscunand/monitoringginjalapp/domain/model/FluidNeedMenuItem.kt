@@ -15,31 +15,31 @@ fun getFluidNeedMenuInfo(context: Context, title: String): FluidNeedMenuInfo {
         context.getString(R.string.kenapa_cairan_dan_minuman_diaturr_title) -> FluidNeedMenuInfo(
             title = context.getString(R.string.kenapa_cairan_dan_minuman_diaturr_title),
             description = context.getString(R.string.kenapa_cairan_dan_minuman_diaturr_desc),
-            imageResId = R.drawable.doctor_image
+            imageResId = R.drawable.cairan_tubuh
         )
         context.getString(R.string.berapa_kebutuhan_cairan_title) -> FluidNeedMenuInfo(
             title = context.getString(R.string.berapa_kebutuhan_cairan_title),
             description = context.getString(R.string.berapa_kebutuhan_cairan_title),
             bulletPoints = context.resources.getStringArray(R.array.berapa_kebutuhan_cairan_bullet_points).toList(),
-            imageResId = R.drawable.doctor_image
+            imageResId = R.drawable.kebutuhan_cairan_tubuh
         )
         context.getString(R.string.tips_mengurangi_cairan_title) -> FluidNeedMenuInfo(
             title = context.getString(R.string.tips_mengurangi_cairan_title),
             description = context.getString(R.string.tips_mengurangi_cairan_title),
             bulletPoints = context.resources.getStringArray(R.array.tips_mengurangi_cairan_bullet_points).toList(),
-            imageResId = R.drawable.doctor_image
+            imageResId = R.drawable.tips_cairan
         )
         context.getString(R.string.tips_mengontrol_haus_title) -> FluidNeedMenuInfo(
             title = context.getString(R.string.tips_mengontrol_haus_title),
             description = context.getString(R.string.tips_mengontrol_haus_title),
             bulletPoints = context.resources.getStringArray(R.array.tips_mengontrol_haus_bullet_points).toList(),
-            imageResId = R.drawable.doctor_image
+            imageResId = R.drawable.kontrol_haus
         )
         context.getString(R.string.pembagian_waktu_minum_title) -> FluidNeedMenuInfo(
             title = context.getString(R.string.pembagian_waktu_minum_title),
             description = context.getString(R.string.pembagian_waktu_minum_title),
             bulletPoints = context.resources.getStringArray(R.array.pembagian_waktu_minum_bullet_points).toList(),
-            imageResId = R.drawable.doctor_image
+            imageResId = R.drawable.pembagian_waktu_minum
         )
         else -> FluidNeedMenuInfo(
             title = context.getString(R.string.informasi_tidak_tersedia),

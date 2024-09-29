@@ -72,10 +72,10 @@ fun ListMenuInfoGinjalScreen(routeType: String) {
 
     var selectedMenuItem by remember { mutableStateOf<String?>(null) }
     val selectedAnimation= when (routeType) {
-        "Ginjal" -> R.raw.animasiawal // Replace with the actual animation resource
-        "Hemodialisa" -> R.raw.animasi_berpikir
-        "Cairan" -> R.raw.animasi_berpikir
-        "Perawatan" -> R.raw.animasi_berpikir
+        "Ginjal" -> R.raw.submenugglginjal // Replace with the actual animation resource
+        "Hemodialisa" -> R.raw.submenuhemo
+        "Cairan" -> R.raw.submenukebutuhancairan
+        "Perawatan" -> R.raw.submenuvaskuler
         "Diet" -> R.raw.animasi_berpikir
         else -> null
     }

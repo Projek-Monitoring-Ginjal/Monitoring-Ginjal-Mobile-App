@@ -19,6 +19,10 @@ object MealResultUtil {
         return progressFraction
     }
 
+    fun Float.roundOffDecimal(): Float {
+        return Math.round(this * 100.0) / 100.0f
+    }
+
     fun calculateDailyNutritionAmountAndThreshold(
         dailyNutrientNeedsThreshold: DailyNutrientNeedsThreshold,
         nutritionEssentialsForFourDays: List<NutritionEssential>,

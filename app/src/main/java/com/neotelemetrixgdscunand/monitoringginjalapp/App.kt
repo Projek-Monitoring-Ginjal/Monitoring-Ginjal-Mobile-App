@@ -28,7 +28,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.DailyNutrientCalc
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.HomeMenu
@@ -114,8 +113,12 @@ fun App(
                 DailyNutrientsCalcScreen(
                     onNavigate = {
                         navController.navigateWithCheck(
-                            ListFoodnDrink(DayOptions.FirstDay)
-                        )
+                            MealResult(DayOptions.FirstDay)
+                        ){
+                            popUpTo(HomeMenu){
+                                inclusive = false
+                            }
+                        }
                     },
                     viewModel = viewModel
                 )
@@ -135,7 +138,6 @@ fun App(
             }
             composable<MealResult> {
                 val viewModel:MealResultViewModel = hiltViewModel()
-                val listFoodnDrink:ListFoodnDrink = it.toRoute()
 
                 MealResultScreen(
                     viewModel = viewModel,

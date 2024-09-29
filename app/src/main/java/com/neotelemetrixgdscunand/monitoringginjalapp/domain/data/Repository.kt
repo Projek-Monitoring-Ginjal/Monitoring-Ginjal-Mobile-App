@@ -11,10 +11,13 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEsse
 interface Repository {
 
     suspend fun login(name:String, password:String, languageCode:String):Resource<StringRes>
+
     suspend fun checkIsInNutritionalDailyPeriods():Resource<Boolean>
-    suspend fun saveDailyNutrientNeedsThreshold(
-        dailyNutrientNeedsThreshold: DailyNutrientNeedsThreshold
-    ):Resource<StringRes>
+
+    suspend fun startNewHemodialisa(
+        bodyWeight:Float
+    ):Resource<Pair<NutritionEssential?, StringRes>>
+
     suspend fun getLatestDailyNutrientNeedsInfo(
         dayOptions: DayOptions
     ):Resource<DailyNutrientNeedsInfo>

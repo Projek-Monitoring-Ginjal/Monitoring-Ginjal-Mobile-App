@@ -4,14 +4,14 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -32,9 +32,9 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.getFluidNeedM
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.getGinjalMenuInfo
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.getHemodialisaMenuInfo
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.getHemodyalisisVascularAccesCareMenuInfo
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.component.ComposableRiveAnimationView
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listmenuinfoginjal.component.InfoDialogGinjal
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listmenuinfoginjal.component.ListMenu
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.component.ComposableRiveAnimationView
 import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
@@ -101,7 +101,7 @@ fun ListMenuInfoGinjalScreen(routeType: String) {
     ) {
         LazyColumn(
             modifier = Modifier
-                .weight(1f)
+//                .weight(1f)
                 .background(Color.White)
                 .padding(16.dp)
         ) {
@@ -175,6 +175,7 @@ fun ListMenuInfoGinjalScreen(routeType: String) {
             ComposableRiveAnimationView(
                 animation = animation,
                 modifier = Modifier
+                    .background(Color.Transparent)
 //                    .align(Alignment.BottomStart) // Align to the bottom-left corner
                     .padding(start = 16.dp, bottom = 16.dp) // Optional padding
                     .size(220.dp) // Set the size for the animation

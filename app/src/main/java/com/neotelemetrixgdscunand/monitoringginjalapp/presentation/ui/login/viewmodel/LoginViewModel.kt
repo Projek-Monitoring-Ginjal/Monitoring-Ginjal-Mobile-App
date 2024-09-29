@@ -56,6 +56,7 @@ class LoginViewModel @Inject constructor(
                     isSignedIn = true
                 }
             )
+            isLoading = false
         }
     }
 

@@ -1,18 +1,15 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.data.repository
 
 import com.fajar.githubuserappdicoding.core.domain.common.DynamicString
-import com.fajar.githubuserappdicoding.core.domain.common.StaticString
 import com.fajar.githubuserappdicoding.core.domain.common.StringRes
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.data.remote.network.ApiService
 import com.neotelemetrixgdscunand.monitoringginjalapp.data.repository.Mapper.mapToDailyNutrientNeedsInfo
 import com.neotelemetrixgdscunand.monitoringginjalapp.data.repository.Mapper.mapToFoodItem
 import com.neotelemetrixgdscunand.monitoringginjalapp.data.repository.Mapper.mapToFoodItemBody
 import com.neotelemetrixgdscunand.monitoringginjalapp.data.repository.Mapper.mapToMealResultInfo
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Dummy
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Mapper
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Resource
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Response
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.data.Repository
@@ -21,6 +18,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrient
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrientNeedsThreshold
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodNutrient
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEssential
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -137,20 +135,25 @@ class RepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun saveDailyNutrientNeedsThreshold(dailyNutrientNeedsThreshold: DailyNutrientNeedsThreshold): Resource<StringRes> {
-        latestDailyNutrientNeedsThreshold = dailyNutrientNeedsThreshold
-
-        latestDailyNutrientNeedsInfos.forEachIndexed{ index, it ->
-            val updatedDailyNutrientNeedsInfo = Mapper.setDailyNutritionThresholdToDailyNutrientNeedsInfo(
-                it, dailyNutrientNeedsThreshold
-            )
-            latestDailyNutrientNeedsInfos[index] = updatedDailyNutrientNeedsInfo
-        }
-
-        return Resource.Success(
-            StaticString(
-                R.string.daily_nutrient_needs_threshold_saved_successfully
-            )
+    override suspend fun startNewHemodialisa(bodyWeight:Float): Resource<Pair<NutritionEssential?, StringRes>> {
+        return fetchData(
+            fetch = {
+                apiService.startNewHemodialisaPeriods(
+                    bodyWeight
+                )
+            },
+            mapData = {
+                val nutritionNeeds = this.data?.let {
+                    NutritionEssential(
+                        calorie = FoodNutrient.Calorie(it.calories ?: throw Exception("error")),
+                        protein = FoodNutrient.Protein(it.protein ?: throw Exception("error")),
+                        fluid = FoodNutrient.Fluid(it.fluids ?: throw Exception("error")),
+                        sodium = FoodNutrient.Sodium(it.sodium ?: throw Exception("error")),
+                        potassium = FoodNutrient.Potassium(it.potassium ?: throw  Exception("error"))
+                    )
+                }
+                Pair(nutritionNeeds, DynamicString(message))
+            }
         )
     }
 

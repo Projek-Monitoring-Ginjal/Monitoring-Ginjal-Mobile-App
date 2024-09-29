@@ -1,5 +1,8 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.data.Repository
@@ -16,11 +19,15 @@ class HomeMenuViewModel @Inject constructor(
     private val repository: Repository
 ):ViewModel() {
 
+    var isLoading by mutableStateOf(false)
+        private set
+
     private val _uiEvent = Channel<UIEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
     fun checkIsInPeriods(){
         viewModelScope.launch {
+            isLoading = true
             repository.checkIsInNutritionalDailyPeriods()
                 .handleAsyncDefaultWithUIEvent(
                     _uiEvent,
@@ -32,6 +39,7 @@ class HomeMenuViewModel @Inject constructor(
                         )
                     }
                 )
+            isLoading = false
         }
 
     }

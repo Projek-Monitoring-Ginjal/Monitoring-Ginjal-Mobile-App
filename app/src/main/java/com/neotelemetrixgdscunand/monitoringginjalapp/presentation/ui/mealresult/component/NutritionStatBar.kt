@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green40
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.MonitoringGinjalAppTheme
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.util.MealResultUtil.roundOffDecimal
 
 @Composable
 fun NutritionStatBar(
@@ -42,7 +43,7 @@ fun NutritionStatBar(
             Spacer(modifier = Modifier.weight(1f))
             HeadingText(
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                text = "$nutritionalContentValue $nutritionalContentUnit",
+                text = "${nutritionalContentValue.roundOffDecimal()} $nutritionalContentUnit",
                 color =  Color.Black,
                 fontWeight = FontWeight.Bold
             )

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -53,7 +54,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEve
 fun LoginScreen(
     modifier: Modifier = Modifier,
     onLoginClick: () -> Unit = {},
-    viewModel : LoginViewModel = hiltViewModel()
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
 
     var isPasswordVisible by remember { mutableStateOf(false) }
@@ -64,36 +65,38 @@ fun LoginScreen(
     val localeLanguageOptions = LoginUtil.getLanguageLocaleOptions(LocalContext.current)
 
     LaunchedEffect(key1 = viewModel.isSignedIn) {
-        if(viewModel.isSignedIn == true){
+        if (viewModel.isSignedIn == true) {
             onLoginClick()
         }
     }
 
     LaunchedEffect(key1 = true) {
-        viewModel.uiEvent.collect{
-            when(it){
+        viewModel.uiEvent.collect {
+            when (it) {
                 is UIEvent.ShowToast -> Toast.makeText(
                     context,
                     it.message.getValue(context),
                     Toast.LENGTH_SHORT
                 ).show()
+
                 else -> {}
             }
         }
     }
 
 
-    if(viewModel.isSignedIn == false){
+    if (viewModel.isSignedIn == false) {
         Box(
             modifier = modifier
                 .fillMaxSize()
         ) {
+
             Column(
                 verticalArrangement = Arrangement.Bottom,
                 modifier = Modifier
                     .align(Alignment.TopCenter)
                     .fillMaxHeight(0.2f)
-            ){
+            ) {
                 MultiColorText(
                     textWithColors = arrayOf(
                         Pair(
@@ -151,10 +154,11 @@ fun LoginScreen(
                                     isPasswordVisible = !isPasswordVisible
                                 },
                             painter =
-                            if(isPasswordVisible)
+                            if (isPasswordVisible)
                                 painterResource(id = R.drawable.ic_eye)
                             else painterResource(
-                                id = R.drawable.ic_eye_hide),
+                                id = R.drawable.ic_eye_hide
+                            ),
                             contentDescription = null
                         )
                     },
@@ -189,7 +193,7 @@ fun LoginScreen(
                             painter = painterResource(id = R.drawable.ic_language),
                             contentDescription = null
                         )
-                    } ,
+                    },
                     trailingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_arrow_down),
@@ -219,17 +223,17 @@ fun LoginScreen(
                 fontWeight = FontWeight.Normal,
                 letterSpacing = 0.1.sp
             )
+
+            if (viewModel.isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.align(Alignment.Center),
+                    color = Green20
+                )
+            }
         }
+
     }
-
-
 }
-
-
-
-
-
-
 
 
 @Preview(showBackground = true)

@@ -1,7 +1,10 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.util
 
 import androidx.compose.ui.graphics.Color
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrientNeedsInfo
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrientNeedsThreshold
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItemCart
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodNutrient
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEssential
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green50
@@ -10,7 +13,73 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Yellow4
 
 object ListFoodnDrinkUtil {
 
-    fun sumFoodNutritions(meals:List<FoodItem>): NutritionEssential {
+    fun DailyNutrientNeedsInfo.adjustWithAccumulationOtherDays(
+        nutritionEssentialsForFourDays: List<NutritionEssential>,
+        dayOptions: DayOptions
+    ):DailyNutrientNeedsInfo{
+
+        val dailyNutrientNeedsThreshold = dailyNutrientNeedsThreshold
+
+        var deficitOrSurplusCalorie = 0f
+        var deficitOrSurplusFluid = 0f
+        var deficitOrSurplusProtein = 0f
+        var deficitOrSurplusSodium = 0f
+        var deficitOrSurplusPotassium = 0f
+
+        val daysBeforeIndex = dayOptions.index - 1
+        if(daysBeforeIndex > -1){
+            for(i in 0..daysBeforeIndex){
+                val currDayNutritionEssential = nutritionEssentialsForFourDays[i]
+                deficitOrSurplusCalorie += currDayNutritionEssential.calorie.amount - dailyNutrientNeedsThreshold.caloriesThreshold
+                deficitOrSurplusFluid += currDayNutritionEssential.fluid.amount - dailyNutrientNeedsThreshold.fluidThreshold
+                deficitOrSurplusProtein += currDayNutritionEssential.protein.amount - dailyNutrientNeedsThreshold.proteinThreshold
+                deficitOrSurplusSodium += currDayNutritionEssential.sodium.amount - dailyNutrientNeedsThreshold.sodiumThreshold
+                deficitOrSurplusPotassium += currDayNutritionEssential.potassium.amount - dailyNutrientNeedsThreshold.potassiumThreshold
+            }
+        }
+
+        val currentAdjustedDayNutritionThreshold = nutritionEssentialsForFourDays[dayOptions.index].let {
+            DailyNutrientNeedsThreshold(
+                caloriesThreshold = dailyNutrientNeedsThreshold.caloriesThreshold - deficitOrSurplusCalorie,
+                fluidThreshold = dailyNutrientNeedsThreshold.fluidThreshold - deficitOrSurplusFluid,
+                proteinThreshold = dailyNutrientNeedsThreshold.proteinThreshold - deficitOrSurplusProtein,
+                sodiumThreshold = dailyNutrientNeedsThreshold.sodiumThreshold - deficitOrSurplusSodium,
+                potassiumThreshold = dailyNutrientNeedsThreshold.potassiumThreshold - deficitOrSurplusPotassium
+            )
+        }
+        val adjustedDailyNutrientNeedsInfo = this.copy(
+            dailyNutrientNeedsThreshold = currentAdjustedDayNutritionThreshold
+        )
+
+        return adjustedDailyNutrientNeedsInfo
+    }
+
+
+    fun sumFoodNutritions(
+        meals:List<FoodItemCart>,
+        dayOptions: DayOptions,
+        nutritionEssentialsForFourDays: List<NutritionEssential>,
+        dailyNutrientNeedsThreshold: DailyNutrientNeedsThreshold
+    ): NutritionEssential {
+
+        var deficitOrSurplusCalorie = 0f
+        var deficitOrSurplusFluid = 0f
+        var deficitOrSurplusProtein = 0f
+        var deficitOrSurplusSodium = 0f
+        var deficitOrSurplusPotassium = 0f
+
+        val daysBeforeIndex = dayOptions.index - 1
+        if(daysBeforeIndex > -1){
+            for(i in 0..daysBeforeIndex){
+                val currDayNutritionEssential = nutritionEssentialsForFourDays[i]
+                deficitOrSurplusCalorie += currDayNutritionEssential.calorie.amount - dailyNutrientNeedsThreshold.caloriesThreshold
+                deficitOrSurplusFluid += currDayNutritionEssential.fluid.amount - dailyNutrientNeedsThreshold.fluidThreshold
+                deficitOrSurplusProtein += currDayNutritionEssential.protein.amount - dailyNutrientNeedsThreshold.proteinThreshold
+                deficitOrSurplusSodium += currDayNutritionEssential.sodium.amount - dailyNutrientNeedsThreshold.sodiumThreshold
+                deficitOrSurplusPotassium += currDayNutritionEssential.potassium.amount - dailyNutrientNeedsThreshold.potassiumThreshold
+            }
+        }
+
         var totalCalories = 0f
         var totalFluid = 0f
         var totalProtein = 0f
@@ -18,20 +87,22 @@ object ListFoodnDrinkUtil {
         var totalKalium = 0f
 
         meals.forEach {
-            totalCalories += it.nutritionEssential.calorie.amount
-            totalFluid += it.nutritionEssential.fluid.amount
-            totalProtein += it.nutritionEssential.protein.amount
-            totalNatrium += it.nutritionEssential.natrium.amount
-            totalKalium += it.nutritionEssential.kalium.amount
+            totalCalories += it.foodItem.nutritionEssential.calorie.amount
+            totalFluid += it.foodItem.nutritionEssential.fluid.amount
+            totalProtein += it.foodItem.nutritionEssential.protein.amount
+            totalNatrium += it.foodItem.nutritionEssential.sodium.amount
+            totalKalium += it.foodItem.nutritionEssential.potassium.amount
         }
 
-        return NutritionEssential(
-            calorie = FoodNutrient.Calorie(totalCalories),
-            fluid = FoodNutrient.Fluid(totalFluid),
-            protein = FoodNutrient.Protein(totalProtein),
-            natrium = FoodNutrient.Natrium(totalNatrium),
-            kalium = FoodNutrient.Kalium(totalKalium)
+        val currentAdjustedDayNutritionEssential = NutritionEssential(
+            calorie = FoodNutrient.Calorie(totalCalories + deficitOrSurplusCalorie),
+            fluid = FoodNutrient.Fluid(totalFluid + deficitOrSurplusFluid),
+            protein = FoodNutrient.Protein(totalProtein + deficitOrSurplusProtein),
+            sodium = FoodNutrient.Sodium(totalNatrium + deficitOrSurplusSodium),
+            potassium = FoodNutrient.Potassium(totalKalium + deficitOrSurplusPotassium)
         )
+
+        return currentAdjustedDayNutritionEssential
     }
 
     fun getColorFromGradient(

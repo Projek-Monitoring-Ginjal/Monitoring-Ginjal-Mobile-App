@@ -55,35 +55,31 @@ fun MealResultScreen(
     onFinish: () -> Unit = { }
 ) {
 
-    val dailyNutrientNeedsInfo = viewModel.dailyNutrientNeedsInfo
-    val nutritionTotalInfo = remember(dailyNutrientNeedsInfo){
-        ListFoodnDrinkUtil.sumFoodNutritions(dailyNutrientNeedsInfo.meals)
-    }
-    val nutritionToProgressFraction = remember(nutritionTotalInfo, dailyNutrientNeedsInfo) {
-        dailyNutrientNeedsInfo.dailyNutrientNeedsThreshold.run {
-            listOf(
-                nutritionTotalInfo.calorie to MealResultUtil.calculateProgressFraction(
-                    nutritionTotalInfo.calorie.amount,
-                    caloriesThreshold
-                ),
-                nutritionTotalInfo.fluid to MealResultUtil.calculateProgressFraction(
-                    nutritionTotalInfo.fluid.amount,
-                    fluidThreshold
-                ),
-                nutritionTotalInfo.protein to MealResultUtil.calculateProgressFraction(
-                    nutritionTotalInfo.protein.amount,
-                    proteinThreshold
-                ),
-                nutritionTotalInfo.natrium to MealResultUtil.calculateProgressFraction(
-                    nutritionTotalInfo.natrium.amount,
-                    natriumThreshold
-                ),
-                nutritionTotalInfo.kalium to MealResultUtil.calculateProgressFraction(
-                    nutritionTotalInfo.kalium.amount,
-                    kaliumThreshold
-                )
+
+    val nutritionToProgressFraction = remember(viewModel.currentDayMealResult) {
+        val (thresholds, nutritionTotalInfo) = viewModel.currentDayMealResult
+        listOf(
+             nutritionTotalInfo.calorie to MealResultUtil.calculateProgressFraction(
+                nutritionTotalInfo.calorie.amount,
+                thresholds.caloriesThreshold
+            ),
+            nutritionTotalInfo.fluid to MealResultUtil.calculateProgressFraction(
+                nutritionTotalInfo.fluid.amount,
+                thresholds.fluidThreshold
+            ),
+            nutritionTotalInfo.protein to MealResultUtil.calculateProgressFraction(
+                nutritionTotalInfo.protein.amount,
+                thresholds.proteinThreshold
+            ),
+            nutritionTotalInfo.sodium to MealResultUtil.calculateProgressFraction(
+                nutritionTotalInfo.sodium.amount,
+                thresholds.sodiumThreshold
+            ),
+            nutritionTotalInfo.potassium to MealResultUtil.calculateProgressFraction(
+                nutritionTotalInfo.potassium.amount,
+                thresholds.potassiumThreshold
             )
-        }
+        )
     }
 
     val context = LocalContext.current
@@ -97,9 +93,10 @@ fun MealResultScreen(
 
     val tabs = remember {
         listOf(
-            "Hari 1",
-            "Hari 2",
-            "Hari 3"
+            R.string.hari_1,
+            R.string.hari_2,
+            R.string.hari_3,
+            R.string.hari_4,
         )
     }
 
@@ -112,6 +109,7 @@ fun MealResultScreen(
                     it.message.getValue(context),
                     Toast.LENGTH_SHORT
                 ).show()
+                else -> {}
             }
         }
     }
@@ -132,14 +130,14 @@ fun MealResultScreen(
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ){
-                    tabs.forEachIndexed { index, tabText ->
+                    tabs.forEachIndexed { index, tabTextResId ->
                         MealDayTab(
                             isSelected = selectedTabIndex == index,
                             onClick = {
                                 selectedTabIndex = index
                                 viewModel.dayOptions = DayOptions.entries[selectedTabIndex]
                             },
-                            text = tabText
+                            text = stringResource(id = tabTextResId)
                         )
                     }
                 }

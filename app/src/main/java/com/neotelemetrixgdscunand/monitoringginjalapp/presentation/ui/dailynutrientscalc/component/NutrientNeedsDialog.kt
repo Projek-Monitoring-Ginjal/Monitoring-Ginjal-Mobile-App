@@ -22,12 +22,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrientNeedsThreshold
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEssential
 
 @Composable
 fun NutrientNeedsDialog(
     modifier: Modifier = Modifier,
-    dailyNutrientNeedsThreshold: DailyNutrientNeedsThreshold,
+    nutritionNeeds: NutritionEssential,
     onConfirm: () -> Unit = {},
 ) {
     Card(
@@ -57,23 +57,23 @@ fun NutrientNeedsDialog(
 
             NutrientInfoRow(
                 stringResource(R.string.kalori),
-                "${dailyNutrientNeedsThreshold.caloriesThreshold} kkal"
+                "${nutritionNeeds.calorie.amount} kkal"
             )
             NutrientInfoRow(
                 stringResource(R.string.cairan),
-                "${dailyNutrientNeedsThreshold.fluidThreshold} ml"
+                "${nutritionNeeds.fluid.amount} ml"
             )
             NutrientInfoRow(
                 stringResource(R.string.protein),
-                "${dailyNutrientNeedsThreshold.proteinThreshold} gr"
+                "${nutritionNeeds.protein.amount} gr"
             )
             NutrientInfoRow(
                 stringResource(R.string.natrium),
-                "${dailyNutrientNeedsThreshold.natriumThreshold} mg"
+                "${nutritionNeeds.sodium.amount} mg"
             )
             NutrientInfoRow(
                 stringResource(R.string.kalium),
-                "${dailyNutrientNeedsThreshold.kaliumThreshold} mg"
+                "${nutritionNeeds.potassium.amount} mg"
             )
             Button(
                 text = "OK",
@@ -118,12 +118,6 @@ fun NutrientInfoRow(label: String, value: String) {
 @Composable
 fun NutrientCardPreview() {
     NutrientNeedsDialog(
-        dailyNutrientNeedsThreshold = DailyNutrientNeedsThreshold(
-            caloriesThreshold = 2000f,
-            fluidThreshold = 1000f,
-            proteinThreshold = 100f,
-            natriumThreshold = 1000f,
-            kaliumThreshold = 1000f
-        )
+        nutritionNeeds = NutritionEssential()
     )
 }

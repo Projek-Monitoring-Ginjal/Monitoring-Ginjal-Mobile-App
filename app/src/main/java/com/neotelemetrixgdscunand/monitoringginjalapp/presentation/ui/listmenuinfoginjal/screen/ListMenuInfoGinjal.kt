@@ -26,14 +26,14 @@ fun ListMenuInfoGinjalScreen(routeType: String) {
     val context = LocalContext.current
     val menuItems = when (routeType) {
         "Ginjal" -> listOf(
-            context.getString(R.string.pengertian_gagal_ginjal),
-            context.getString(R.string.fungsi_ginjal_normal),
+            context.getString(R.string.pengertian_gagal_ginjal_title),
+            context.getString(R.string.fungsi_ginjal_normal_title),
             context.getString(R.string.penyebab_gagal_ginjal_kronis),
-            context.getString(R.string.tanda_dan_gejala),
-            context.getString(R.string.pemeriksaan_untuk_diagnosa),
-            context.getString(R.string.pencegahan),
-            context.getString(R.string.pengobatan),
-            context.getString(R.string.kondisi_lebih_lanjut_gagal_ginjal_kronis)
+            context.getString(R.string.tanda_gejala_title),
+            context.getString(R.string.pemeriksaan_diagnosa_title),
+            context.getString(R.string.pencegahan_title),
+            context.getString(R.string.pengobatan_title),
+            context.getString(R.string.kondisi_lanjut_title)
         )
         "Hemodialisa" -> listOf(
             context.getString(R.string.pengertian_hemodialisa_title),
@@ -145,7 +145,7 @@ fun AnimatedListMenu(title: String, index: Int, onClick: () -> Unit) {
     var visible by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
-        delay(index * 100L)
+        delay(index * 3000L)
         visible = true
     }
 

@@ -11,7 +11,7 @@
     <string name="kalori">Calories</string>
     <string name="protein">Protein</string>
     <string name="pilih_makanan_harian">Select daily meals</string>
-    <string name="berat_badan_kering_saya">My dry weight</string>
+    <string name="berat_badan_kering_saya">My dry weight (in kg)</string>
     <string name="tulis_angka">Enter number</string>
     <string name="simpan">Save</string>
     <string name="ok">OK</string>

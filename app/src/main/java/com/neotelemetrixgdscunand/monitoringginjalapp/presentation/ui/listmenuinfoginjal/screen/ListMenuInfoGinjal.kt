@@ -92,7 +92,7 @@ fun ListMenuInfoGinjalScreen(routeType: String) {
         "Hemodialisa" -> R.raw.submenuhemo
         "Cairan" -> R.raw.submenukebutuhancairan
         "Perawatan" -> R.raw.submenuvaskuler
-        "Diet" -> R.raw.animasi_berpikir
+        "Diet" -> R.raw.submenudiet
         else -> null
     }
 

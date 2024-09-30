@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -24,6 +25,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Dummy
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green20
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.component.BottomBarFoodSearch
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.component.FoodItem
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.component.PortionOption
@@ -70,49 +72,57 @@ fun ListFoodnDrinkScreen(
             .background(color = colorResource(R.color.white))
             .padding(horizontal = 8.dp)
     ) {
-        SearchBar(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            foodItems = currentFoodItems,
-            onAddClick = { foodItem ->
-                viewModel.showPortionDialog(foodItem)
-            },
-            setListVisibility = viewModel::setListFoodItemsVisibility,
-            isListVisible = isSearching,
-            searchFoodItems = {
-                viewModel.searchFoodItem(it)
-            }
-        )
 
-        if(!isSearching){
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
-                    .weight(1f)
-            ) {
-                items(dailyNutrientNeedsInfo.meals) { food ->
-                    FoodItem(
-                        food = food,
-                        onDeleteClick = {
-                            viewModel.deleteFoodItem(food)
-                        }
-                    )
-                }
-            }
-
-            BottomBarFoodSearch(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                dailyNutrientNeedsThreshold = dailyNutrientNeedsInfo.dailyNutrientNeedsThreshold,
-                nutrition = nutrientItems,
-                onSaveClick = {
-                    viewModel.saveDailyNutrientNeedsInfo()
-                    onNavigateToMealResult(viewModel.currentDayOptions)
-                },
+        if(viewModel.isLoading){
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                color = Green20
             )
+        }else{
+            SearchBar(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                foodItems = currentFoodItems,
+                onAddClick = { foodItem ->
+                    viewModel.showPortionDialog(foodItem)
+                },
+                setListVisibility = viewModel::setListFoodItemsVisibility,
+                isListVisible = isSearching,
+                searchFoodItems = {
+                    viewModel.searchFoodItem(it)
+                }
+            )
+
+            if(!isSearching){
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                        .weight(1f)
+                ) {
+                    items(dailyNutrientNeedsInfo.meals) { food ->
+                        FoodItem(
+                            food = food,
+                            onDeleteClick = {
+                                viewModel.deleteFoodItem(food)
+                            }
+                        )
+                    }
+                }
+
+                BottomBarFoodSearch(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    dailyNutrientNeedsThreshold = dailyNutrientNeedsInfo.dailyNutrientNeedsThreshold,
+                    nutrition = nutrientItems,
+                    onSaveClick = {
+                        viewModel.saveDailyNutrientNeedsInfo()
+                        onNavigateToMealResult(viewModel.currentDayOptions)
+                    },
+                )
+            }
         }
     }
 

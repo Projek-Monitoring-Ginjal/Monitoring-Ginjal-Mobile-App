@@ -9,7 +9,6 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.data.repository.Mapper.map
 import com.neotelemetrixgdscunand.monitoringginjalapp.data.repository.Mapper.mapToFoodItem
 import com.neotelemetrixgdscunand.monitoringginjalapp.data.repository.Mapper.mapToFoodItemBody
 import com.neotelemetrixgdscunand.monitoringginjalapp.data.repository.Mapper.mapToMealResultInfo
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Dummy
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Resource
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Response
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.data.Repository
@@ -67,27 +66,8 @@ class RepositoryImpl @Inject constructor(
     }
 
 
-    private var latestDailyNutrientNeedsThreshold: DailyNutrientNeedsThreshold? = null
-    private var latestDailyNutrientNeedsInfos:MutableList<DailyNutrientNeedsInfo> = mutableListOf(
-        DailyNutrientNeedsInfo(
-            day = DayOptions.FirstDay,
-            dailyNutrientNeedsThreshold = DailyNutrientNeedsThreshold()
-        ),
-        DailyNutrientNeedsInfo(
-            day = DayOptions.SecondDay,
-            dailyNutrientNeedsThreshold = DailyNutrientNeedsThreshold()
-        ),
-        DailyNutrientNeedsInfo(
-            day = DayOptions.ThirdDay,
-            dailyNutrientNeedsThreshold = DailyNutrientNeedsThreshold()
-        ),
-        DailyNutrientNeedsInfo(
-            day = DayOptions.FourthDay,
-            dailyNutrientNeedsThreshold = DailyNutrientNeedsThreshold()
-        ),
-    )
 
-    private val foodItems = Dummy.getFoodItems()
+    //private val foodItems = Dummy.getFoodItems()
 
     override suspend fun login(name: String, password: String, languageCode:String): Resource<StringRes> {
         return fetchData(
@@ -169,7 +149,7 @@ class RepositoryImpl @Inject constructor(
                 )
             },
             mapData = {
-                val dailyNutrientNeedsInfo = this.data?.mapToDailyNutrientNeedsInfo() ?: throw Exception("error...")
+                val dailyNutrientNeedsInfo = this.data?.mapToDailyNutrientNeedsInfo(dayOptions) ?: throw Exception("error...")
                 dailyNutrientNeedsInfo
             }
         )
@@ -220,5 +200,19 @@ class RepositoryImpl @Inject constructor(
                 pairs
             }
         )
+    }
+
+    override suspend fun logout(): Boolean {
+        userPreference.apply {
+            deleteToken()
+            deleteUserId()
+            deleteLanguageCode()
+        }
+
+        val userId = userPreference.getUserId()
+        val token = userPreference.getToken()
+        val languageCode = userPreference.getLanguageCode()
+
+        return userId == -1 && token.isBlank() && languageCode == ""
     }
 }

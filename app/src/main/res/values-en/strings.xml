@@ -311,4 +311,15 @@
 
     <string name="cari_makanan_dan_minuman_saya">Search my food and drinks...</string>
 
+    <string name="hari_4">Day 4</string>
+    <string name="hari_3">Day 3</string>
+    <string name="hari_2">Day 2</string>
+    <string name="hari_1">Day 1</string>
+    <string name="response_not_success">error in response...</string>
+    <string name="keluar">Logout</string>
+
+    <string name="keluar_dari_aplikasi">Logout from app?</string>
+    <string name="yes">Yes</string>
+    <string name="manajemen_nutrisi_dan_diet_pada_pasien_hemodialisa">Nutrition and Diet Management\nin Hemodialysis Patients</string>
+    <string name="daily_nutrient_needs_information_saved_successfully">Daily nutrient needs information saved successfully</string>
 </resources>

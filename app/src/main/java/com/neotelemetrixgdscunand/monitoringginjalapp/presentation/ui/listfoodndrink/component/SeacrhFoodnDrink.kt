@@ -1,6 +1,7 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,11 +38,13 @@ import androidx.compose.ui.unit.sp
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Dummy
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green20
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Neutral05
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.PurpleGrey40
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 
 @Composable
-fun     SearchBar(
+fun SearchBar(
     modifier: Modifier = Modifier,
     foodItems: List<FoodItem>,
     onAddClick: (FoodItem) -> Unit,
@@ -78,19 +81,20 @@ fun     SearchBar(
                 searchText = newValue
             },
             placeholder = {
-                Text(text = "Cari", color = Color.LightGray, fontSize = 16.sp)
+                Text(text = "Cari", color = Neutral05, fontSize = 16.sp)
             },
             leadingIcon = {
-                Icon(imageVector = Icons.Default.Search, contentDescription = null, tint = Color.LightGray)
+                Icon(imageVector = Icons.Default.Search, contentDescription = null, tint = Neutral05)
             },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
-                .background(Color(0xFFF5F5F5), RoundedCornerShape(25.dp))
+                .background(Color(0xFFF5F5F5), RoundedCornerShape(16.dp))
+                .border(1.dp, Green20,shape = RoundedCornerShape(16.dp))
                 .clickable {
                     setListVisibility(true)
                 },
-            shape = RoundedCornerShape(25.dp),
+            shape = RoundedCornerShape(16.dp),
             textStyle = androidx.compose.ui.text.TextStyle(
                 color = Color.Black,
                 fontSize = 16.sp),

@@ -1,5 +1,6 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.component
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green20
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.MonitoringGinjalAppTheme
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 
@@ -41,6 +43,11 @@ fun HomeMenu(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         ElevatedCard(
+            modifier = Modifier.border(
+                width = 1.dp,
+                color = Green20,
+                shape = RoundedCornerShape(10.dp)
+            ),
             onClick = onClick,
             shape = RoundedCornerShape(10.dp),
             elevation = CardDefaults.elevatedCardElevation(

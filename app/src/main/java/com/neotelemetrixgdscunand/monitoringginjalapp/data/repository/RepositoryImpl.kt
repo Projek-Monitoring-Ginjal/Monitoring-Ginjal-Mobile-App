@@ -9,7 +9,6 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.data.repository.Mapper.map
 import com.neotelemetrixgdscunand.monitoringginjalapp.data.repository.Mapper.mapToFoodItem
 import com.neotelemetrixgdscunand.monitoringginjalapp.data.repository.Mapper.mapToFoodItemBody
 import com.neotelemetrixgdscunand.monitoringginjalapp.data.repository.Mapper.mapToMealResultInfo
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Dummy
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Resource
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Response
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.data.Repository
@@ -87,7 +86,7 @@ class RepositoryImpl @Inject constructor(
         ),
     )
 
-    private val foodItems = Dummy.getFoodItems()
+    //private val foodItems = Dummy.getFoodItems()
 
     override suspend fun login(name: String, password: String, languageCode:String): Resource<StringRes> {
         return fetchData(
@@ -169,7 +168,7 @@ class RepositoryImpl @Inject constructor(
                 )
             },
             mapData = {
-                val dailyNutrientNeedsInfo = this.data?.mapToDailyNutrientNeedsInfo() ?: throw Exception("error...")
+                val dailyNutrientNeedsInfo = this.data?.mapToDailyNutrientNeedsInfo(dayOptions) ?: throw Exception("error...")
                 dailyNutrientNeedsInfo
             }
         )

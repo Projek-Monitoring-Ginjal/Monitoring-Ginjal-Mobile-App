@@ -46,6 +46,13 @@ object MealResultUtil {
             }
         }
 
+        println("Deficit")
+        println(deficitOrSurplusCalorie)
+        println(deficitOrSurplusFluid)
+        println(deficitOrSurplusProtein)
+        println(deficitOrSurplusSodium)
+        println(deficitOrSurplusPotassium)
+
         val currentAdjustedDayNutritionEssential = nutritionEssentialsForFourDays[dayOptions.index].let {
             NutritionEssential(
                 calorie = FoodNutrient.Calorie(it.calorie.amount + deficitOrSurplusCalorie),
@@ -54,6 +61,15 @@ object MealResultUtil {
                 sodium = FoodNutrient.Sodium(it.sodium.amount + deficitOrSurplusSodium),
                 potassium = FoodNutrient.Potassium(it.potassium.amount + deficitOrSurplusPotassium)
             )
+        }
+
+        currentAdjustedDayNutritionEssential.apply {
+            println("amount")
+            println(calorie.amount)
+            println(fluid.amount)
+            println(protein.amount)
+            println(sodium.amount)
+            println(potassium.amount)
         }
 
         val currentAdjustedDayNutritionThreshold = nutritionEssentialsForFourDays[dayOptions.index].let {

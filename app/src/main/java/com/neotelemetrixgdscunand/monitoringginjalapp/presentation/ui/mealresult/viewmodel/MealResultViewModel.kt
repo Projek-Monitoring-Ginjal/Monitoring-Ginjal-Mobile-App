@@ -1,6 +1,5 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.viewmodel
 
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -11,7 +10,6 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.domain.data.Repository
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrientNeedsThreshold
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEssential
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.util.MealResultUtil
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEvent
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.handleAsyncDefaultWithUIEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,9 +30,12 @@ class MealResultViewModel @Inject constructor(
             savedStateHandle.get<DayOptions>("dayOptions") ?: DayOptions.FirstDay
         )
 
-    private var dailyNutrientNeedsThreshold by mutableStateOf(DailyNutrientNeedsThreshold())
+    var dailyNutrientNeedsThreshold by mutableStateOf(
+        DailyNutrientNeedsThreshold()
+    )
+        private set
 
-    private var dailyNutrientFourDays by mutableStateOf(
+    var dailyNutrientFourDays by mutableStateOf(
         listOf(
             NutritionEssential(),
             NutritionEssential(),
@@ -42,14 +43,19 @@ class MealResultViewModel @Inject constructor(
             NutritionEssential(),
         )
     )
+        private set
 
-    val currentDayMealResult by derivedStateOf {
-        MealResultUtil.calculateDailyNutritionAmountAndThreshold(
-            dailyNutrientNeedsThreshold,
-            dailyNutrientFourDays,
-            dayOptions
-        )
-    }
+    /*var currentDayMealResult:Pair<DailyNutrientNeedsThreshold, NutritionEssential> by
+        mutableStateOf(
+            MealResultUtil.calculateDailyNutritionAmountAndThreshold(
+                dailyNutrientNeedsThreshold,
+                dailyNutrientFourDays,
+                dayOptions
+            )
+        )*/
+
+    var isLoading by mutableStateOf(false)
+        private set
 
 
     private val _uiEvent = Channel<UIEvent>()
@@ -64,12 +70,25 @@ class MealResultViewModel @Inject constructor(
     private fun getMealResultsInfo(){
         job?.cancel()
         job = viewModelScope.launch {
+            isLoading = true
             repository.getHemodialisaResults().handleAsyncDefaultWithUIEvent(
                 _uiEvent,
             ){
                 val (dailyThresholds, listNutritionDays) = it
                 dailyNutrientNeedsThreshold = dailyThresholds
                 dailyNutrientFourDays = listNutritionDays
+                dailyNutrientFourDays.forEachIndexed { i, item ->
+                    println("vm $i")
+                    println(item.calorie.amount)
+                    println(item.fluid.amount)
+                    println(item.protein.amount)
+                    println(item.sodium.amount)
+                    println(item.potassium.amount)
+                }
+            }
+        }.also {
+            it.invokeOnCompletion {
+                isLoading = false
             }
         }
     }

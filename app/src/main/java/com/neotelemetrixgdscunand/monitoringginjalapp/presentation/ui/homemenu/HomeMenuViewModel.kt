@@ -39,7 +39,11 @@ class HomeMenuViewModel @Inject constructor(
                         )
                     }
                 )
-            isLoading = false
+
+        }.also {
+            it.invokeOnCompletion {
+                isLoading = false
+            }
         }
 
     }

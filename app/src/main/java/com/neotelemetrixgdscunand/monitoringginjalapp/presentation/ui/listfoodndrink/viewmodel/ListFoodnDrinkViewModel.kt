@@ -44,6 +44,9 @@ class ListFoodnDrinkViewModel @Inject constructor(
         DailyNutrientNeedsThreshold()
     )
 
+    var isLoading by mutableStateOf(false)
+        private set
+
     var dailyNutrientNeedsInfo by mutableStateOf(
         DailyNutrientNeedsInfo(
             DayOptions.FirstDay,
@@ -51,6 +54,8 @@ class ListFoodnDrinkViewModel @Inject constructor(
         )
     )
         private set
+
+    private var job:Job? = null
 
     val nutritionAccumulation by derivedStateOf {
         ListFoodnDrinkUtil.sumFoodNutritions(
@@ -85,8 +90,9 @@ class ListFoodnDrinkViewModel @Inject constructor(
     }
 
     private fun getDailyNutrientNeedsInfo() {
-        viewModelScope.launch {
-
+        job?.cancel()
+        job = viewModelScope.launch {
+            isLoading = true
             var dailyNeedsInfo:DailyNutrientNeedsInfo? = null
 
             repository.getLatestDailyNutrientNeedsInfo(currentDayOptions)
@@ -114,11 +120,16 @@ class ListFoodnDrinkViewModel @Inject constructor(
                     )?: throw Exception("error")
                     dailyNutrientNeedsInfo = adjustedDailyNutritionInfo
                 }
+        }.also {
+            it.invokeOnCompletion {
+                isLoading = false
+            }
         }
     }
 
     private fun getFoodItems() {
-        viewModelScope.launch {
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
             repository.searchFoodItems("")
                 .handleAsyncDefaultWithUIEvent(_uiEvent) {
                     currentFoodItems = it
@@ -127,7 +138,9 @@ class ListFoodnDrinkViewModel @Inject constructor(
     }
 
     fun saveDailyNutrientNeedsInfo() {
-        viewModelScope.launch {
+        job?.cancel()
+        job = viewModelScope.launch {
+            isLoading = true
             repository.saveDailyNutrientNeedsInfo(dailyNutrientNeedsInfo)
                 .handleAsync(
                     onSuccess = {
@@ -158,6 +171,10 @@ class ListFoodnDrinkViewModel @Inject constructor(
                         )
                     }
                 )
+        }.also {
+            it.invokeOnCompletion {
+                isLoading = false
+            }
         }
     }
 

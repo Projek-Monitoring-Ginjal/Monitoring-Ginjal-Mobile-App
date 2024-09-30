@@ -75,34 +75,21 @@ fun HomeMenuScreen(
         HomeMenuItem.entries
     }
 
-//    LaunchedEffect(key1 = isOpeningAnimationComplete) {
-//        if (!isOpeningAnimationComplete) {
-//            delay(animationDuration)
-//            isOpeningAnimationComplete = true
-//        } else {
-//            isVisible = true
-//            // Trigger item visibility one by one
-//            menuItems.indices.forEach { index ->
-//                delay(1000L) // 1 second delay for each menu item
-//                visibleMenuIndex = index
-//            }
-//        }
-//    }
-
     LaunchedEffect(key1 = isOpeningAnimationComplete) {
         if (!isOpeningAnimationComplete) {
             delay(animationDuration)
             isOpeningAnimationComplete = true
         } else {
             isVisible = true
-            val mediaPlayer = MediaPlayer.create(context, R.raw.sound_awal) // Replace with your audio file
+            val mediaPlayer = MediaPlayer.create(context, R.raw.soundutama) // Replace with your audio file
             mediaPlayer.start()
             mediaPlayer.setOnCompletionListener {
                 mediaPlayer.release() // Release the media player when done
             }
             // Trigger item visibility one by one
+            delay(2000L) // 1 second delay for each menu item
             menuItems.indices.forEach { index ->
-                delay(2000L) // 1 second delay for each menu item
+                delay(3000L) // 1 second delay for each menu item
                 visibleMenuIndex = index
 
             }

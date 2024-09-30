@@ -220,4 +220,18 @@ class RepositoryImpl @Inject constructor(
             }
         )
     }
+
+    override suspend fun logout(): Boolean {
+        userPreference.apply {
+            deleteToken()
+            deleteUserId()
+            deleteLanguageCode()
+        }
+
+        val userId = userPreference.getUserId()
+        val token = userPreference.getToken()
+        val languageCode = userPreference.getLanguageCode()
+
+        return userId == -1 && token.isBlank() && languageCode == ""
+    }
 }

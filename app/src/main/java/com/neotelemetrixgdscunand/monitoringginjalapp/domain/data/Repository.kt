@@ -31,4 +31,6 @@ interface Repository {
 
     suspend fun getHemodialisaResults():Resource<Pair<DailyNutrientNeedsThreshold, List<NutritionEssential>>>
 
+    suspend fun logout():Boolean
+
 }

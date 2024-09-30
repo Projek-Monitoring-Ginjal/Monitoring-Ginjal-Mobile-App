@@ -2,6 +2,7 @@ package com.neotelemetrixgdscunand.monitoringginjalapp
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -19,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -104,6 +106,9 @@ fun App(
                     onMenuItemClick = { route ->
                         navController.navigateWithCheck(route)
                     },
+                    onLogout = {
+                        isSignedIn = false
+                    },
                     viewModel = viewModel
                 )
             }
@@ -174,38 +179,66 @@ fun TopBarApp(
     route:String?
 ) {
 
-    TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Neutral03
-        ),
-        modifier = modifier
-            .shadow(
-                elevation = 3.dp,
-                spotColor = Color.DarkGray
+    if(route == "${ListFoodnDrink::class.java.canonicalName}/{dayOptions}"){
+        TopAppBar(
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = Green20
             ),
-        navigationIcon = {
-            if(route != HomeMenu::class.java.canonicalName){
-                Icon(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .clickable(onClick = onNavigateUp),
-                    painter = painterResource(id = R.drawable.ic_arrow_left),
-                    contentDescription = null,
-                    tint = Color.Black
+            modifier = modifier
+                .shadow(
+                    elevation = 3.dp,
+                    spotColor = Color.DarkGray
+                ),
+            navigationIcon = {
+                if(route != HomeMenu::class.java.canonicalName){
+                    Icon(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .clickable(onClick = onNavigateUp),
+                        painter = painterResource(id = R.drawable.ic_arrow_left),
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                }
+
+            },
+            title = {
+                HeadingText(
+                    textAlign = TextAlign.Start,
+                    text = stringResource(R.string.daftar_makanan_dan_minuman),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.White,
+                    letterSpacing = 0.sp
                 )
             }
+        )
+    }else{
+        CenterAlignedTopAppBar(
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = Green20
+            ),
+            modifier = modifier
+                .shadow(
+                    elevation = 3.dp,
+                    spotColor = Color.DarkGray
+                ),
+            navigationIcon = {
+                if(route != HomeMenu::class.java.canonicalName){
+                    Icon(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .clickable(onClick = onNavigateUp),
+                        painter = painterResource(id = R.drawable.ic_arrow_left),
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                }
 
-        },
-        title = {
-            if(route == ListFoodnDrink::class.java.canonicalName){
-                HeadingText(
-                    text = stringResource(R.string.daftar_makanan_dan_minuman),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.Black
-                )
-            }else{
+            },
+            title = {
                 MultiColorText(
+                    textAlign = TextAlign.Center,
                     textWithColors = arrayOf(
                         Pair(
                             "MAN",
@@ -213,14 +246,15 @@ fun TopBarApp(
                         ),
                         Pair(
                             "DEH",
-                            Green20
+                            Neutral03
                         )
                     )
                 )
-            }
 
-        }
-    )
+            }
+        )
+    }
+
 }
 
 

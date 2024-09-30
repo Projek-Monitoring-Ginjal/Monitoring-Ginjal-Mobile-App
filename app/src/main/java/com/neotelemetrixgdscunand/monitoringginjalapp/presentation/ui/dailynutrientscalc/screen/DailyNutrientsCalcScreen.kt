@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green20
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Typography
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.component.Button
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.component.FormField
@@ -59,54 +61,61 @@ fun DailyNutrientsCalcScreen(
             .fillMaxSize()
             .background(color = colorResource(R.color.white))
     ) {
-        Column(
-            modifier = modifier.padding(start = 16.dp)
-        ) {
-            Spacer(modifier = Modifier.height(24.dp))
 
-            Text(
-                text = stringResource(R.string.pengaturan_makan_saya_hari_ini),
-                style = Typography.titleLarge,
-                color = Color.Black,
-                modifier = Modifier.padding(bottom = 8.dp)
+        if(viewModel.isLoading){
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally),
+                color = Green20
             )
-            Text(
-                text = stringResource(R.string.berat_badan_kering_saya),
-                style = Typography.bodyLarge,
-                color = Color.Black,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-        }
+        }else{
+            Column(
+                modifier = modifier.padding(start = 16.dp)
+            ) {
+                Spacer(modifier = Modifier.height(24.dp))
 
-        FormField(
-            value = textState,
-            onValueChange = { viewModel.onTextChange(it) },
-            placeholder = stringResource(R.string.tulis_angka),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp)
-        )
+                Text(
+                    text = stringResource(R.string.pengaturan_makan_saya_hari_ini),
+                    style = Typography.titleLarge,
+                    color = Color.Black,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+                Text(
+                    text = stringResource(R.string.berat_badan_kering_saya),
+                    style = Typography.bodyLarge,
+                    color = Color.Black,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+            }
 
-        Box(
-            modifier = modifier.fillMaxSize(),
-        ) {
-            Button(
+            FormField(
+                value = textState,
+                onValueChange = { viewModel.onTextChange(it) },
+                placeholder = stringResource(R.string.tulis_angka),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .align(Alignment.BottomCenter)
-                    .padding(vertical = 16.dp),
-                text = stringResource(R.string.simpan),
-                textColor = Color.White,
-                fontSize = 18f,
-                fontWeight = FontWeight.Normal,
-                padding = 20.dp,
-                onClick = {
-                    viewModel.onSaveClicked()
-                }
+                    .padding(bottom = 8.dp)
             )
+
+            Box(
+                modifier = modifier.fillMaxSize(),
+            ) {
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter)
+                        .padding(vertical = 16.dp),
+                    text = stringResource(R.string.simpan),
+                    textColor = Color.White,
+                    fontSize = 18f,
+                    fontWeight = FontWeight.Normal,
+                    padding = 20.dp,
+                    onClick = {
+                        viewModel.onSaveClicked()
+                    }
+                )
+            }
         }
-
-
         if (showDialog) {
             Dialog(onDismissRequest = viewModel::onDismissDialog) {
                 NutrientNeedsDialog(

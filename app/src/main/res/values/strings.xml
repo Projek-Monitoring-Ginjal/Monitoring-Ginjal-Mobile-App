@@ -45,7 +45,7 @@
     <string name="login_success">Login Success</string>
     <string name="daily_nutrient_needs_threshold_saved_successfully">Daily nutrient needs threshold saved successfully</string>
     <string name="expected_behaviour_error_msg">Maaf sepertinya ada masalah, silahkan coba lagi nanti..</string>
-    <string name="daily_nutrient_needs_information_saved_successfully">Daily nutrient needs information saved successfully</string>
+    <string name="daily_nutrient_needs_information_saved_successfully">Nutrisi Harian berhasil disimpan..</string>
     <string name="pengertian_gagal_ginjal">Pengertian gagal ginjal</string>
     <string name="fungsi_ginjal_normal">Fungsi ginjal normal</string>
     <string name="penyebab_gagal_ginjal_kronis">Penyebab gagal ginjal kronis</string>
@@ -317,5 +317,9 @@
     <string name="hari_2">Hari 2</string>
     <string name="hari_1">Hari 1</string>
     <string name="response_not_success">Terjadi kesalahan pada response...</string>
+    <string name="keluar">Keluar</string>
+    <string name="keluar_dari_aplikasi">Keluar dari aplikasi?</string>
+    <string name="yes">Ya</string>
+    <string name="manajemen_nutrisi_dan_diet_pada_pasien_hemodialisa">Manajemen Nutrisi dan Diet\npada Pasien Hemodialisa</string>
 
 </resources>

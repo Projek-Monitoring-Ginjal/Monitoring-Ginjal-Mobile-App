@@ -312,4 +312,14 @@
 
     <string name="cari_makanan_dan_minuman_saya">Cari makanan dan minuman awak...</string>
 
+    <string name="hari_4">Hari 4</string>
+    <string name="hari_3">Hari 3</string>
+    <string name="hari_2">Hari 2</string>
+    <string name="hari_1">Hari 1</string>
+    <string name="response_not_success">Ado kesalahan di response...</string>
+    <string name="keluar">Kalua</string>
+
+    <string name="keluar_dari_aplikasi">Kalua dari aplikasi?</string>
+    <string name="yes">Ya</string>
+    <string name="manajemen_nutrisi_dan_diet_pada_pasien_hemodialisa">Manajemen Nutrisi dan Diet\npada Pasien Hemodialisa</string>
 </resources>

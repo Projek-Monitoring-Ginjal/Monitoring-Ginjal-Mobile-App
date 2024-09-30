@@ -10,6 +10,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
@@ -21,11 +22,13 @@ fun MultiColorText(
     fontSize: TextUnit = 36.sp,
     fontFamily: FontFamily = modakFamily,
     letterSpacing: TextUnit = 0.1.sp,
+    textAlign: TextAlign = TextAlign.Unspecified,
     fontWeight: FontWeight = FontWeight.Normal,
     vararg textWithColors:Pair<String, Color>,
 ) {
     Text(
         modifier = modifier,
+        textAlign = textAlign,
         text = buildAnnotatedString {
             textWithColors.forEach { (text, color) ->
                 withStyle(

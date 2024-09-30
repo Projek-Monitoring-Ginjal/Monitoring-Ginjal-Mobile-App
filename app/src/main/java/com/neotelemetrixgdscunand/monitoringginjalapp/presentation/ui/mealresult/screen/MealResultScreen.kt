@@ -18,12 +18,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -56,8 +58,16 @@ fun MealResultScreen(
 ) {
 
 
-    val nutritionToProgressFraction = remember(viewModel.currentDayMealResult) {
-        val (thresholds, nutritionTotalInfo) = viewModel.currentDayMealResult
+    val nutritionToProgressFraction = remember(
+        viewModel.dayOptions,
+        viewModel.dailyNutrientFourDays,
+        viewModel.dailyNutrientNeedsThreshold
+    ) {
+        val (thresholds, nutritionTotalInfo) = MealResultUtil.calculateDailyNutritionAmountAndThreshold(
+            viewModel.dailyNutrientNeedsThreshold,
+            viewModel.dailyNutrientFourDays,
+            viewModel.dayOptions
+        )
         listOf(
              nutritionTotalInfo.calorie to MealResultUtil.calculateProgressFraction(
                 nutritionTotalInfo.calorie.amount,
@@ -119,75 +129,81 @@ fun MealResultScreen(
         .padding(start = 16.dp, end = 16.dp),
 
     ) {
+        if(viewModel.isLoading){
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                color = Green20
+            )
+        }else{
+            LazyColumn(
+                state = listState,
+                contentPadding = PaddingValues(bottom = 24.dp, top = 20.dp),
+                modifier = Modifier.weight(1f)
+            ) {
 
-        LazyColumn(
-            state = listState,
-            contentPadding = PaddingValues(bottom = 24.dp, top = 20.dp),
-            modifier = Modifier.weight(1f)
-        ) {
-
-            item{
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                ){
-                    tabs.forEachIndexed { index, tabTextResId ->
-                        MealDayTab(
-                            isSelected = selectedTabIndex == index,
-                            onClick = {
-                                selectedTabIndex = index
-                                viewModel.dayOptions = DayOptions.entries[selectedTabIndex]
-                            },
-                            text = stringResource(id = tabTextResId)
-                        )
+                item{
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    ){
+                        tabs.forEachIndexed { index, tabTextResId ->
+                            MealDayTab(
+                                isSelected = selectedTabIndex == index,
+                                onClick = {
+                                    selectedTabIndex = index
+                                    viewModel.dayOptions = DayOptions.entries[selectedTabIndex]
+                                },
+                                text = stringResource(id = tabTextResId)
+                            )
+                        }
                     }
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
-                Spacer(modifier = Modifier.height(16.dp))
+
+                item {
+                    HeadingText(
+                        text = stringResource(R.string.hasil_makan_hari_ini),
+                        fontSize = 20.sp,
+                        color = Color.Black
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
+                }
+
+                itemsIndexed(nutritionToProgressFraction){index, item ->
+
+                    val (nutrient, progressFraction) = item
+                    val backgroundColor = ListFoodnDrinkUtil.getColorFromGradient(progressFraction)
+
+                    NutritionStatBar(
+                        backgroundColor = backgroundColor,
+                        nutritionalContentName = nutrient.name.getValue(context),
+                        nutritionalContentValue = nutrient.amount,
+                        nutritionalContentUnit = nutrient.unit.getValue(context)
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+                items(nutritionToProgressFraction){ item ->
+                    val (nutrient, progressFraction) = item
+
+                    NutrientPreviewCard(
+                        nutrientContentName = nutrient.name.getValue(context),
+                        progressFraction = progressFraction,
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
             }
 
-            item {
-                HeadingText(
-                    text = stringResource(R.string.hasil_makan_hari_ini),
-                    fontSize = 20.sp,
-                    color = Color.Black
-                )
-                Spacer(modifier = Modifier.height(24.dp))
-            }
-
-            itemsIndexed(nutritionToProgressFraction){index, item ->
-
-                val (nutrient, progressFraction) = item
-                val backgroundColor = ListFoodnDrinkUtil.getColorFromGradient(progressFraction)
-
-                NutritionStatBar(
-                    backgroundColor = backgroundColor,
-                    nutritionalContentName = nutrient.name.getValue(context),
-                    nutritionalContentValue = nutrient.amount,
-                    nutritionalContentUnit = nutrient.unit.getValue(context)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-            }
-
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-
-            items(nutritionToProgressFraction){ item ->
-                val (nutrient, progressFraction) = item
-
-                NutrientPreviewCard(
-                    nutrientContentName = nutrient.name.getValue(context),
-                    progressFraction = progressFraction,
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-            }
+            BottomButtons(
+                onAddingMeals = {
+                    onAddMeals(viewModel.dayOptions)
+                },
+                onFinish = onFinish
+            )
         }
-
-        BottomButtons(
-            onAddingMeals = {
-                onAddMeals(viewModel.dayOptions)
-            },
-            onFinish = onFinish
-        )
     }
 
 }

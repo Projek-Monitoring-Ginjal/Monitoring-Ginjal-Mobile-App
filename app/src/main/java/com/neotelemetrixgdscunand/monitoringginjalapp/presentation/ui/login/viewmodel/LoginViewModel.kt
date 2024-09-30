@@ -56,7 +56,11 @@ class LoginViewModel @Inject constructor(
                     isSignedIn = true
                 }
             )
-            isLoading = false
+
+        }.also {
+            it.invokeOnCompletion {
+                isLoading = false
+            }
         }
     }
 

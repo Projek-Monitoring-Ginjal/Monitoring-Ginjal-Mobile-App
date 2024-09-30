@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,6 +40,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green20
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.MonitoringGinjalAppTheme
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Neutral03
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Yellow20
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.karlaFamily
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
@@ -98,6 +100,9 @@ fun LoginScreen(
                     .fillMaxHeight(0.2f)
             ) {
                 MultiColorText(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally),
+                    fontSize = 46.sp,
                     textWithColors = arrayOf(
                         Pair(
                             "MAN",
@@ -105,9 +110,18 @@ fun LoginScreen(
                         ),
                         Pair(
                             "DEH",
-                            Green20
+                            Neutral03
                         )
                     )
+                )
+                Spacer(modifier = Modifier.height(0.dp))
+                HeadingText(
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    text = stringResource(R.string.manajemen_nutrisi_dan_diet_pada_pasien_hemodialisa),
+                    color = Green20,
+                    fontWeight = FontWeight.Medium,
+                    lineHeight = 16.sp,
+                    fontSize = 14.sp
                 )
             }
 
@@ -241,7 +255,10 @@ fun LoginScreen(
 private fun LoginScreenPreview() {
     MonitoringGinjalAppTheme {
         Surface {
-            LoginScreen()
+            val viewModel:LoginViewModel = hiltViewModel()
+            LoginScreen(
+                viewModel = viewModel
+            )
         }
     }
 }

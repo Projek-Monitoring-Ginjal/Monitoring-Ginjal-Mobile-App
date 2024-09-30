@@ -5,18 +5,24 @@ import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -27,10 +33,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
@@ -45,7 +55,8 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Monitor
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.HomeMenuViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.component.ComposableRiveAnimationView
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.component.HomeMenu
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.viewmodel.ListFoodnDrinkViewModel
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.StyledButton
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEvent
 import kotlinx.coroutines.delay
 
@@ -53,10 +64,10 @@ import kotlinx.coroutines.delay
 fun HomeMenuScreen(
     modifier: Modifier = Modifier,
     onMenuItemClick: (Route) -> Unit = { },
-    viewModel: HomeMenuViewModel = hiltViewModel()
+    viewModel: HomeMenuViewModel = hiltViewModel(),
+    onLogout: () -> Unit = { }
 ) {
     val context = LocalContext.current // Access the current context
-
 
     var isOpeningAnimationComplete by remember {
         mutableStateOf(true)
@@ -110,6 +121,9 @@ fun HomeMenuScreen(
                     }else DailyNutrientCalc
 
                     onMenuItemClick(route)
+                }
+                is UIEvent.UserLogout ->{
+                    onLogout()
                 }
                 else -> {}
             }
@@ -172,15 +186,37 @@ fun HomeMenuScreen(
                     }
                 }
 
-                // Ensure the animation is fixed at the bottom-left corner without padding
-                ComposableRiveAnimationView(
-                    animation = R.raw.animasiawal,
-                    modifier = Modifier
-                        .align(Alignment.BottomStart)
-                        .padding(start = 36.dp)
-                        .size(220.dp) // The size is applied but without padding
-                )
+                Column(
+                    Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomCenter)
+                ) {
+                    // Ensure the animation is fixed at the bottom-left corner without padding
+                    ComposableRiveAnimationView(
+                        animation = R.raw.animasiawal,
+                        modifier = Modifier
+                            .align(Alignment.Start)
+                            .padding(start = 36.dp)
+                            .size(220.dp) // The size is applied but without padding
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    StyledButton(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(end = 16.dp, start = 16.dp)
+                            .align(Alignment.CenterHorizontally),
+                        text = stringResource(R.string.keluar),
+                        onClick = viewModel::onShowDialog
+                    )
+                }
 
+            }
+
+            if(viewModel.showDialog){
+                LogoutDialog(
+                    onDismiss = viewModel::onDismissDialog,
+                    onLogout = viewModel::logout
+                )
             }
         }
     }
@@ -190,21 +226,67 @@ fun HomeMenuScreen(
 
 @Composable
 fun LogoutDialog(
-    viewModel: ListFoodnDrinkViewModel,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit = {},
+    onLogout: () -> Unit = {}
 ) {
-    TODO()
     Dialog(onDismissRequest = onDismiss) {
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .background(Color.White, shape = RoundedCornerShape(16.dp))
+                .padding(horizontal = 48.dp, vertical = 16.dp),
             contentAlignment = Alignment.Center
         ) {
-            /*PortionOption(onOptionSelected = { portion ->
-                viewModel.addFoodItem(portion, foodItem)
-                onDismiss()
-            })*/
+            Column{
+                HeadingText(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally),
+                    textAlign = TextAlign.Center,
+                    text = stringResource(R.string.keluar_dari_aplikasi),
+                    color = Color.Black
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Row {
+                    StyledButton(
+                        modifier = Modifier
+                            .weight(1f)
+                            .border(
+                                width = 2.dp,
+                                color = Green20,
+                                shape = RoundedCornerShape(16.dp)
+                            ),
+                        backgroundColor = Color.White,
+                        textColor = Green20,
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 14.dp),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium,
+                        text = stringResource(id = R.string.kembali),
+                        onClick = onDismiss
+                    )
+                    Spacer(modifier = Modifier.width(10.dp))
+                    StyledButton(
+                        modifier = Modifier
+                            .weight(1f),
+                        contentPadding = PaddingValues(horizontal = 20.dp, vertical = 14.dp),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium,
+                        text = stringResource(R.string.yes),
+                        onClick = onLogout
+                    )
+                }
+            }
         }
     }
+}
+
+@Preview
+@Composable
+private fun LogoutDialogPreview() {
+    MonitoringGinjalAppTheme {
+        LogoutDialog(){
+
+        }
+    }
+
 }
 
 @Preview(showBackground = true, showSystemUi = true)

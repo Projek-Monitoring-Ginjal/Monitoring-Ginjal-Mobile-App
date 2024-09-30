@@ -30,6 +30,14 @@ object Mapper {
             this.countNutritionDay3.mapToNutritionEssential(),
             this.countNutritionDay4.mapToNutritionEssential()
         )
+        /*listNutritionResults.forEachIndexed { i, item ->
+            println("mapper $i")
+            println(item.calorie.amount)
+            println(item.fluid.amount)
+            println(item.protein.amount)
+            println(item.sodium.amount)
+            println(item.potassium.amount)
+        }*/
         val dailyNutrientNeedsThreshold = this.let {
             this.nutritionThreshold.run {
                 DailyNutrientNeedsThreshold(
@@ -69,31 +77,31 @@ object Mapper {
         )
     }
 
-    fun GetFoodCartResponse.mapToDailyNutrientNeedsInfo():DailyNutrientNeedsInfo{
-        val foodItemCarts = this.foodCart?.map {
-            FoodItemCart(
-                foodItem = FoodItem(
-                    unit = it.makanan?.satuan ?: "Unit",
-                    id = it.makananId ?: throw Exception("error..."),
-                    name = it.makanan?.name ?: "",
-                    nutritionEssential = NutritionEssential(
-                        calorie = FoodNutrient.Calorie(it.makanan?.energy ?: 0f),
-                        fluid = FoodNutrient.Fluid(it.makanan?.water?.toFloat() ?: 0f),
-                        protein = FoodNutrient.Protein(it.makanan?.protein ?: 0f),
-                        sodium = FoodNutrient.Sodium(it.makanan?.sodium ?: 0f),
-                        potassium = FoodNutrient.Potassium(it.makanan?.potassium?:0f)
-                    )
-                ),
-                portionOptions = FoodPortionOptions.entries.first { en -> en.multiplier ==  (it.portion?:1f) }
-            )
-        }?: emptyList()
-
-        val dayOptions = this.foodCart.let {
-            val day = it?.first()?.day ?: throw Exception("error...")
-            if(day < 1 || day > 4 ) throw Exception("error...")
-            val option = DayOptions.entries.first { en -> (en.index+1) == day }
-            option
+    fun GetFoodCartResponse.mapToDailyNutrientNeedsInfo(
+        dayOptions: DayOptions
+    ):DailyNutrientNeedsInfo{
+        val foodItemCarts = if(foodCart.isNullOrEmpty()){
+            emptyList()
+        }else{
+            this.foodCart.map {
+                FoodItemCart(
+                    foodItem = FoodItem(
+                        unit = it.makanan?.satuan ?: "Unit",
+                        id = it.makananId ?: throw Exception("error..."),
+                        name = it.makanan?.name ?: "",
+                        nutritionEssential = NutritionEssential(
+                            calorie = FoodNutrient.Calorie(it.makanan?.energy ?: 0f),
+                            fluid = FoodNutrient.Fluid(it.makanan?.water?.toFloat() ?: 0f),
+                            protein = FoodNutrient.Protein(it.makanan?.protein ?: 0f),
+                            sodium = FoodNutrient.Sodium(it.makanan?.sodium ?: 0f),
+                            potassium = FoodNutrient.Potassium(it.makanan?.potassium?:0f)
+                        )
+                    ),
+                    portionOptions = FoodPortionOptions.entries.first { en -> en.multiplier ==  (it.portion?:1f) }
+                )
+            }
         }
+
 
         return DailyNutrientNeedsInfo(
             day = dayOptions,

@@ -12,4 +12,6 @@ sealed class UIEvent:Event() {
 
     data object SuccessUpdateFoodCarts:UIEvent()
 
+    data object UserLogout:UIEvent()
+
 }

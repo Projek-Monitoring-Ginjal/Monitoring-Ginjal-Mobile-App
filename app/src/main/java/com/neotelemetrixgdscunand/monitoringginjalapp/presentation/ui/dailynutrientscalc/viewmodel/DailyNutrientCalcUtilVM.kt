@@ -34,6 +34,9 @@ class DailyNutrientCalcUtilVM @Inject constructor(
         NutritionEssential()
     )
 
+    var isLoading by mutableStateOf(false)
+        private set
+
     private val _uiEvent = Channel<UIEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
@@ -53,6 +56,7 @@ class DailyNutrientCalcUtilVM @Inject constructor(
 
             job?.cancel()
             job = viewModelScope.launch {
+                isLoading = true
                 repository.startNewHemodialisa(
                     bodyweight
                 ).handleAsyncDefaultWithUIEvent(_uiEvent){
@@ -66,6 +70,7 @@ class DailyNutrientCalcUtilVM @Inject constructor(
 
                     if(nutritions != null){
                         nutritionNeeds = nutritions
+                        isLoading = false
                         showDialog = true
                     }
                 }

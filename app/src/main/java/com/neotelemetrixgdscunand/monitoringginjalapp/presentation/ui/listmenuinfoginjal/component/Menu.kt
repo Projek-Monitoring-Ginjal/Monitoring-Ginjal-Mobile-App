@@ -8,13 +8,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.LightGreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 
 @Composable
@@ -27,8 +27,12 @@ fun ListMenu(title: String) {
                 shape = RoundedCornerShape(20.dp)
             )
             .background(
-                color = LightGreen,
-                shape = RoundedCornerShape(20.dp)
+                brush = Brush.verticalGradient(
+                    colorStops = arrayOf(
+                        Pair(0.3517f, Color(0xFFFFF9DE)),
+                        Pair(1f, Color(0xFFF6E9B2)),
+                    ),
+                )
             )
             .padding(16.dp),
     ) {

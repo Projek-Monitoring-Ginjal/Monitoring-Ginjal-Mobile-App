@@ -66,25 +66,6 @@ class RepositoryImpl @Inject constructor(
     }
 
 
-    private var latestDailyNutrientNeedsThreshold: DailyNutrientNeedsThreshold? = null
-    private var latestDailyNutrientNeedsInfos:MutableList<DailyNutrientNeedsInfo> = mutableListOf(
-        DailyNutrientNeedsInfo(
-            day = DayOptions.FirstDay,
-            dailyNutrientNeedsThreshold = DailyNutrientNeedsThreshold()
-        ),
-        DailyNutrientNeedsInfo(
-            day = DayOptions.SecondDay,
-            dailyNutrientNeedsThreshold = DailyNutrientNeedsThreshold()
-        ),
-        DailyNutrientNeedsInfo(
-            day = DayOptions.ThirdDay,
-            dailyNutrientNeedsThreshold = DailyNutrientNeedsThreshold()
-        ),
-        DailyNutrientNeedsInfo(
-            day = DayOptions.FourthDay,
-            dailyNutrientNeedsThreshold = DailyNutrientNeedsThreshold()
-        ),
-    )
 
     //private val foodItems = Dummy.getFoodItems()
 

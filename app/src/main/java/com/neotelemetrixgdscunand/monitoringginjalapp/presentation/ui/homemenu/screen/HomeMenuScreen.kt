@@ -28,6 +28,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -69,41 +70,49 @@ fun HomeMenuScreen(
 ) {
     val context = LocalContext.current // Access the current context
 
-    var isOpeningAnimationComplete by remember {
-        mutableStateOf(true)
+    var isNavigatingOut by remember {
+        mutableStateOf(false)
     }
 
-    val animationDuration = 5000L
+    val mediaPlayer = remember{
+        MediaPlayer.create(context, R.raw.soundutama)
+    }
     var isVisible by remember {
         mutableStateOf(true)
     }
 
     var visibleMenuIndex by remember {
-        mutableStateOf(-1) // Start with -1, so no items are visible initially
+        mutableIntStateOf(-1) // Start with -1, so no items are visible initially
     }
 
     val menuItems = remember {
         HomeMenuItem.entries
     }
 
-    LaunchedEffect(key1 = isOpeningAnimationComplete) {
-        if (!isOpeningAnimationComplete) {
-            delay(animationDuration)
-            isOpeningAnimationComplete = true
-        } else {
+    LaunchedEffect(key1 = isNavigatingOut) {
+        if(!isNavigatingOut){
             isVisible = true
-            val mediaPlayer = MediaPlayer.create(context, R.raw.soundutama) // Replace with your audio file
             mediaPlayer.start()
             mediaPlayer.setOnCompletionListener {
                 mediaPlayer.release() // Release the media player when done
             }
+
             // Trigger item visibility one by one
             delay(2000L) // 1 second delay for each menu item
             menuItems.indices.forEach { index ->
                 delay(3000L) // 1 second delay for each menu item
                 visibleMenuIndex = index
-
             }
+        }else if(mediaPlayer != null){
+            try {
+                if(mediaPlayer.isPlaying && mediaPlayer.currentPosition > 0){
+                    mediaPlayer.stop()
+                    mediaPlayer.release()
+                }
+            }catch (e:IllegalStateException){
+                e.printStackTrace()
+            }
+
         }
     }
 
@@ -121,9 +130,11 @@ fun HomeMenuScreen(
                     }else DailyNutrientCalc
 
                     onMenuItemClick(route)
+                    isNavigatingOut = true
                 }
                 is UIEvent.UserLogout ->{
                     onLogout()
+                    isNavigatingOut = true
                 }
                 else -> {}
             }
@@ -145,8 +156,8 @@ fun HomeMenuScreen(
                 Column(
                     modifier = modifier
                         .padding(16.dp), // Padding is still applied to content
-                    horizontalAlignment = if (!isOpeningAnimationComplete) Alignment.CenterHorizontally else Alignment.Start,
-                    verticalArrangement = if (!isOpeningAnimationComplete) Arrangement.Center else Arrangement.Top
+                    horizontalAlignment = /*if (!isOpeningAnimationComplete) Alignment.CenterHorizontally else */Alignment.Start,
+                    verticalArrangement = /*if (!isOpeningAnimationComplete) Arrangement.Center else */Arrangement.Top
                 ) {
 
 
@@ -176,6 +187,7 @@ fun HomeMenuScreen(
                                     onClick = {
                                         if(menuItem != HomeMenuItem.FoodArrangment){
                                             onMenuItemClick(menuItem.route)
+                                            isNavigatingOut = true
                                         }else{
                                             viewModel.checkIsInPeriods()
                                         }

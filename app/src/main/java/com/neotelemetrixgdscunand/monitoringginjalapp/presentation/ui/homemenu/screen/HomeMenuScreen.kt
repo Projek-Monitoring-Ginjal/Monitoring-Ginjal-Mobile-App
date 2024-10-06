@@ -9,6 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -19,9 +20,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Surface
@@ -53,9 +53,9 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.Route
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green20
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Grey40
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.MonitoringGinjalAppTheme
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.HomeMenuViewModel
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.component.ComposableRiveAnimationView
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.component.HomeMenu
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.viewmodel.HomeMenuViewModel
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.informationmenu.component.ComposableRiveAnimationView
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.informationmenu.component.MenuItem
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.StyledButton
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEvent
@@ -141,34 +141,73 @@ fun HomeMenuScreen(
         }
     }
 
+    HomeMenuContent(
+        modifier = modifier,
+        isLoading = viewModel.isLoading,
+        menuItems = menuItems,
+        visibleMenuIndex = visibleMenuIndex,
+        onMenuItemClick = onMenuItemClick,
+        navigatingOut = {
+            isNavigatingOut = true
+        },
+        checkIsInPeriods = viewModel::checkIsInPeriods,
+        showLogoutDialog = viewModel::onShowDialog,
+        isDialogLogoutShown = viewModel.showDialog,
+        onDismissDialogLogout = viewModel::onDismissDialog,
+        onLogout = viewModel::logout
+    )
+}
 
+
+@Composable
+fun HomeMenuContent(
+    modifier: Modifier = Modifier,
+    isLoading:Boolean = false,
+    menuItems:List<HomeMenuItem> = emptyList(),
+    visibleMenuIndex:Int = 0,
+    onMenuItemClick: (Route) -> Unit = { },
+    navigatingOut:() -> Unit = {},
+    checkIsInPeriods:() -> Unit = {},
+    showLogoutDialog:() -> Unit = {},
+    isDialogLogoutShown:Boolean = false,
+    onDismissDialogLogout:() -> Unit = {},
+    onLogout:() -> Unit = {}
+) {
 
     Surface(color = Grey40) {
         // Removed unnecessary padding here
         Box(modifier = Modifier.fillMaxSize()) {
 
-            if(viewModel.isLoading){
+            if(isLoading){
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center),
                     color = Green20
                 )
             }else{
-                Column(
+                BoxWithConstraints(
                     modifier = modifier
-                        .padding(16.dp), // Padding is still applied to content
-                    horizontalAlignment = /*if (!isOpeningAnimationComplete) Alignment.CenterHorizontally else */Alignment.Start,
-                    verticalArrangement = /*if (!isOpeningAnimationComplete) Arrangement.Center else */Arrangement.Top
+                            .fillMaxSize()
+                            .padding(16.dp),
+                    contentAlignment = Alignment.Center,
                 ) {
-
-
 
                     Spacer(modifier = Modifier.height(16.dp))
 
+                    ComposableRiveAnimationView(
+                        animation = R.raw.animasiawal,
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .size(
+                                height = this@BoxWithConstraints.maxHeight * 0.45f,
+                                width = this@BoxWithConstraints.maxWidth
+                            ) // The size is applied but without padding
+                    )
+
                     // Make the LazyVerticalGrid scrollable if it becomes too long
-                    LazyVerticalGrid(
-                        modifier = Modifier.weight(1f), // This ensures the grid takes up remaining space and is scrollable
+                    LazyColumn(
+                        modifier = Modifier.align(Alignment.CenterEnd),
+                        //modifier = Modifier.weight(1f), // This ensures the grid takes up remaining space and is scrollable
                         contentPadding = PaddingValues(top = 4.dp),
-                        columns = GridCells.Fixed(2), // Set to 2 columns
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         itemsIndexed(
@@ -181,59 +220,44 @@ fun HomeMenuScreen(
                                 enter = scaleIn(),
                                 exit = scaleOut()
                             ) {
-                                HomeMenu(
+                                MenuItem(
                                     iconResId = menuItem.iconResId,
                                     title = stringResource(id = menuItem.titleTextResId),
                                     onClick = {
                                         if(menuItem != HomeMenuItem.FoodArrangment){
                                             onMenuItemClick(menuItem.route)
-                                            isNavigatingOut = true
+                                            navigatingOut()
                                         }else{
-                                            viewModel.checkIsInPeriods()
+                                            checkIsInPeriods()
                                         }
                                     }
                                 )
                             }
                         }
                     }
-                }
 
-                Column(
-                    Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.BottomCenter)
-                ) {
-                    // Ensure the animation is fixed at the bottom-left corner without padding
-                    ComposableRiveAnimationView(
-                        animation = R.raw.animasiawal,
-                        modifier = Modifier
-                            .align(Alignment.Start)
-                            .padding(start = 36.dp)
-                            .size(220.dp) // The size is applied but without padding
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
                     StyledButton(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(end = 16.dp, start = 16.dp)
-                            .align(Alignment.CenterHorizontally),
+                            .align(Alignment.BottomCenter),
                         text = stringResource(R.string.keluar),
-                        onClick = viewModel::onShowDialog
+                        onClick = showLogoutDialog
                     )
                 }
 
+
+
             }
 
-            if(viewModel.showDialog){
+            if(isDialogLogoutShown){
                 LogoutDialog(
-                    onDismiss = viewModel::onDismissDialog,
-                    onLogout = viewModel::logout
+                    onDismiss = onDismissDialogLogout,
+                    onLogout = onLogout
                 )
             }
         }
     }
 }
-
 
 
 @Composable
@@ -303,9 +327,9 @@ private fun LogoutDialogPreview() {
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-private fun HomeScreenPreview() {
+private fun HomeMenuScreenPreview() {
     MonitoringGinjalAppTheme {
-        HomeMenuScreen()
+        HomeMenuContent()
     }
 }
 

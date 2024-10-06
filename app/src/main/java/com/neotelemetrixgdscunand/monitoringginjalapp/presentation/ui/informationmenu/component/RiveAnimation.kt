@@ -1,4 +1,4 @@
-package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.component
+package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.informationmenu.component
 
 import androidx.annotation.RawRes
 import androidx.compose.foundation.background

@@ -54,6 +54,11 @@ fun <T:Any> NavHostController.navigateWithCheck(route : T, builder : NavOptionsB
     }
 }
 
+fun NavHostController.navigateUpWithCheck(){
+    if(currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED){
+        navigateUp()
+    }
+}
 
 suspend fun <T> Resource<T>.handleAsyncDefaultWithUIEvent(
     uiEventChannel: Channel<UIEvent>,

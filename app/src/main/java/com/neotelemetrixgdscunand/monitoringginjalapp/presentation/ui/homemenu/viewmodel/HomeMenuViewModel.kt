@@ -1,4 +1,4 @@
-package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu
+package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

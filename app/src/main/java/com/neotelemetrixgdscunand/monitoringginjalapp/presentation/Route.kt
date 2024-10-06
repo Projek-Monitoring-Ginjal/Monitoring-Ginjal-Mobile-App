@@ -11,6 +11,8 @@ data object Login: Route()
 @Serializable
 data object HomeMenu: Route()
 @Serializable
+data object InformationMenu:Route()
+@Serializable
 data object DailyNutrientCalc : Route()
 @Serializable
 data class ListFoodnDrink(val dayOptions: DayOptions) : Route()

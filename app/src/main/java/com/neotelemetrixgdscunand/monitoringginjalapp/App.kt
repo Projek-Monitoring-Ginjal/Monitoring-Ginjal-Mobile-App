@@ -33,6 +33,7 @@ import androidx.navigation.compose.rememberNavController
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.DailyNutrientCalc
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.HomeMenu
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.InformationMenu
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ListFoodnDrink
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ListMenuInfoGinjal
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.Login
@@ -43,8 +44,10 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Neutral
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Yellow20
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.screen.DailyNutrientsCalcScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.viewmodel.DailyNutrientCalcUtilVM
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.HomeMenuViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.screen.HomeMenuScreen
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.viewmodel.HomeMenuViewModel
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.informationmenu.InformationMenuViewModel
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.informationmenu.screen.InformationMenuScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.screen.ListFoodnDrinkScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.viewmodel.ListFoodnDrinkViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listmenuinfoginjal.screen.ListMenuInfoGinjalScreen
@@ -54,6 +57,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.scre
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.viewmodel.LoginViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.screen.MealResultScreen
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.viewmodel.MealResultViewModel
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.navigateUpWithCheck
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.navigateWithCheck
 
 @Composable
@@ -100,7 +104,7 @@ fun App(
                 )
             }
             composable<HomeMenu> {
-                val viewModel:HomeMenuViewModel = hiltViewModel()
+                val viewModel: HomeMenuViewModel = hiltViewModel()
 
                 HomeMenuScreen(
                     onMenuItemClick = { route ->
@@ -109,6 +113,17 @@ fun App(
                     onLogout = {
                         isSignedIn = false
                     },
+                    viewModel = viewModel
+                )
+            }
+            composable<InformationMenu> {
+                val viewModel:InformationMenuViewModel = hiltViewModel()
+
+                InformationMenuScreen(
+                    onMenuItemClick = { route ->
+                        navController.navigateWithCheck(route)
+                    },
+                    onNavigateBack = navController::navigateUpWithCheck,
                     viewModel = viewModel
                 )
             }
@@ -190,7 +205,10 @@ fun TopBarApp(
                     spotColor = Color.DarkGray
                 ),
             navigationIcon = {
-                if(route != HomeMenu::class.java.canonicalName){
+                if(
+                    route != HomeMenu::class.java.canonicalName
+                    && route != InformationMenu::class.java.canonicalName
+                    ){
                     Icon(
                         modifier = Modifier
                             .padding(8.dp)
@@ -224,7 +242,9 @@ fun TopBarApp(
                     spotColor = Color.DarkGray
                 ),
             navigationIcon = {
-                if(route != HomeMenu::class.java.canonicalName){
+                if(
+                    route != HomeMenu::class.java.canonicalName
+                    && route != InformationMenu::class.java.canonicalName){
                     Icon(
                         modifier = Modifier
                             .padding(8.dp)

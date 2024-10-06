@@ -1,4 +1,4 @@
-package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.homemenu.component
+package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.informationmenu.component
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -28,7 +28,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.comp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeMenu(
+fun MenuItem(
     modifier: Modifier = Modifier,
     iconResId:Int,
     title:String,
@@ -83,9 +83,9 @@ fun HomeMenu(
 
 @Preview(showBackground = true, backgroundColor = 0xFFF6F6F6)
 @Composable
-private fun HomeMenuPreview() {
+private fun MenuItemPreview() {
     MonitoringGinjalAppTheme {
-        HomeMenu(
+        MenuItem(
             iconResId = R.drawable.ic_kidney,
             title = "Gagal Ginjaldddddddddkkddddddd",
             onClick = {}

@@ -15,7 +15,7 @@ enum class InformationMenuItem(
         route = ListMenuInfoGinjal(routeType = "Ginjal") // utk sementara
     ),
     Hemodialysis(
-        iconResId = R.drawable.ic_infusion,
+        iconResId = R.drawable.dialisis,
         titleTextResId = R.string.hemodialisa,
         route = ListMenuInfoGinjal(routeType = "Hemodialisa"), // utk sementara
     ),

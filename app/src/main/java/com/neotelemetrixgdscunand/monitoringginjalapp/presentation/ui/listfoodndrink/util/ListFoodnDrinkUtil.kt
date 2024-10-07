@@ -115,7 +115,9 @@ object ListFoodnDrinkUtil {
     ): Color {
         if (gradient.isEmpty()) return Color.Transparent
 
-        val normalizedFraction = fraction.coerceIn(0f, 2f)
+        val normalizedFraction = fraction.coerceIn(
+            gradient.first().second, gradient.last().second
+        )
 
         for (i in 0 until gradient.size - 1) {
             val (startColor, startFraction) = gradient[i]

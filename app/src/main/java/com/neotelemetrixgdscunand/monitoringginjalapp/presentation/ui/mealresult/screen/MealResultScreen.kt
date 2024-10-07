@@ -39,13 +39,14 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green20
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.MonitoringGinjalAppTheme
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.util.ListFoodnDrinkUtil
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.StyledButton
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.component.MealDayTab
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.component.NutrientPreviewCard
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.component.NutritionStatBar
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.util.MealResultUtil
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.util.MealResultUtil.determineIsNutritionLessAmountSufficient
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.util.MealResultUtil.determineNutritionPreviewBarColor
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.viewmodel.MealResultViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEvent
 
@@ -57,17 +58,40 @@ fun MealResultScreen(
     onFinish: () -> Unit = { }
 ) {
 
-
-    val nutritionToProgressFraction = remember(
+    val (thresholds, nutritionTotalInfo) = remember(
         viewModel.dayOptions,
         viewModel.dailyNutrientFourDays,
         viewModel.dailyNutrientNeedsThreshold
     ) {
-        val (thresholds, nutritionTotalInfo) = MealResultUtil.calculateDailyNutritionAmountAndThreshold(
+        MealResultUtil.calculateDailyNutritionAmountAndThreshold(
             viewModel.dailyNutrientNeedsThreshold,
             viewModel.dailyNutrientFourDays,
             viewModel.dayOptions
         )
+    }
+
+    val nutritionToThreshold = remember(
+        thresholds,
+        nutritionTotalInfo
+    ){
+        listOf(
+            nutritionTotalInfo.calorie to
+                thresholds.caloriesThreshold,
+            nutritionTotalInfo.fluid to
+                thresholds.fluidThreshold,
+            nutritionTotalInfo.protein to
+                thresholds.proteinThreshold,
+            nutritionTotalInfo.sodium to
+                thresholds.sodiumThreshold,
+            nutritionTotalInfo.potassium to
+                thresholds.potassiumThreshold
+        )
+    }
+
+    val nutritionToProgressFraction = remember(
+        thresholds,
+        nutritionTotalInfo
+    ){
         listOf(
              nutritionTotalInfo.calorie to MealResultUtil.calculateProgressFraction(
                 nutritionTotalInfo.calorie.amount,
@@ -170,14 +194,16 @@ fun MealResultScreen(
 
                 itemsIndexed(nutritionToProgressFraction){index, item ->
 
-                    val (nutrient, progressFraction) = item
-                    val backgroundColor = ListFoodnDrinkUtil.getColorFromGradient(progressFraction)
+                    val (nutrient, threshold) = nutritionToThreshold[index]
+                    val isNutritionAmountSufficient = nutrient.checkIsSufficientAmount(threshold)
 
                     NutritionStatBar(
-                        backgroundColor = backgroundColor,
+                        backgroundColor = nutrient.determineNutritionPreviewBarColor(),
                         nutritionalContentName = nutrient.name.getValue(context),
                         nutritionalContentValue = nutrient.amount,
-                        nutritionalContentUnit = nutrient.unit.getValue(context)
+                        nutritionalContentUnit = nutrient.unit.getValue(context),
+                        nutritionalThreshold = threshold,
+                        isNutritionAmountSufficient = isNutritionAmountSufficient
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
@@ -192,6 +218,7 @@ fun MealResultScreen(
                     NutrientPreviewCard(
                         nutrientContentName = nutrient.name.getValue(context),
                         progressFraction = progressFraction,
+                        isLessAmountSufficient = nutrient.determineIsNutritionLessAmountSufficient()
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }

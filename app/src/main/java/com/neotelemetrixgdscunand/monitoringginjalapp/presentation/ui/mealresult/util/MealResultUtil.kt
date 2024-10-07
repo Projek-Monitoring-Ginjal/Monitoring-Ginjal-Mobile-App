@@ -1,9 +1,12 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.util
 
+import androidx.compose.ui.graphics.Color
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrientNeedsThreshold
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodNutrient
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEssential
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green40
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Yellow40
 
 object MealResultUtil {
 
@@ -17,6 +20,20 @@ object MealResultUtil {
 
         }
         return progressFraction
+    }
+
+    fun FoodNutrient.determineNutritionPreviewBarColor(): Color {
+        return when(this){
+            is FoodNutrient.Calorie, is FoodNutrient.Protein -> Green40
+            else -> Yellow40
+        }
+    }
+
+    fun FoodNutrient.determineIsNutritionLessAmountSufficient(): Boolean {
+        return when(this){
+            is FoodNutrient.Calorie, is FoodNutrient.Protein -> false
+            else -> true
+        }
     }
 
     fun Float.roundOffDecimal(): Float {

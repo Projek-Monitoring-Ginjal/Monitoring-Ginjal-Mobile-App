@@ -175,7 +175,7 @@ fun FoodItemRow(food: FoodItem, onAddClick: (FoodItem) -> Unit) {
                     )
                     NutrientInfo(
                         text = stringResource(id = R.string.kalium),
-                        value = nutritionEssential.calorie.amount.toString()
+                        value = nutritionEssential.potassium.amount.toString()
                     )
                 IconButton(onClick = { onAddClick(food) }) {
                     Icon(

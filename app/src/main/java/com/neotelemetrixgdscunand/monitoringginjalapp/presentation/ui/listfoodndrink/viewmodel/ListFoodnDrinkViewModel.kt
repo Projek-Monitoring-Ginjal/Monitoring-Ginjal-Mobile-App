@@ -18,7 +18,6 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItemCart
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodPortionOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEssential
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.util.ListFoodnDrinkUtil
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.util.ListFoodnDrinkUtil.adjustWithAccumulationOtherDays
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEvent
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.changePortion
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.handleAsyncDefaultWithUIEvent
@@ -114,10 +113,7 @@ class ListFoodnDrinkViewModel @Inject constructor(
                     val (_, listNutritions) = it
                     nutritionInfoFourDays = listNutritions
                     oldDailyNutrientThreshold = dailyNeedsInfo?.dailyNutrientNeedsThreshold ?: throw Exception()
-                   val adjustedDailyNutritionInfo =  dailyNeedsInfo?.adjustWithAccumulationOtherDays(
-                        listNutritions,
-                        currentDayOptions
-                    )?: throw Exception("error")
+                   val adjustedDailyNutritionInfo =  dailyNeedsInfo?: throw Exception("error")
                     dailyNutrientNeedsInfo = adjustedDailyNutritionInfo
                 }
         }.also {

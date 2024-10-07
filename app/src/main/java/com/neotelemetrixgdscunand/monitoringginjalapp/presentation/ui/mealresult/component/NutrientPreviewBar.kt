@@ -29,7 +29,8 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodnd
 @Composable
 fun NutrientPreviewBar(
     modifier: Modifier = Modifier,
-    progressFraction:Float = 0f
+    progressFraction:Float = 0f,
+    isLessAmountSufficient:Boolean = false
 ) {
 
     BoxWithConstraints(
@@ -40,11 +41,15 @@ fun NutrientPreviewBar(
     ){
         val bulletSize = 24.dp
         val bulletPosition = remember (progressFraction) {
-            val position = ((progressFraction/2f) * this.maxWidth) - (bulletSize / 2)
+            val fractionLimit = if(isLessAmountSufficient) 1f else 2f
+            val checkedFraction = progressFraction.coerceIn(0f, fractionLimit)
+            val position = ((checkedFraction/fractionLimit) * this.maxWidth) - (bulletSize / 2)
             if(position < 0.dp) 0.dp else position
         }
         val isMaximumExcessive = remember(progressFraction) {
-            progressFraction == 2f
+            val fractionLimit = if(isLessAmountSufficient) 1f else 2f
+            val checkedFraction = progressFraction.coerceIn(0f, fractionLimit)
+            checkedFraction == fractionLimit
         }
 
         Box(
@@ -54,11 +59,20 @@ fun NutrientPreviewBar(
                 .align(Alignment.Center)
                 .background(
                     brush = Brush.linearGradient(
-                        colors = listOf(
-                            Color.White,
-                            Green50,
-                            Yellow40
-                        )
+                        colors =
+                        if(isLessAmountSufficient){
+                            listOf(
+                                Color.White,
+                                Green50,
+                                Color.Red
+                            )
+                        }else{
+                            listOf(
+                                Color.Red,
+                                Green50,
+                                Yellow40
+                            )
+                        }
                     ),
                     shape = RoundedCornerShape(size = 16.dp)
                 )
@@ -66,11 +80,19 @@ fun NutrientPreviewBar(
                     width = 1.dp,
                     shape = RoundedCornerShape(size = 16.dp),
                     brush = Brush.linearGradient(
-                        colors = listOf(
-                            Grey50,
-                            Green50,
-                            Yellow40
-                        )
+                        colors = if(isLessAmountSufficient){
+                            listOf(
+                                Grey50,
+                                Green50,
+                                Color.Red
+                            )
+                        }else{
+                            listOf(
+                                Color.Red,
+                                Green50,
+                                Yellow40
+                            )
+                        }
                     )
                 )
         )
@@ -85,7 +107,22 @@ fun NutrientPreviewBar(
                     shape = CircleShape
                 )
                 .background(
-                    color = ListFoodnDrinkUtil.getColorFromGradient(progressFraction),
+                    color = ListFoodnDrinkUtil.getColorFromGradient(
+                        progressFraction,
+                        gradient = if(isLessAmountSufficient){
+                            listOf(
+                                Grey50 to 0f,
+                                Green50 to 0.5f,
+                                Color.Red to 1f
+                            )
+                        }else{
+                            listOf(
+                                Color.Red to 0f,
+                                Green50 to 1f,
+                                Yellow40 to 2f
+                            )
+                        }
+                    ),
                     shape = CircleShape
                 )
                 .align(if(!isMaximumExcessive) Alignment.CenterStart else Alignment.CenterEnd)

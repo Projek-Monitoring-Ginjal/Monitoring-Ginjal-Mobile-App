@@ -33,8 +33,9 @@ import androidx.compose.ui.unit.sp
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrientNeedsThreshold
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEssential
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.util.ListFoodnDrinkUtil
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.util.MealResultUtil.roundOffDecimal
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.component.NutritionBarText
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.util.MealResultUtil.determineNutritionPreviewBarColor
 
 @SuppressLint("DefaultLocale")
 @Composable
@@ -45,16 +46,22 @@ fun BottomBarFoodSearch(
     onSaveClick: () -> Unit = {},
 ) {
     val context = LocalContext.current
-    val nutritionToProgressFraction = remember(nutrition) {
-        dailyNutrientNeedsThreshold.run {
-            listOf(
-                nutrition.calorie to nutrition.calorie.amount / caloriesThreshold,
-                nutrition.fluid to nutrition.fluid.amount / fluidThreshold,
-                nutrition.protein to nutrition.protein.amount / proteinThreshold,
-                nutrition.sodium to nutrition.sodium.amount / sodiumThreshold,
-                nutrition.potassium to nutrition.potassium.amount / potassiumThreshold
-            )
-        }
+    val nutritionToThreshold = remember(
+        dailyNutrientNeedsThreshold,
+        nutrition
+    ){
+        listOf(
+            nutrition.calorie to
+                    dailyNutrientNeedsThreshold.caloriesThreshold,
+            nutrition.fluid to
+                    dailyNutrientNeedsThreshold.fluidThreshold,
+            nutrition.protein to
+                    dailyNutrientNeedsThreshold.proteinThreshold,
+            nutrition.sodium to
+                    dailyNutrientNeedsThreshold.sodiumThreshold,
+            nutrition.potassium to
+                    dailyNutrientNeedsThreshold.potassiumThreshold
+        )
     }
 
     Column(
@@ -66,11 +73,10 @@ fun BottomBarFoodSearch(
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            LegendItem(text = stringResource(R.string.belum_terpenuhi), color = Color.White)
-            LegendItem(text = stringResource(R.string.terpenuhi), color = colorResource(R.color.lightGreen))
-            LegendItem(text = stringResource(R.string.berlebih), color = colorResource(R.color.lightYellow))
+            LegendItem(text = stringResource(R.string.harus_dipenuhi), color = colorResource(R.color.lightGreen))
+            LegendItem(text = stringResource(R.string.tidak_boleh_berlebih), color = colorResource(R.color.lightYellow))
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -84,16 +90,16 @@ fun BottomBarFoodSearch(
             }
             NutrientRow(nutrient.name,String.format("%.2f", nutrient.value) + " ${nutrient.unit}", backgroundColor)
         }*/
-        nutritionToProgressFraction.forEach { it ->
-            val (nutrient, progressFraction) = it
-            val backgroundColor = remember(nutrient) {
-                ListFoodnDrinkUtil.getColorFromGradient(progressFraction)
-            }
+        nutritionToThreshold.forEach { it ->
+            val (nutrient, threshold) = it
 
             NutrientRow(
                 label = nutrient.name.getValue(context),
-                value = String.format("%.2f", nutrient.amount.roundOffDecimal()) + " ${nutrient.unit.getValue(context)}",
-                backgroundColor = backgroundColor
+                nutritionalThreshold = threshold,
+                nutritionalContentUnit = nutrient.unit.getValue(context),
+                nutritionalContentValue = nutrient.amount,
+                isNutritionAmountSufficient = nutrient.checkIsSufficientAmount(threshold),
+                backgroundColor = nutrient.determineNutritionPreviewBarColor(),
             )
         }
 
@@ -129,11 +135,11 @@ fun LegendItem(text: String, color: Color) {
         Box(
             modifier = Modifier
                 .size(12.dp)
-                .background(color, shape = RoundedCornerShape(50))
+                .background(color, shape = RoundedCornerShape(5.dp))
                 .border(
                     width = 1.dp,
                     color = Color.Gray,
-                    shape = RoundedCornerShape(50)
+                    shape = RoundedCornerShape(5.dp)
                 )
         )
 
@@ -147,29 +153,36 @@ fun LegendItem(text: String, color: Color) {
 }
 
 @Composable
-fun NutrientRow(label: String, value: String, backgroundColor:Color) {
+fun NutrientRow(
+    label: String,
+    nutritionalContentValue:Float,
+    nutritionalThreshold:Float,
+    nutritionalContentUnit:String,
+    isNutritionAmountSufficient:Boolean,
+    backgroundColor:Color
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp)
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(8.dp))
             .background(backgroundColor),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
+        HeadingText(
             text = label,
-            fontSize = 12.sp,
-            color = Color.Black,
-            fontWeight = FontWeight.Normal,
-            modifier = Modifier.padding(8.dp)
-        )
-        Text(
-            text = value,
-            fontSize = 14.sp,
+            fontSize = 16.sp,
             color = Color.Black,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(8.dp)
+        )
+        NutritionBarText(
+            modifier = Modifier.padding(horizontal = 8.dp),
+            nutritionalThreshold = nutritionalThreshold,
+            nutritionalContentValue = nutritionalContentValue,
+            nutritionalContentUnit = nutritionalContentUnit,
+            isNutritionAmountSufficient = isNutritionAmountSufficient
         )
     }
 }

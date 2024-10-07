@@ -25,7 +25,8 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.comp
 fun NutrientPreviewCard(
     modifier: Modifier = Modifier,
     nutrientContentName:String,
-    progressFraction:Float = 0.0f
+    progressFraction:Float = 0.0f,
+    isLessAmountSufficient:Boolean = false
 ) {
 
     ElevatedCard(
@@ -50,9 +51,10 @@ fun NutrientPreviewCard(
             color = Color.Black
         )
         NutrientPreviewBar(
+            isLessAmountSufficient = isLessAmountSufficient,
             modifier = Modifier
                 .padding(horizontal = 20.dp, vertical = 8.dp),
-            progressFraction = progressFraction
+            progressFraction = progressFraction,
         )
         Box(
             modifier = Modifier

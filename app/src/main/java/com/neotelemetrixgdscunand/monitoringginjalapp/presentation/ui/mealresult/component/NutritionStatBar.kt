@@ -8,6 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -16,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green40
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.MonitoringGinjalAppTheme
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.util.MealResultUtil.roundOffDecimal
 
 @Composable
 fun NutritionStatBar(
@@ -24,7 +24,9 @@ fun NutritionStatBar(
     backgroundColor: Color = Green40,
     nutritionalContentName:String = "",
     nutritionalContentValue:Float = 0f,
-    nutritionalContentUnit:String = ""
+    nutritionalThreshold:Float = 0f,
+    nutritionalContentUnit:String = "",
+    isNutritionAmountSufficient:Boolean = false
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
@@ -33,7 +35,9 @@ fun NutritionStatBar(
             containerColor = backgroundColor
         )
     ) {
-        Row {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             HeadingText(
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
                 text = nutritionalContentName,
@@ -41,11 +45,12 @@ fun NutritionStatBar(
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.weight(1f))
-            HeadingText(
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                text = "${nutritionalContentValue.roundOffDecimal()} $nutritionalContentUnit",
-                color =  Color.Black,
-                fontWeight = FontWeight.Bold
+            NutritionBarText(
+                modifier = Modifier.padding(horizontal = 12.dp),
+                nutritionalThreshold = nutritionalThreshold,
+                nutritionalContentValue = nutritionalContentValue,
+                nutritionalContentUnit = nutritionalContentUnit,
+                isNutritionAmountSufficient = isNutritionAmountSufficient
             )
         }
     }

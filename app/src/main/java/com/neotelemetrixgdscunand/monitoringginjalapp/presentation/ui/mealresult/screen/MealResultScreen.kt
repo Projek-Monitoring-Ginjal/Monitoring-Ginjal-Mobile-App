@@ -264,7 +264,7 @@ private fun BottomButtons(
             contentPadding = PaddingValues(horizontal = 20.dp, vertical = 14.dp),
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
-            text = stringResource(id = R.string.simpan),
+            text = stringResource(R.string.selesai),
             onClick = onFinish
         )
     }

@@ -57,7 +57,7 @@ fun NutritionBarText(
                     letterSpacing = letterSpacing
                 )
             ){
-                append("/$nutritionalThreshold ")
+                append("/${nutritionalThreshold.roundOffDecimal()} ")
             }
             withStyle(
                 style = SpanStyle(

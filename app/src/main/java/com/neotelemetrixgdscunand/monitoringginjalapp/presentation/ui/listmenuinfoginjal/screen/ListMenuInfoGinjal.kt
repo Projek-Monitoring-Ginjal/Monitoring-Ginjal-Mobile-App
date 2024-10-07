@@ -95,7 +95,7 @@ fun ListMenuInfoGinjalScreen(routeType: String) {
     val selectedAnimation = remember {
         when (routeType) {
             "Ginjal" -> R.raw.gglginjal // Replace with the actual animation resource
-            "Hemodialisa" -> R.raw.hemodialsa
+            "Hemodialisa" -> R.raw.hemodialisa
             "Cairan" -> R.raw.kebutuhan_cairan
             "Perawatan" -> R.raw.vaskuler
             "Diet" -> R.raw.diet

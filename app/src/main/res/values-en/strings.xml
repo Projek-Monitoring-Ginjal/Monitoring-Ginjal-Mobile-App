@@ -327,4 +327,6 @@
     <string name="harus_dipenuhi">Must be fulfilled</string>
     <string name="tidak_boleh_berlebih">Must not be excessive</string>
     <string name="skip">Skip</string>
+
+    <string name="selesai">Finish</string>
 </resources>

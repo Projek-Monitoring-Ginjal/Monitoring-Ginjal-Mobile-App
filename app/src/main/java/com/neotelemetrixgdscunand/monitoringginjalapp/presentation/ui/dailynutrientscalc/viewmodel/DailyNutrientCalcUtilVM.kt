@@ -49,7 +49,18 @@ class DailyNutrientCalcUtilVM @Inject constructor(
     private var job:Job?= null
 
     fun onSaveClicked() {
-        val bw = textState.toFloatOrNull() ?: 0.0f
+        val commaIndex = textState.indexOfFirst { it == ',' }
+        val adjustedText = if(commaIndex != -1){
+            val checkedText = if(commaIndex == textState.lastIndex){
+                textState = textState.substring(0) + "0"
+                textState
+            }else textState
+            """
+                ${checkedText.substring(0, commaIndex)}.${checkedText.substring(commaIndex+1)}
+            """.trimIndent()
+        }else textState
+
+        val bw = adjustedText.toFloatOrNull() ?: 0.0f
         if (bw > 0.0f) {
             bodyweight = bw
 

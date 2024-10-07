@@ -29,15 +29,19 @@ fun FormField(
     modifier: Modifier = Modifier,
     cornerRadius: Int = 16
 ) {
+
+    val allowedCharacterPattern = remember {
+        "^[0-9]*[,]{0,1}[0-9]*$".toRegex()
+    }
+
     OutlinedTextField(
         value = value,
         onValueChange = {
-            if (it.all { char -> char.isDigit() }) {
+            if (allowedCharacterPattern.matches(it)) {
                 onValueChange(it)
             }
         },
         shape = RoundedCornerShape(cornerRadius.dp),
-
         placeholder = { Text(text = placeholder, color = Color.Gray, modifier=modifier.fillMaxWidth(), textAlign = TextAlign.Center) },
         textStyle = TextStyle(
             fontSize = 16.sp,
@@ -51,7 +55,7 @@ fun FormField(
             .padding(horizontal = 16.dp, vertical = 8.dp),
         singleLine = true,
         keyboardOptions = KeyboardOptions.Default.copy(
-            keyboardType = KeyboardType.Number
+            keyboardType = KeyboardType.Number,
         )
     )
 }

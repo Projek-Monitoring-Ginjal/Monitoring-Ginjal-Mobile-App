@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -28,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -58,9 +61,10 @@ fun InformationMenuScreen(
         mutableStateOf(false)
     }
 
-    val mediaPlayer = remember{
-        MediaPlayer.create(context, R.raw.soundutama)
+    var mediaPlayer = remember{
+        MediaPlayer.create(context, R.raw.bahasa)
     }
+
     var isVisible by remember {
         mutableStateOf(true)
     }
@@ -73,6 +77,7 @@ fun InformationMenuScreen(
         InformationMenuItem.entries
     }
 
+    // Animasi penampilan menu
     LaunchedEffect(key1 = isNavigatingOut) {
         if(!isNavigatingOut){
             isVisible = true
@@ -82,12 +87,13 @@ fun InformationMenuScreen(
             }
 
             // Trigger item visibility one by one
-            delay(2000L) // 1 second delay for each menu item
+            delay(1000L) // 1 second delay for each menu item
             menuItems.indices.forEach { index ->
-                delay(3000L) // 1 second delay for each menu item
+                delay(2000L) // 1 second delay for each menu item
                 visibleMenuIndex = index
             }
-        }else if(mediaPlayer != null){
+        }
+                else if(mediaPlayer != null){
             try {
                 if(mediaPlayer.isPlaying && mediaPlayer.currentPosition > 0){
                     mediaPlayer.stop()
@@ -100,8 +106,9 @@ fun InformationMenuScreen(
         }
     }
 
+    // Menerima event UI dari ViewModel
     LaunchedEffect(key1 = true) {
-        viewModel.uiEvent.collect{
+        viewModel.uiEvent.collect {
             when(it){
                 is UIEvent.ShowToast -> Toast.makeText(
                     context,
@@ -113,11 +120,33 @@ fun InformationMenuScreen(
         }
     }
 
-
-
     Surface(color = Grey40) {
-        // Removed unnecessary padding here
         Box(modifier = Modifier.fillMaxSize()) {
+            // Cek apakah tombol "Skip" perlu ditampilkan
+            if (visibleMenuIndex < menuItems.lastIndex) {
+                AnimatedVisibility(
+                    visible = visibleMenuIndex < menuItems.lastIndex, // Hanya tampil jika belum semua menu ditampilkan
+                    enter = scaleIn(),
+                    exit = scaleOut()
+                ) {
+                    Text(
+                        text = stringResource(R.string.skip),
+                        color = Color.Black,
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(16.dp)
+                            .clickable {
+                                mediaPlayer?.stop()
+                                mediaPlayer?.release()
+                                mediaPlayer = null
+                                isNavigatingOut = true // Trigger exit navigation
+                                isVisible = false // Hide the grid animation
+                                visibleMenuIndex =
+                                    menuItems.size - 1 // Show all menu items instantly
+                            }
+                    )
+                }
+            }
 
             Column(
                 modifier = modifier
@@ -125,16 +154,13 @@ fun InformationMenuScreen(
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.Top
             ) {
-
-
-
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Make the LazyVerticalGrid scrollable if it becomes too long
+                // LazyVerticalGrid untuk menampilkan menu secara scrollable
                 LazyVerticalGrid(
-                    modifier = Modifier.weight(1f), // This ensures the grid takes up remaining space and is scrollable
+                    modifier = Modifier.weight(1f), // Grid yang dapat discroll
                     contentPadding = PaddingValues(top = 4.dp),
-                    columns = GridCells.Fixed(2), // Set to 2 columns
+                    columns = GridCells.Fixed(2), // Set ke 2 kolom
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     itemsIndexed(
@@ -143,7 +169,7 @@ fun InformationMenuScreen(
                     ) { i, menuItem ->
 
                         AnimatedVisibility(
-                            visible = i <= visibleMenuIndex, // Only show items up to the current index
+                            visible = i <= visibleMenuIndex, // Tampilkan item hingga indeks saat ini
                             enter = scaleIn(),
                             exit = scaleOut()
                         ) {
@@ -165,13 +191,13 @@ fun InformationMenuScreen(
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
             ) {
-                // Ensure the animation is fixed at the bottom-left corner without padding
+                // Komponen animasi di bagian bawah layar
                 ComposableRiveAnimationView(
                     animation = R.raw.animasiawal,
                     modifier = Modifier
                         .align(Alignment.Start)
                         .padding(start = 36.dp)
-                        .size(220.dp) // The size is applied but without padding
+                        .size(220.dp)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 StyledButton(
@@ -197,4 +223,3 @@ private fun InformationMenuScreenPreview() {
         InformationMenuScreen()
     }
 }
-

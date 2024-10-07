@@ -323,4 +323,6 @@
     <string name="manajemen_nutrisi_dan_diet_pada_pasien_hemodialisa">Manajemen Nutrisi dan Diet\npada Pasien Hemodialisa</string>
     <string name="informasi_dan_edukasi">Informasi dan Edukasi</string>
 
+    <string name="skip">Lewati</string>
+
 </resources>

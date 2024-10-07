@@ -92,28 +92,28 @@ fun HomeMenuScreen(
     LaunchedEffect(key1 = isNavigatingOut) {
         if(!isNavigatingOut){
             isVisible = true
-            mediaPlayer.start()
-            mediaPlayer.setOnCompletionListener {
-                mediaPlayer.release() // Release the media player when done
-            }
+//            mediaPlayer.start()
+//            mediaPlayer.setOnCompletionListener {
+//                mediaPlayer.release() // Release the media player when done
+//            }
 
             // Trigger item visibility one by one
-            delay(2000L) // 1 second delay for each menu item
             menuItems.indices.forEach { index ->
-                delay(3000L) // 1 second delay for each menu item
+                delay(1000L) // 1 second delay for each menu item
                 visibleMenuIndex = index
             }
-        }else if(mediaPlayer != null){
-            try {
-                if(mediaPlayer.isPlaying && mediaPlayer.currentPosition > 0){
-                    mediaPlayer.stop()
-                    mediaPlayer.release()
-                }
-            }catch (e:IllegalStateException){
-                e.printStackTrace()
-            }
-
         }
+        //        else if(mediaPlayer != null){
+//            try {
+//                if(mediaPlayer.isPlaying && mediaPlayer.currentPosition > 0){
+//                    mediaPlayer.stop()
+//                    mediaPlayer.release()
+//                }
+//            }catch (e:IllegalStateException){
+//                e.printStackTrace()
+//            }
+//
+//        }
     }
 
     LaunchedEffect(key1 = true) {
@@ -194,11 +194,11 @@ fun HomeMenuContent(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     ComposableRiveAnimationView(
-                        animation = R.raw.animasiawal,
+                        animation = R.raw.utama,
                         modifier = Modifier
                             .align(Alignment.TopStart)
                             .size(
-                                height = this@BoxWithConstraints.maxHeight * 0.45f,
+                                height = this@BoxWithConstraints.maxHeight * 0.75f,
                                 width = this@BoxWithConstraints.maxWidth
                             ) // The size is applied but without padding
                     )

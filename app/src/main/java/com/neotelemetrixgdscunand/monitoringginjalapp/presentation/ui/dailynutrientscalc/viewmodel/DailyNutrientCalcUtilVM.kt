@@ -4,9 +4,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.data.Repository
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.HemodialisaType
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEssential
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEvent
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.handleAsyncDefaultWithUIEvent
@@ -20,15 +22,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DailyNutrientCalcUtilVM @Inject constructor(
-    private val repository: Repository
+    private val repository: Repository,
+    saveStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    private val hemodialisaType = saveStateHandle.get<HemodialisaType>("hemodialisaType") ?: HemodialisaType.HEMODIALISA_1
 
     var textState by mutableStateOf("")
         private set
     var showDialog by mutableStateOf(false)
         private set
-    var bodyweight by mutableFloatStateOf(0.0f)
-        private set
+    private var bodyweight by mutableFloatStateOf(0.0f)
 
     var nutritionNeeds by mutableStateOf(
         NutritionEssential()
@@ -40,8 +44,6 @@ class DailyNutrientCalcUtilVM @Inject constructor(
     private val _uiEvent = Channel<UIEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-
-
     fun onTextChange(newText: String) {
         textState = newText
     }
@@ -49,16 +51,27 @@ class DailyNutrientCalcUtilVM @Inject constructor(
     private var job:Job?= null
 
     fun onSaveClicked() {
-        val bw = textState.toFloatOrNull() ?: 0.0f
+        val commaIndex = textState.indexOfFirst { it == ',' }
+        val adjustedText = if(commaIndex != -1){
+            val checkedText = if(commaIndex == textState.lastIndex){
+                textState = textState.substring(0) + "0"
+                textState
+            }else textState
+            """
+                ${checkedText.substring(0, commaIndex)}.${checkedText.substring(commaIndex+1)}
+            """.trimIndent()
+        }else textState
+
+        val bw = adjustedText.toFloatOrNull() ?: 0.0f
         if (bw > 0.0f) {
             bodyweight = bw
-
 
             job?.cancel()
             job = viewModelScope.launch {
                 isLoading = true
                 repository.startNewHemodialisa(
-                    bodyweight
+                    bodyweight,
+                    hemodialisaType
                 ).handleAsyncDefaultWithUIEvent(_uiEvent){
                     val (nutritions, message) = it
 

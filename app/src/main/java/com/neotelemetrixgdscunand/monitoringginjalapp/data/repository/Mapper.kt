@@ -11,6 +11,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItemCart
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodNutrient
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodPortionOptions
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.HemodialisaType
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEssential
 
 object Mapper {
@@ -23,23 +24,38 @@ object Mapper {
         return """{"makanan_id": ${this.foodItem.id}, "portion": ${this.portionOptions.multiplier}}""".trimIndent()
     }
 
-    fun GetHemodialisaResultResponse.mapToMealResultInfo():Pair<DailyNutrientNeedsThreshold, List<NutritionEssential>>{
-        val listNutritionResults = listOf(
-            this.countNutritionDay1.mapToNutritionEssential(),
-            this.countNutritionDay2.mapToNutritionEssential(),
-            this.countNutritionDay3.mapToNutritionEssential(),
-            this.countNutritionDay4.mapToNutritionEssential()
+    fun GetHemodialisaResultResponse.mapToMealResultInfo(hemodialisaType: HemodialisaType):Pair<List<DailyNutrientNeedsThreshold?>, List<NutritionEssential?>>{
+        val listNutritionResults:MutableList<NutritionEssential?> = mutableListOf(
+            this.countNutritionDay1?.mapToNutritionEssential(),
+            this.countNutritionDay2?.mapToNutritionEssential(),
+            this.countNutritionDay3?.mapToNutritionEssential(),
         )
-        /*listNutritionResults.forEachIndexed { i, item ->
-            println("mapper $i")
-            println(item.calorie.amount)
-            println(item.fluid.amount)
-            println(item.protein.amount)
-            println(item.sodium.amount)
-            println(item.potassium.amount)
-        }*/
-        val dailyNutrientNeedsThreshold = this.let {
-            this.nutritionThreshold.run {
+
+        if(hemodialisaType == HemodialisaType.HEMODIALISA_2){
+            listNutritionResults.add(
+                this.countNutritionDay4?.mapToNutritionEssential(),
+            )
+        }
+        val listDailyNutrientNeedsThreshold = mutableListOf(
+            this.nutritionThresholdDay1?.run {
+                DailyNutrientNeedsThreshold(
+                    caloriesThreshold = calories ?: 0f,
+                    fluidThreshold = fluids ?: 0f,
+                    proteinThreshold = protein ?: 0f,
+                    sodiumThreshold = sodium ?: 0f,
+                    potassiumThreshold = potassium ?:0f
+                )
+            },
+            this.nutritionThresholdDay2?.run {
+                DailyNutrientNeedsThreshold(
+                    caloriesThreshold = calories ?: 0f,
+                    fluidThreshold = fluids ?: 0f,
+                    proteinThreshold = protein ?: 0f,
+                    sodiumThreshold = sodium ?: 0f,
+                    potassiumThreshold = potassium ?:0f
+                )
+            },
+            this.nutritionThresholdDay3?.run {
                 DailyNutrientNeedsThreshold(
                     caloriesThreshold = calories ?: 0f,
                     fluidThreshold = fluids ?: 0f,
@@ -48,8 +64,24 @@ object Mapper {
                     potassiumThreshold = potassium ?:0f
                 )
             }
+        )
+
+        if(hemodialisaType == HemodialisaType.HEMODIALISA_2){
+            listDailyNutrientNeedsThreshold.add(
+                this.nutritionThresholdDay4?.run {
+                    DailyNutrientNeedsThreshold(
+                        caloriesThreshold = calories ?: 0f,
+                        fluidThreshold = fluids ?: 0f,
+                        proteinThreshold = protein ?: 0f,
+                        sodiumThreshold = sodium ?: 0f,
+                        potassiumThreshold = potassium ?:0f
+                    )
+                }
+            )
         }
-        return Pair(dailyNutrientNeedsThreshold, listNutritionResults)
+
+
+        return Pair(listDailyNutrientNeedsThreshold, listNutritionResults)
     }
 
     fun NutritionThresholdResponse.mapToNutritionEssential():NutritionEssential{
@@ -69,7 +101,7 @@ object Mapper {
             unit = this.satuan ?: "Unit",
             nutritionEssential = NutritionEssential(
                 calorie = FoodNutrient.Calorie(this.energy ?: 0f),
-                fluid = FoodNutrient.Fluid(this.water?.toFloat() ?: 0f),
+                fluid = FoodNutrient.Fluid(this.water ?: 0f),
                 protein = FoodNutrient.Protein(this.protein ?: 0f),
                 sodium = FoodNutrient.Sodium(this.sodium ?: 0f),
                 potassium = FoodNutrient.Potassium(this.potassium ?: 0f)
@@ -91,7 +123,7 @@ object Mapper {
                         name = it.makanan?.name ?: "",
                         nutritionEssential = NutritionEssential(
                             calorie = FoodNutrient.Calorie(it.makanan?.energy ?: 0f),
-                            fluid = FoodNutrient.Fluid(it.makanan?.water?.toFloat() ?: 0f),
+                            fluid = FoodNutrient.Fluid(it.makanan?.water ?: 0f),
                             protein = FoodNutrient.Protein(it.makanan?.protein ?: 0f),
                             sodium = FoodNutrient.Sodium(it.makanan?.sodium ?: 0f),
                             potassium = FoodNutrient.Potassium(it.makanan?.potassium?:0f)

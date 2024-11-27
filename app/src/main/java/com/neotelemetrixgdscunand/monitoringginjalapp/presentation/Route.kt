@@ -1,6 +1,7 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.presentation
 
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.HemodialisaType
 import kotlinx.serialization.Serializable
 
 
@@ -13,11 +14,11 @@ data object HomeMenu: Route()
 @Serializable
 data object InformationMenu:Route()
 @Serializable
-data object DailyNutrientCalc : Route()
+data class DailyNutrientCalc(val hemodialisaType:HemodialisaType) : Route()
 @Serializable
-data class ListFoodnDrink(val dayOptions: DayOptions) : Route()
+data class ListFoodnDrink(val dayOptions: DayOptions, val hemodialisaType: HemodialisaType) : Route()
 @Serializable
-data class MealResult(val dayOptions: DayOptions):Route()
+data class MealResult(val dayOptions: DayOptions, val hemodialisaType: HemodialisaType):Route()
 @Serializable
 data class ListMenuInfoGinjal(val routeType: String) : Route()
 

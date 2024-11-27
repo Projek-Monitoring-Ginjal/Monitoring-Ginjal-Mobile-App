@@ -35,5 +35,8 @@ data class CheckHemodialisaResponse(
 	val fluids: Any? = null,
 
 	@field:SerializedName("updatedAt")
-	val updatedAt: String? = null
+	val updatedAt: String? = null,
+
+	@field:SerializedName("hemodialisa_type")
+	val hemodialisaType:Int? = null
 )

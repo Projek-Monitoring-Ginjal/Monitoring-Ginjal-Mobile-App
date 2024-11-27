@@ -41,15 +41,13 @@ object MealResultUtil {
     }
 
     fun calculateDailyNutritionAmountAndThreshold(
-        dailyNutrientNeedsThreshold: DailyNutrientNeedsThreshold,
-        nutritionEssentialsForFourDays: List<NutritionEssential>,
+        dailyNutrientNeedsThresholdFourDays: List<DailyNutrientNeedsThreshold?>,
+        nutritionEssentialsForFourDays: List<NutritionEssential?>,
         dayOptions: DayOptions
-    ):Pair<DailyNutrientNeedsThreshold, NutritionEssential>{
-        /*var deficitOrSurplusCalorie = 0f
-        var deficitOrSurplusFluid = 0f
-        var deficitOrSurplusProtein = 0f
-        var deficitOrSurplusSodium = 0f
-        var deficitOrSurplusPotassium = 0f*/
+    ):Pair<DailyNutrientNeedsThreshold, NutritionEssential>?{
+
+        val currentNutritionEssential = nutritionEssentialsForFourDays[dayOptions.index] ?: return null
+        val currentNutrientNeedsThreshold = dailyNutrientNeedsThresholdFourDays[dayOptions.index] ?: return null
 
         var fluidDeficitOrSurplusDaysBefore = 0f
         var sodiumDeficitOrSurplusDaysBefore = 0f
@@ -59,9 +57,11 @@ object MealResultUtil {
         if(daysBeforeIndex > -1){
 
             for(i in 0..daysBeforeIndex){
-                val currDayNutritionEssential = nutritionEssentialsForFourDays[i]
+                val currDayNutritionEssential = nutritionEssentialsForFourDays[i] ?: continue
+                val currDayNutrientNeedsThreshold = dailyNutrientNeedsThresholdFourDays[i] ?: continue
+
                 //deficitOrSurplusCalorie += currDayNutritionEssential.calorie.amount - dailyNutrientNeedsThreshold.caloriesThreshold
-                (currDayNutritionEssential.fluid.amount - dailyNutrientNeedsThreshold.fluidThreshold)
+                (currDayNutritionEssential.fluid.amount - currDayNutrientNeedsThreshold.fluidThreshold)
                     .let {
                         fluidDeficitOrSurplusDaysBefore += it
                         if(fluidDeficitOrSurplusDaysBefore < 0f){
@@ -69,13 +69,13 @@ object MealResultUtil {
                         }
                     }
                 //deficitOrSurplusProtein += currDayNutritionEssential.protein.amount - dailyNutrientNeedsThreshold.proteinThreshold
-                (currDayNutritionEssential.sodium.amount - dailyNutrientNeedsThreshold.sodiumThreshold).let {
+                (currDayNutritionEssential.sodium.amount - currDayNutrientNeedsThreshold.sodiumThreshold).let {
                     sodiumDeficitOrSurplusDaysBefore += it
                     if(sodiumDeficitOrSurplusDaysBefore < 0f){
                         sodiumDeficitOrSurplusDaysBefore = 0f
                     }
                 }
-                (currDayNutritionEssential.potassium.amount - dailyNutrientNeedsThreshold.potassiumThreshold).let {
+                (currDayNutritionEssential.potassium.amount - currDayNutrientNeedsThreshold.potassiumThreshold).let {
                     potassiumDeficitOrSurplusDaysBefore += it
                     if(potassiumDeficitOrSurplusDaysBefore < 0f){
                         potassiumDeficitOrSurplusDaysBefore = 0f
@@ -86,14 +86,8 @@ object MealResultUtil {
 
         }
 
-        /*println("Deficit")
-        println(deficitOrSurplusCalorie)
-        println(deficitOrSurplusFluid)
-        println(deficitOrSurplusProtein)
-        println(deficitOrSurplusSodium)
-        println(deficitOrSurplusPotassium)*/
 
-        val currentAdjustedDayNutritionEssential = nutritionEssentialsForFourDays[dayOptions.index].let {
+        val currentAdjustedDayNutritionEssential = currentNutritionEssential.let {
             NutritionEssential(
                 calorie = FoodNutrient.Calorie(it.calorie.amount /*+ deficitOrSurplusCalorie*/),
                 fluid = FoodNutrient.Fluid(it.fluid.amount + fluidDeficitOrSurplusDaysBefore),
@@ -102,25 +96,15 @@ object MealResultUtil {
                 potassium = FoodNutrient.Potassium(it.potassium.amount + potassiumDeficitOrSurplusDaysBefore)
             )
         }
+        
 
-        currentAdjustedDayNutritionEssential.apply {
-            println("amount")
-            println(calorie.amount)
-            println(fluid.amount)
-            println(protein.amount)
-            println(sodium.amount)
-            println(potassium.amount)
-        }
-
-        val currentAdjustedDayNutritionThreshold = nutritionEssentialsForFourDays[dayOptions.index].let {
-            DailyNutrientNeedsThreshold(
-                caloriesThreshold = dailyNutrientNeedsThreshold.caloriesThreshold/* - deficitOrSurplusCalorie*/,
-                fluidThreshold = dailyNutrientNeedsThreshold.fluidThreshold /*- deficitOrSurplusFluid*/,
-                proteinThreshold = dailyNutrientNeedsThreshold.proteinThreshold/* - deficitOrSurplusProtein*/,
-                sodiumThreshold = dailyNutrientNeedsThreshold.sodiumThreshold/* - deficitOrSurplusSodium*/,
-                potassiumThreshold = dailyNutrientNeedsThreshold.potassiumThreshold/* - deficitOrSurplusPotassium*/
-            )
-        }
+        val currentAdjustedDayNutritionThreshold = DailyNutrientNeedsThreshold(
+            caloriesThreshold = currentNutrientNeedsThreshold.caloriesThreshold/* - deficitOrSurplusCalorie*/,
+            fluidThreshold = currentNutrientNeedsThreshold.fluidThreshold /*- deficitOrSurplusFluid*/,
+            proteinThreshold = currentNutrientNeedsThreshold.proteinThreshold/* - deficitOrSurplusProtein*/,
+            sodiumThreshold = currentNutrientNeedsThreshold.sodiumThreshold/* - deficitOrSurplusSodium*/,
+            potassiumThreshold = currentNutrientNeedsThreshold.potassiumThreshold/* - deficitOrSurplusPotassium*/
+        )
 
         return Pair(currentAdjustedDayNutritionThreshold, currentAdjustedDayNutritionEssential)
     }

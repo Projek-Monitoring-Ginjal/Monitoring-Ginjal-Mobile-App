@@ -6,16 +6,23 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrient
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrientNeedsThreshold
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.HemodialisaType
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEssential
 
 interface Repository {
 
     suspend fun login(name:String, password:String, languageCode:String):Resource<StringRes>
 
-    suspend fun checkIsInNutritionalDailyPeriods():Resource<Boolean>
+    suspend fun checkIsInNutritionalDailyPeriods():Resource<Pair<Boolean, HemodialisaType?>>
 
     suspend fun startNewHemodialisa(
-        bodyWeight:Float
+        bodyWeight:Float,
+        hemodialisaType: HemodialisaType
+    ):Resource<Pair<NutritionEssential?, StringRes>>
+
+    suspend fun inputUrine(
+        dayOptions:DayOptions,
+        urineAmount:Float
     ):Resource<Pair<NutritionEssential?, StringRes>>
 
     suspend fun getLatestDailyNutrientNeedsInfo(
@@ -29,7 +36,7 @@ interface Repository {
         dailyNutrientNeedsInfo: DailyNutrientNeedsInfo
     ):Resource<StringRes>
 
-    suspend fun getHemodialisaResults():Resource<Pair<DailyNutrientNeedsThreshold, List<NutritionEssential>>>
+    suspend fun getHemodialisaResults():Resource<Pair<List<DailyNutrientNeedsThreshold?>, List<NutritionEssential?>>>
 
     suspend fun logout():Boolean
 

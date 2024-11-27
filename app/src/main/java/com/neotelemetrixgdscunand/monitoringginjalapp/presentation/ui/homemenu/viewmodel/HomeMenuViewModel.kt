@@ -33,12 +33,23 @@ class HomeMenuViewModel @Inject constructor(
     var showDialog by mutableStateOf(false)
         private set
 
+    var showStartHemodialisaDialog by mutableStateOf(false)
+        private set
+
     fun onDismissDialog(){
         showDialog = false
     }
 
     fun onShowDialog(){
         showDialog = true
+    }
+
+    fun onDismissStartHemodialisaDialog(){
+        showStartHemodialisaDialog = false
+    }
+
+    fun onShowStartHemodialisaDialog(){
+        showStartHemodialisaDialog = true
     }
 
     fun checkIsInPeriods(){
@@ -48,10 +59,18 @@ class HomeMenuViewModel @Inject constructor(
             repository.checkIsInNutritionalDailyPeriods()
                 .handleAsyncDefaultWithUIEvent(
                     _uiEvent,
-                    onSuccess = { isInPeriods ->
+                    onSuccess = { (isInPeriods, hemodialisaType) ->
+
+                        if(!isInPeriods){
+                            onShowStartHemodialisaDialog()
+                            return@handleAsyncDefaultWithUIEvent
+                        }
+
+                        if(hemodialisaType == null) return@handleAsyncDefaultWithUIEvent
+
                         _uiEvent.send(
-                            UIEvent.DetermineNextScreenHemodialisaCheck(
-                                isInPeriods = isInPeriods
+                            UIEvent.NavigateToExistingHemodialisaPeriod(
+                                hemodialisaType
                             )
                         )
                     }

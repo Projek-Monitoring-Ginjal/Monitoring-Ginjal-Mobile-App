@@ -6,13 +6,13 @@
     <string name="masuk">Masuk</string>
     <string name="apa_yang_bapak_ibu_ingin_ketahui">Apa yang Bapak/Ibu ingin ketahui?</string>
     <string name="pilih_bahasa">Pilih Bahasa</string>
-    <string name="pengaturan_makan_saya_hari_ini">Pengaturan makan saya hari ini</string>
+    <string name="pengaturan_makan_saya_hari_ini">Pengaturan makan dan minum</string>
     <string name="makan_saya_hari_ini">Makan saya hari ini</string>
     <string name="kalori">Kalori</string>
     <string name="protein">Protein</string>
     <string name="pilih_makanan_harian">Pilih makanan harian</string>
-    <string name="berat_badan_kering_saya">Berat badan kering saya (dalam kg)</string>
-    <string name="tulis_angka">Tulis Angka</string>
+    <string name="berat_badan_kering_saya">Berat badan kering saya</string>
+    <string name="tulis_angka">Berat Badan (kg)</string>
     <string name="simpan">Simpan</string>
     <string name="ok">OK</string>
     <string name="cairan">Cairan</string>
@@ -327,5 +327,11 @@
 
     <string name="skip">Lewati</string>
     <string name="selesai">Selesai</string>
+    <string name="hemodialisa_2_4_hari">Hemodialisa 2\n(4 Hari)</string>
+    <string name="hemodialisa_1_3_hari">Hemodialisa 1\n(3 Hari)</string>
+    <string name="urine_ml">Urine (ml)</string>
+    <string name="jumlah_urine_yang_dimasukkan_tidak_valid">Jumlah Urine yang dimasukkan tidak valid..</string>
+    <string name="urine_saya_dalam_24_jam_sebelumnya">Urine saya dalam 24 jam sebelumnya</string>
+    <string name="yakin_ingin_menyimpan">Yakin ingin menyimpan?</string>
 
 </resources>

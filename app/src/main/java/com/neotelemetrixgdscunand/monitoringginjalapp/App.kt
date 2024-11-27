@@ -11,9 +11,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -30,6 +28,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.DailyNutrientCalc
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.HomeMenu
@@ -65,9 +64,6 @@ fun App(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ){
-
-    var isSignedIn by remember { mutableStateOf(false) }
-
     val currentBackStackEntryState = navController.currentBackStackEntryAsState()
     val currentRoute by remember{
         derivedStateOf {
@@ -78,7 +74,7 @@ fun App(
     Scaffold(
         modifier = modifier,
         topBar = {
-            if(isSignedIn){
+            if(currentRoute != Login::class.java.canonicalName){
                 TopBarApp(
                     onNavigateUp = {
                         navController.navigateUp()
@@ -90,7 +86,7 @@ fun App(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = if(isSignedIn) HomeMenu else Login,
+            startDestination = Login,
             modifier = Modifier.padding(innerPadding)
         ){
             composable<Login> {
@@ -98,7 +94,11 @@ fun App(
 
                 LoginScreen(
                     onLoginClick = {
-                        isSignedIn = true
+                        navController.navigateWithCheck(HomeMenu){
+                            popUpTo(Login){
+                                inclusive = true
+                            }
+                        }
                     },
                     viewModel = viewModel
                 )
@@ -111,7 +111,11 @@ fun App(
                         navController.navigateWithCheck(route)
                     },
                     onLogout = {
-                        isSignedIn = false
+                        navController.navigateWithCheck(Login){
+                            popUpTo(HomeMenu){
+                                inclusive = true
+                            }
+                        }
                     },
                     viewModel = viewModel
                 )
@@ -129,11 +133,12 @@ fun App(
             }
             composable<DailyNutrientCalc> {
                 val viewModel: DailyNutrientCalcUtilVM = hiltViewModel()
+                val route = it.toRoute<DailyNutrientCalc>()
 
                 DailyNutrientsCalcScreen(
                     onNavigate = {
                         navController.navigateWithCheck(
-                            MealResult(DayOptions.FirstDay)
+                            MealResult(DayOptions.FirstDay, route.hemodialisaType)
                         ){
                             popUpTo(HomeMenu){
                                 inclusive = false
@@ -147,10 +152,9 @@ fun App(
                 val viewModel:ListFoodnDrinkViewModel = hiltViewModel()
 
                 ListFoodnDrinkScreen(
-                    onBackClick = { /*TODO*/ },
-                    onNavigateToMealResult = { dayOptions ->
+                    onNavigateToMealResult = { dayOptions, hemodialisaType ->
                         navController.navigateWithCheck(
-                            MealResult(dayOptions)
+                            MealResult(dayOptions, hemodialisaType)
                         )
                     },
                     viewModel = viewModel
@@ -161,9 +165,9 @@ fun App(
 
                 MealResultScreen(
                     viewModel = viewModel,
-                    onAddMeals = { dayOptions ->
+                    onAddMeals = { dayOptions, hemodialisaType ->
                         navController.navigateWithCheck(
-                            ListFoodnDrink(dayOptions)
+                            ListFoodnDrink(dayOptions, hemodialisaType),
                         ){
                             popUpTo(HomeMenu){
                                 inclusive = false

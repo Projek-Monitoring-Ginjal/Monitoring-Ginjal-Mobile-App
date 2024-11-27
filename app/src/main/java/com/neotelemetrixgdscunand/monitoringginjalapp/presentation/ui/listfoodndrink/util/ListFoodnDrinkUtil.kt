@@ -58,8 +58,8 @@ object ListFoodnDrinkUtil {
     fun sumFoodNutritions(
         meals:List<FoodItemCart>,
         dayOptions: DayOptions,
-        nutritionEssentialsForFourDays: List<NutritionEssential>,
-        dailyNutrientNeedsThreshold: DailyNutrientNeedsThreshold
+        nutritionEssentialsForFourDays: List<NutritionEssential?>,
+        listDailyNutrientNeedsThreshold: List<DailyNutrientNeedsThreshold?>,
     ): NutritionEssential {
 
         /*var deficitOrSurplusCalorie = 0f
@@ -76,22 +76,23 @@ object ListFoodnDrinkUtil {
         val daysBeforeIndex = dayOptions.index - 1
         if (daysBeforeIndex > -1) {
             for (i in 0..daysBeforeIndex) {
-                val currDayNutritionEssential = nutritionEssentialsForFourDays[i]
+                val currDayNutritionEssential = nutritionEssentialsForFourDays[i] ?: continue
+                val currDayNutrientNeedsThreshold = listDailyNutrientNeedsThreshold[i] ?: continue
                 //deficitOrSurplusCalorie += currDayNutritionEssential.calorie.amount - dailyNutrientNeedsThreshold.caloriesThreshold
-                (currDayNutritionEssential.fluid.amount - dailyNutrientNeedsThreshold.fluidThreshold).let {
+                (currDayNutritionEssential.fluid.amount - currDayNutrientNeedsThreshold.fluidThreshold).let {
                     fluidDeficitOrSurplusDaysBefore += it
                     if (fluidDeficitOrSurplusDaysBefore < 0f) {
                         fluidDeficitOrSurplusDaysBefore = 0f
                     }
                 }
                 //deficitOrSurplusProtein += currDayNutritionEssential.protein.amount - dailyNutrientNeedsThreshold.proteinThreshold
-                (currDayNutritionEssential.sodium.amount - dailyNutrientNeedsThreshold.sodiumThreshold).let {
+                (currDayNutritionEssential.sodium.amount - currDayNutrientNeedsThreshold.sodiumThreshold).let {
                     sodiumDeficitOrSurplusDaysBefore += it
                     if (sodiumDeficitOrSurplusDaysBefore < 0f) {
                         sodiumDeficitOrSurplusDaysBefore = 0f
                     }
                 }
-                (currDayNutritionEssential.potassium.amount - dailyNutrientNeedsThreshold.potassiumThreshold).let {
+                (currDayNutritionEssential.potassium.amount - currDayNutrientNeedsThreshold.potassiumThreshold).let {
                     potassiumDeficitOrSurplusDaysBefore += it
                     if (potassiumDeficitOrSurplusDaysBefore < 0f) {
                         potassiumDeficitOrSurplusDaysBefore = 0f

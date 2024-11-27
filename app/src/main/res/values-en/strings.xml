@@ -11,8 +11,8 @@
     <string name="kalori">Calories</string>
     <string name="protein">Protein</string>
     <string name="pilih_makanan_harian">Select daily meals</string>
-    <string name="berat_badan_kering_saya">My dry weight (in kg)</string>
-    <string name="tulis_angka">Enter number</string>
+    <string name="berat_badan_kering_saya">My dry weight</string>
+    <string name="tulis_angka">My Bodyweight (kg)</string>
     <string name="simpan">Save</string>
     <string name="ok">OK</string>
     <string name="cairan">Fluids</string>
@@ -329,4 +329,10 @@
     <string name="skip">Skip</string>
 
     <string name="selesai">Finish</string>
+    <string name="hemodialisa_2_4_hari">Hemodialisa 2\n(4 Days)</string>
+    <string name="hemodialisa_1_3_hari">Hemodialisa 1\n(3 Days)</string>
+    <string name="urine_ml">Urine (ml)</string>
+    <string name="jumlah_urine_yang_dimasukkan_tidak_valid">Invalid amount of urine entered </string>
+    <string name="urine_saya_dalam_24_jam_sebelumnya">My urine in the previous 24 hours</string>
+    <string name="yakin_ingin_menyimpan">Are you sure to save it?</string>
 </resources>

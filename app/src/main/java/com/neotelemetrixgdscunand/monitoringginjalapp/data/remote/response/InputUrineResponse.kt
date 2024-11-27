@@ -2,19 +2,7 @@ package com.neotelemetrixgdscunand.monitoringginjalapp.data.remote.response
 
 import com.google.gson.annotations.SerializedName
 
-data class HemodialisaStartResponse(
-
-	@field:SerializedName("user_id")
-	val userId: Int? = null,
-
-	@field:SerializedName("protein")
-	val protein: Float? = null,
-
-	@field:SerializedName("active")
-	val active: Boolean? = null,
-
-	@field:SerializedName("body_weight")
-	val bodyWeight: Float? = null,
+data class InputUrineResponse(
 
 	@field:SerializedName("id")
 	val id: Int? = null,
@@ -31,6 +19,8 @@ data class HemodialisaStartResponse(
 	@field:SerializedName("fluids")
 	val fluids: Float? = null,
 
-	@field:SerializedName("hemodialisa_type")
-	val hemodialisaType: Int? = null
+	@field:SerializedName("protein")
+	val protein: Float? = null,
+
+
 )

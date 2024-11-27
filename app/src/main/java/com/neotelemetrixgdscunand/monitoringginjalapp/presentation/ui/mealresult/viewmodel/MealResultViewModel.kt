@@ -1,14 +1,18 @@
 package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.mealresult.viewmodel
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fajar.githubuserappdicoding.core.domain.common.StaticString
+import com.neotelemetrixgdscunand.monitoringginjalapp.R
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.data.Repository
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrientNeedsThreshold
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.HemodialisaType
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEssential
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEvent
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.handleAsyncDefaultWithUIEvent
@@ -29,13 +33,23 @@ class MealResultViewModel @Inject constructor(
         mutableStateOf(
             savedStateHandle.get<DayOptions>("dayOptions") ?: DayOptions.FirstDay
         )
+    val hemodialisaType = savedStateHandle.get<HemodialisaType>("hemodialisaType") ?: HemodialisaType.HEMODIALISA_1
 
-    var dailyNutrientNeedsThreshold by mutableStateOf(
-        DailyNutrientNeedsThreshold()
+    var urineInputText:String by mutableStateOf("")
+        private set
+
+    fun onUrineInputTextChange(newText:String){
+        urineInputText = newText
+    }
+
+    var dailyNutrientNeedsThresholdFourDays by mutableStateOf(
+        List<DailyNutrientNeedsThreshold?>(dayOptions.index + 1){
+            DailyNutrientNeedsThreshold()
+        }
     )
         private set
 
-    var dailyNutrientFourDays by mutableStateOf(
+    var dailyNutrientFourDays:List<NutritionEssential?> by mutableStateOf(
         listOf(
             NutritionEssential(),
             NutritionEssential(),
@@ -45,14 +59,38 @@ class MealResultViewModel @Inject constructor(
     )
         private set
 
-    /*var currentDayMealResult:Pair<DailyNutrientNeedsThreshold, NutritionEssential> by
-        mutableStateOf(
-            MealResultUtil.calculateDailyNutritionAmountAndThreshold(
-                dailyNutrientNeedsThreshold,
-                dailyNutrientFourDays,
-                dayOptions
-            )
-        )*/
+    var isDialogInputUrineConfirmationIsShown by mutableStateOf(false)
+        private set
+
+    var nutrientNeedsThresholdDialogContent:NutritionEssential? by mutableStateOf(
+        null
+    )
+        private set
+
+    fun onDialogInputUrineConfirmationShown(){
+        isDialogInputUrineConfirmationIsShown = true
+    }
+
+    fun onDialogInputUrineConfirmationDismiss(){
+        isDialogInputUrineConfirmationIsShown = false
+    }
+
+    fun onDialogNutrientNeedsThresholdDismiss(){
+        nutrientNeedsThresholdDialogContent = null
+    }
+
+    val tabsTextResId:List<Int> =
+        mutableListOf(
+            R.string.hari_1,
+            R.string.hari_2,
+            R.string.hari_3,
+        ).also {
+            if(hemodialisaType == HemodialisaType.HEMODIALISA_2){
+                it.add(R.string.hari_4)
+            }
+        }
+
+
 
     var isLoading by mutableStateOf(false)
         private set
@@ -61,32 +99,91 @@ class MealResultViewModel @Inject constructor(
     private val _uiEvent = Channel<UIEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    private var job: Job? = null
+    private var getMealResultJob: Job? = null
+    private var inputUrineJob:Job? = null
 
     init {
         getMealResultsInfo()
     }
 
+    var selectedTabIndex by mutableIntStateOf(dayOptions.index)
+        private set
+
+
+    fun changeTab(newTabIndex:Int){
+        if(selectedTabIndex == newTabIndex) return
+
+        urineInputText = ""
+        dayOptions = DayOptions.entries[newTabIndex]
+        selectedTabIndex = newTabIndex
+    }
+
     private fun getMealResultsInfo(){
-        job?.cancel()
-        job = viewModelScope.launch {
+        getMealResultJob?.cancel()
+        getMealResultJob = viewModelScope.launch {
             isLoading = true
             repository.getHemodialisaResults().handleAsyncDefaultWithUIEvent(
                 _uiEvent,
             ){
-                val (dailyThresholds, listNutritionDays) = it
-                dailyNutrientNeedsThreshold = dailyThresholds
+                val (listDailyThreshold, listNutritionDays) = it
+                dailyNutrientNeedsThresholdFourDays = listDailyThreshold
                 dailyNutrientFourDays = listNutritionDays
-                dailyNutrientFourDays.forEachIndexed { i, item ->
-                    println("vm $i")
-                    println(item.calorie.amount)
-                    println(item.fluid.amount)
-                    println(item.protein.amount)
-                    println(item.sodium.amount)
-                    println(item.potassium.amount)
-                }
             }
         }.also {
+            it.invokeOnCompletion {
+                isLoading = false
+            }
+        }
+    }
+
+    fun inputUrine(){
+        onDialogInputUrineConfirmationDismiss()
+
+        if(urineInputText.isBlank()){
+            viewModelScope.launch {
+                _uiEvent.send(
+                    UIEvent.ShowToast(
+                        StaticString(
+                            R.string.jumlah_urine_yang_dimasukkan_tidak_valid
+                        )
+                    )
+                )
+            }
+            return
+        }
+
+        val commaIndex = urineInputText.indexOfFirst { it == ',' }
+        val adjustedText = if(commaIndex != -1){
+            val checkedText = if(commaIndex == urineInputText.lastIndex){
+                urineInputText = urineInputText.substring(0) + "0"
+                urineInputText
+            }else urineInputText
+            """
+                ${checkedText.substring(0, commaIndex)}.${checkedText.substring(commaIndex+1)}
+            """.trimIndent()
+        }else urineInputText
+
+        val urineAmount = adjustedText.toFloatOrNull() ?: 0.0f
+
+        inputUrineJob?.cancel()
+        inputUrineJob = viewModelScope.launch {
+            isLoading = true
+
+            repository.inputUrine(
+                dayOptions,
+                urineAmount = urineAmount
+            ).handleAsyncDefaultWithUIEvent(_uiEvent){
+                val (nutritionNeeds, message) = it
+
+                _uiEvent.send(
+                    UIEvent.ShowToast(message)
+                )
+
+                nutrientNeedsThresholdDialogContent = nutritionNeeds
+
+                getMealResultsInfo()
+            }
+        }.also{
             it.invokeOnCompletion {
                 isLoading = false
             }

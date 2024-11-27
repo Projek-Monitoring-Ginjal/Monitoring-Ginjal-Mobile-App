@@ -2,7 +2,6 @@ package com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutr
 
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,15 +22,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEssential
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green20
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Typography
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.component.Button
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.component.FormField
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.component.NutrientNeedsDialog
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.dailynutrientscalc.viewmodel.DailyNutrientCalcUtilVM
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.StyledButton
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEvent
 
 @Composable
@@ -56,13 +58,38 @@ fun DailyNutrientsCalcScreen(
         }
     }
 
+    DailyNutrientCalcContent(
+        isLoading = viewModel.isLoading,
+        textState = textState,
+        onTextChange = viewModel::onTextChange,
+        onSaveClicked = viewModel::onSaveClicked,
+        isDialogShown = showDialog,
+        onDismissDialog = viewModel::onDismissDialog,
+        nutritionNeeds = viewModel.nutritionNeeds,
+        onNavigate = onNavigate
+    )
+    
+}
+
+@Composable
+fun DailyNutrientCalcContent(
+    modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
+    textState:String = "",
+    onTextChange:(String) -> Unit = {},
+    onSaveClicked:() -> Unit = {},
+    isDialogShown:Boolean = false,
+    onDismissDialog:() -> Unit = {},
+    nutritionNeeds:NutritionEssential = NutritionEssential(),
+    onNavigate:() -> Unit = {}
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(color = colorResource(R.color.white))
     ) {
 
-        if(viewModel.isLoading){
+        if(isLoading){
             CircularProgressIndicator(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally),
@@ -80,9 +107,15 @@ fun DailyNutrientsCalcScreen(
                     color = Color.Black,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
+
+                Spacer(modifier = Modifier.height(32.dp))
+
                 Text(
                     text = stringResource(R.string.berat_badan_kering_saya),
-                    style = Typography.bodyLarge,
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Normal
+                    ),
                     color = Color.Black,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
@@ -90,38 +123,30 @@ fun DailyNutrientsCalcScreen(
 
             FormField(
                 value = textState,
-                onValueChange = { viewModel.onTextChange(it) },
+                onValueChange = { onTextChange(it) },
                 placeholder = stringResource(R.string.tulis_angka),
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp)
+                    .fillMaxWidth(),
+
             )
 
-            Box(
-                modifier = modifier.fillMaxSize(),
-            ) {
-                Button(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.BottomCenter)
-                        .padding(vertical = 16.dp),
-                    text = stringResource(R.string.simpan),
-                    textColor = Color.White,
-                    fontSize = 18f,
-                    fontWeight = FontWeight.Normal,
-                    padding = 20.dp,
-                    onClick = {
-                        viewModel.onSaveClicked()
-                    }
-                )
-            }
+            Spacer(Modifier.weight(1f))
+
+            StyledButton(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .align(Alignment.End),
+                text = stringResource(R.string.simpan),
+                onClick = onSaveClicked
+            )
         }
-        if (showDialog) {
-            Dialog(onDismissRequest = viewModel::onDismissDialog) {
+        if (isDialogShown) {
+            Dialog(onDismissRequest = onDismissDialog) {
                 NutrientNeedsDialog(
-                    nutritionNeeds = viewModel.nutritionNeeds,
+                    nutritionNeeds = nutritionNeeds,
                     onConfirm = {
-                        viewModel.onDismissDialog()
+                        onDismissDialog()
                         onNavigate()
                     }
                 )
@@ -129,11 +154,12 @@ fun DailyNutrientsCalcScreen(
 
         }
     }
+    
 }
 
 
 @Preview
 @Composable
 fun PengaturanMakanPagePreview() {
-    DailyNutrientsCalcScreen()
+    DailyNutrientCalcContent()
 }

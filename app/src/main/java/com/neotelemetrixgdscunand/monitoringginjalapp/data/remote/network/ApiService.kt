@@ -5,6 +5,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.data.remote.response.FoodC
 import com.neotelemetrixgdscunand.monitoringginjalapp.data.remote.response.GetFoodCartResponse
 import com.neotelemetrixgdscunand.monitoringginjalapp.data.remote.response.GetHemodialisaResultResponse
 import com.neotelemetrixgdscunand.monitoringginjalapp.data.remote.response.HemodialisaStartResponse
+import com.neotelemetrixgdscunand.monitoringginjalapp.data.remote.response.InputUrineResponse
 import com.neotelemetrixgdscunand.monitoringginjalapp.data.remote.response.LoginResponse
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Response
 import retrofit2.http.Field
@@ -31,7 +32,9 @@ interface ApiService {
     @FormUrlEncoded
     suspend fun startNewHemodialisaPeriods(
         @Field("body_weight")
-        bodyweight:Float
+        bodyweight:Float,
+        @Field("hemodialisa_type")
+        hemodialisaType:Int
     ):Response<HemodialisaStartResponse?>
 
     @GET("makanan-search")
@@ -61,5 +64,14 @@ interface ApiService {
 
     @POST("hemodialisa/results")
     suspend fun getHemodialisaResult():Response<GetHemodialisaResultResponse>
+
+    @POST("hemodialisa/urine/{day}")
+    @FormUrlEncoded
+    suspend fun inputUrine(
+        @Path("day")
+        day:Int,
+        @Field("urine")
+        urineAmount:Float
+    ):Response<InputUrineResponse>
 
 }

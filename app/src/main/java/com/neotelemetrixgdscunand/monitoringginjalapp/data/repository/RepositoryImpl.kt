@@ -18,6 +18,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DailyNutrient
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodNutrient
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.HemodialisaType
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEssential
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -57,7 +58,6 @@ class RepositoryImpl @Inject constructor(
             )
 
         } catch (e: Exception) {
-            println(e.message)
 
             if (e is CancellationException) throw e
 
@@ -102,24 +102,31 @@ class RepositoryImpl @Inject constructor(
         return userId != -1 && token.isNotBlank() && languageCode.isNotBlank()
     }
 
-    override suspend fun checkIsInNutritionalDailyPeriods(): Resource<Boolean> {
+    override suspend fun checkIsInNutritionalDailyPeriods(): Resource<Pair<Boolean, HemodialisaType?>> {
         return fetchData(
             fetch = {
                 apiService.checkHemodialisa()
             },
             mapData = {
                 val isInNewPeriods = data == null
+                val hemodialisaType:HemodialisaType?= data?.hemodialisaType?.let {
+                    HemodialisaType.getHemodialisaType(it)
+                }
 
-                return@fetchData !isInNewPeriods
+                return@fetchData Pair(!isInNewPeriods, hemodialisaType)
             }
         )
     }
 
-    override suspend fun startNewHemodialisa(bodyWeight:Float): Resource<Pair<NutritionEssential?, StringRes>> {
+    override suspend fun startNewHemodialisa(
+        bodyWeight:Float,
+        hemodialisaType: HemodialisaType
+    ): Resource<Pair<NutritionEssential?, StringRes>> {
         return fetchData(
             fetch = {
                 apiService.startNewHemodialisaPeriods(
-                    bodyWeight
+                    bodyWeight,
+                    hemodialisaType.value
                 )
             },
             mapData = {
@@ -133,6 +140,36 @@ class RepositoryImpl @Inject constructor(
                     )
                 }
                 Pair(nutritionNeeds, DynamicString(message))
+            }
+        )
+    }
+
+    override suspend fun inputUrine(
+        dayOptions: DayOptions,
+        urineAmount: Float
+    ): Resource<Pair<NutritionEssential,StringRes>> {
+        val day = dayOptions.index + 1
+        return fetchData(
+            fetch = {
+                apiService.inputUrine(day, urineAmount)
+            },
+            mapData = {
+                val isSuccess = this.data != null
+                if(!isSuccess){
+                    throw Exception(this.message)
+                }
+
+                val nutritionNeeds = this.data!!.let {
+                    NutritionEssential(
+                        calorie = FoodNutrient.Calorie(it.calories ?: throw Exception("error")),
+                        protein = FoodNutrient.Protein(it.protein ?: throw Exception("error")),
+                        fluid = FoodNutrient.Fluid(it.fluids ?: throw Exception("error")),
+                        sodium = FoodNutrient.Sodium(it.sodium ?: throw Exception("error")),
+                        potassium = FoodNutrient.Potassium(it.potassium ?: throw  Exception("error"))
+                    )
+                }
+
+                Pair(nutritionNeeds, DynamicString(this.message))
             }
         )
     }
@@ -190,13 +227,15 @@ class RepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getHemodialisaResults(): Resource<Pair<DailyNutrientNeedsThreshold, List<NutritionEssential>>> {
+    override suspend fun getHemodialisaResults(): Resource<Pair<List<DailyNutrientNeedsThreshold?>, List<NutritionEssential?>>> {
         return fetchData(
             fetch = {
                 apiService.getHemodialisaResult()
             },
             mapData = {
-                val pairs = this.data?.mapToMealResultInfo() ?: throw Exception("error")
+                val hemodialisaType = HemodialisaType.getHemodialisaType(this.data?.hemodialisaType ?: 1)
+
+                val pairs = this.data?.mapToMealResultInfo(hemodialisaType) ?: throw Exception("error")
                 pairs
             }
         )
@@ -216,3 +255,4 @@ class RepositoryImpl @Inject constructor(
         return userId == -1 && token.isBlank() && languageCode == ""
     }
 }
+

@@ -32,11 +32,14 @@ fun StyledButton(
     fontWeight: FontWeight = FontWeight.Normal,
     fontSize:TextUnit = 16.sp,
     letterSpacing: TextUnit = 0.1.sp,
-    contentPadding:PaddingValues = PaddingValues(16.dp)
+    enabled:Boolean = true,
+    contentPadding:PaddingValues = PaddingValues(16.dp),
+    lineHeight:TextUnit = TextUnit.Unspecified
 ) {
     Button(
         modifier = modifier,
         onClick = onClick,
+        enabled = enabled,
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor
         ),
@@ -47,6 +50,7 @@ fun StyledButton(
             text = text,
             color = textColor,
             fontFamily = fontFamily,
+            lineHeight = lineHeight,
             fontWeight = fontWeight,
             letterSpacing = letterSpacing,
             fontSize = fontSize

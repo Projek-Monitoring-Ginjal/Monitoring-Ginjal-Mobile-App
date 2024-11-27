@@ -16,6 +16,7 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItemCart
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodPortionOptions
+import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.HemodialisaType
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.NutritionEssential
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.listfoodndrink.util.ListFoodnDrinkUtil
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEvent
@@ -35,13 +36,11 @@ class ListFoodnDrinkViewModel @Inject constructor(
 ) : ViewModel() {
 
     val currentDayOptions = savedStateHandle.get<DayOptions>("dayOptions") ?: DayOptions.FirstDay
+    val hemodialisaType = savedStateHandle.get<HemodialisaType>("hemodialisaType") ?: HemodialisaType.HEMODIALISA_1
 
     var currentFoodItems by mutableStateOf<List<FoodItem>>(emptyList())
         private set
 
-    private var oldDailyNutrientThreshold by mutableStateOf(
-        DailyNutrientNeedsThreshold()
-    )
 
     var isLoading by mutableStateOf(false)
         private set
@@ -60,8 +59,8 @@ class ListFoodnDrinkViewModel @Inject constructor(
         ListFoodnDrinkUtil.sumFoodNutritions(
             dailyNutrientNeedsInfo.meals,
             currentDayOptions,
-            nutritionInfoFourDays,
-            oldDailyNutrientThreshold ?: throw Exception("error")
+            nutritionInfoThreeOrFourDays,
+            dailyNutrientNeedsThresholdThreeOrFourDays
         )
     }
 
@@ -73,11 +72,18 @@ class ListFoodnDrinkViewModel @Inject constructor(
 
     private var searchJob: Job? = null
 
-    private var nutritionInfoFourDays = listOf(
+    private var nutritionInfoThreeOrFourDays:List<NutritionEssential?> =  listOf(
         NutritionEssential(),
         NutritionEssential(),
         NutritionEssential(),
         NutritionEssential(),
+    )
+
+    private var dailyNutrientNeedsThresholdThreeOrFourDays:List<DailyNutrientNeedsThreshold?> = listOf(
+        DailyNutrientNeedsThreshold(),
+        DailyNutrientNeedsThreshold(),
+        DailyNutrientNeedsThreshold(),
+        DailyNutrientNeedsThreshold(),
     )
 
     private val _uiEvent = Channel<UIEvent>()
@@ -110,10 +116,11 @@ class ListFoodnDrinkViewModel @Inject constructor(
                 .handleAsyncDefaultWithUIEvent(
                     _uiEvent
                 ){
-                    val (_, listNutritions) = it
-                    nutritionInfoFourDays = listNutritions
-                    oldDailyNutrientThreshold = dailyNeedsInfo?.dailyNutrientNeedsThreshold ?: throw Exception()
-                   val adjustedDailyNutritionInfo =  dailyNeedsInfo?: throw Exception("error")
+                    val (listThresholds, listNutritions) = it
+                    nutritionInfoThreeOrFourDays = listNutritions
+
+                    dailyNutrientNeedsThresholdThreeOrFourDays = listThresholds
+                     val adjustedDailyNutritionInfo =  dailyNeedsInfo ?: throw Exception("error")
                     dailyNutrientNeedsInfo = adjustedDailyNutritionInfo
                 }
         }.also {

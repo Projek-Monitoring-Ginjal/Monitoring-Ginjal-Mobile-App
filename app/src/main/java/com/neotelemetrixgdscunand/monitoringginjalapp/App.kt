@@ -28,6 +28,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.DailyNutrientCalc
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.HomeMenu
@@ -132,11 +133,12 @@ fun App(
             }
             composable<DailyNutrientCalc> {
                 val viewModel: DailyNutrientCalcUtilVM = hiltViewModel()
+                val route = it.toRoute<DailyNutrientCalc>()
 
                 DailyNutrientsCalcScreen(
                     onNavigate = {
                         navController.navigateWithCheck(
-                            MealResult(DayOptions.FirstDay)
+                            MealResult(DayOptions.FirstDay, route.hemodialisaType)
                         ){
                             popUpTo(HomeMenu){
                                 inclusive = false
@@ -151,9 +153,9 @@ fun App(
 
                 ListFoodnDrinkScreen(
                     onBackClick = { /*TODO*/ },
-                    onNavigateToMealResult = { dayOptions ->
+                    onNavigateToMealResult = { dayOptions, hemodialisaType ->
                         navController.navigateWithCheck(
-                            MealResult(dayOptions)
+                            MealResult(dayOptions, hemodialisaType)
                         )
                     },
                     viewModel = viewModel
@@ -164,9 +166,9 @@ fun App(
 
                 MealResultScreen(
                     viewModel = viewModel,
-                    onAddMeals = { dayOptions ->
+                    onAddMeals = { dayOptions, hemodialisaType ->
                         navController.navigateWithCheck(
-                            ListFoodnDrink(dayOptions)
+                            ListFoodnDrink(dayOptions, hemodialisaType),
                         ){
                             popUpTo(HomeMenu){
                                 inclusive = false

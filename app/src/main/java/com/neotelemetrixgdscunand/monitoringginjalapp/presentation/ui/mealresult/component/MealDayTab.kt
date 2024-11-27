@@ -18,10 +18,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Green20
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.Grey40
 import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.theme.MonitoringGinjalAppTheme
+import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.login.component.HeadingText
 
 @Composable
 fun MealDayTab(

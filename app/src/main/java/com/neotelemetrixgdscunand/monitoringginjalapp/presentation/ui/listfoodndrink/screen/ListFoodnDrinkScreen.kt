@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -22,7 +21,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.neotelemetrixgdscunand.monitoringginjalapp.R
-import com.neotelemetrixgdscunand.monitoringginjalapp.domain.common.Dummy
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.DayOptions
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.FoodItem
 import com.neotelemetrixgdscunand.monitoringginjalapp.domain.model.HemodialisaType
@@ -36,7 +34,6 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEve
 
 @Composable
 fun ListFoodnDrinkScreen(
-    onBackClick: () -> Unit,
     onNavigateToMealResult: (DayOptions, HemodialisaType) -> Unit = {_, _ ->  },
     viewModel: ListFoodnDrinkViewModel = hiltViewModel()
 ) {
@@ -160,10 +157,9 @@ fun PortionDialog(
 @Preview(showBackground = true)
 @Composable
 fun ListFoodnDrinkScreenPreview() {
-    val sampleFoodItems = remember { Dummy.getFoodItems() }
+    //val sampleFoodItems = remember { Dummy.getFoodItems() }
 
     ListFoodnDrinkScreen(
-        onBackClick = { /*TODO*/ },
         onNavigateToMealResult = { _, _ -> }
     )
 }

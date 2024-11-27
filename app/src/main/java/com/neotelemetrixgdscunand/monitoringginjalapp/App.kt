@@ -152,7 +152,6 @@ fun App(
                 val viewModel:ListFoodnDrinkViewModel = hiltViewModel()
 
                 ListFoodnDrinkScreen(
-                    onBackClick = { /*TODO*/ },
                     onNavigateToMealResult = { dayOptions, hemodialisaType ->
                         navController.navigateWithCheck(
                             MealResult(dayOptions, hemodialisaType)

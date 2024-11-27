@@ -37,7 +37,6 @@ import com.neotelemetrixgdscunand.monitoringginjalapp.presentation.ui.util.UIEve
 
 @Composable
 fun DailyNutrientsCalcScreen(
-    modifier: Modifier = Modifier,
     onNavigate: () -> Unit = {},
     viewModel: DailyNutrientCalcUtilVM = hiltViewModel()
 ) {

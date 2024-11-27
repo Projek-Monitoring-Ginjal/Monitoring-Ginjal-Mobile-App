@@ -101,7 +101,7 @@ object Mapper {
             unit = this.satuan ?: "Unit",
             nutritionEssential = NutritionEssential(
                 calorie = FoodNutrient.Calorie(this.energy ?: 0f),
-                fluid = FoodNutrient.Fluid(this.water?.toFloat() ?: 0f),
+                fluid = FoodNutrient.Fluid(this.water ?: 0f),
                 protein = FoodNutrient.Protein(this.protein ?: 0f),
                 sodium = FoodNutrient.Sodium(this.sodium ?: 0f),
                 potassium = FoodNutrient.Potassium(this.potassium ?: 0f)
@@ -123,7 +123,7 @@ object Mapper {
                         name = it.makanan?.name ?: "",
                         nutritionEssential = NutritionEssential(
                             calorie = FoodNutrient.Calorie(it.makanan?.energy ?: 0f),
-                            fluid = FoodNutrient.Fluid(it.makanan?.water?.toFloat() ?: 0f),
+                            fluid = FoodNutrient.Fluid(it.makanan?.water ?: 0f),
                             protein = FoodNutrient.Protein(it.makanan?.protein ?: 0f),
                             sodium = FoodNutrient.Sodium(it.makanan?.sodium ?: 0f),
                             potassium = FoodNutrient.Potassium(it.makanan?.potassium?:0f)

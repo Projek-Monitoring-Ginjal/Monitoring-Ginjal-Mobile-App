@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DailyNutrientCalcUtilVM @Inject constructor(
     private val repository: Repository,
-    private val saveStateHandle: SavedStateHandle
+    saveStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     private val hemodialisaType = saveStateHandle.get<HemodialisaType>("hemodialisaType") ?: HemodialisaType.HEMODIALISA_1

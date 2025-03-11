@@ -17,7 +17,6 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-
     @FormUrlEncoded
     @POST("auth/login")
     suspend fun login(

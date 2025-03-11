@@ -12,4 +12,5 @@ class InformationMenuViewModel @Inject constructor():ViewModel() {
 
     private val _uiEvent = Channel<UIEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
+
 }
